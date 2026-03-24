@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BrandLogo from '../components/BrandLogo';
+import { isAuthenticated } from '../utils/auth';
 
 const THEME_STORAGE_KEY = 'app-theme';
 const LANGUAGE_STORAGE_KEY = 'app-language';
@@ -9,7 +10,7 @@ type Language = 'no' | 'en';
 
 function getInitialTheme() {
 	const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false;
 	return storedTheme ? storedTheme === 'dark' : prefersDark;
 }
 
@@ -51,6 +52,18 @@ export default function SplashScreen() {
 		loginButton: isNorwegian ? 'Logg inn' : 'Log in',
 		startButton: isNorwegian ? 'Start dokumentasjon' : 'Start documentation',
 		themeLabel: isDarkMode ? (isNorwegian ? 'MØRK' : 'DARK') : isNorwegian ? 'LYS' : 'LIGHT',
+		loginRequiredMessage: isNorwegian
+			? 'Du må være logget inn for å starte dokumentasjon.'
+			: 'You must be logged in to start documentation.',
+	};
+
+	const handleStartDocumentation = () => {
+		if (!isAuthenticated()) {
+			window.alert(copy.loginRequiredMessage);
+			return;
+		}
+
+		navigate('/projects');
 	};
 
 	const pageClassName = `min-h-screen flex flex-col items-center justify-between px-4 py-8 transition-colors font-bold sm:px-6 sm:py-12 md:py-16 ${
@@ -105,7 +118,7 @@ export default function SplashScreen() {
 				<button onClick={() => navigate('/login')} className={loginButtonClassName}>
 					{copy.loginButton}
 				</button>
-				<button onClick={() => navigate('/new-document')} className={startButtonClassName}>
+				<button onClick={handleStartDocumentation} className={startButtonClassName}>
 					{copy.startButton}
 				</button>
 			</div>

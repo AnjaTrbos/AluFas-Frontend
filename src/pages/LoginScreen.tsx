@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import BrandLogo from '../components/BrandLogo';
 import type { LoginScreenProps } from '../types/app';
+import { setAuthenticated } from '../utils/auth';
 
 export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps) {
 	const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps
 	};
 
 	const handleMicrosoftLogin = () => {
+		setAuthenticated(true);
 		onLoginSuccess();
 		navigate('/projects');
 	};
