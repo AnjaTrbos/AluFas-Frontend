@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	AppWindow,
 	ArrowLeft,
@@ -25,6 +25,12 @@ interface DocItem {
 	children?: DocItem[];
 }
 
+interface NewDocumentLocationState {
+	projectNumber?: string;
+	projectName?: string;
+	manualProjectEntry?: boolean;
+}
+
 const DOC_TYPES: DocItem[] = [
 	{ id: 'avvik', label: 'Registrer avvik', iconName: 'avvik', iconBg: 'bg-red-600', route: '/avvik' },
 	{ id: 'ks-verksted', label: 'KS Verksted', iconName: 'verksted', iconBg: 'bg-red-600', route: '/ks-verksted' },
@@ -45,8 +51,8 @@ const DOC_TYPES: DocItem[] = [
 	{ id: 'montasje-plan', label: 'Montasjeplan', iconName: 'plan', iconBg: 'bg-green-700', route: '/montasje-plan' },
 ];
 
-// Temporary in-app project until the picker is wired to real data.
-const CURRENT_PROJECT = { projectNumber: 'AF-2024-001', name: 'Elkjøp Hercules' };
+// Fallback project until the picker is fully driven by backend data.
+const DEFAULT_PROJECT = { projectNumber: 'AF-2024-001', name: 'Elkjøp Hercules' };
 
 function DocIcon({ name, small }: { name: string; small?: boolean }) {
 	const size = small ? 22 : 26;
@@ -81,12 +87,17 @@ function DocIcon({ name, small }: { name: string; small?: boolean }) {
 
 export default function NewDocumentScreen() {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const state = (location.state as NewDocumentLocationState | null) ?? null;
 	const [expandedId, setExpandedId] = useState<string | null>(null);
 	const [search, setSearch] = useState('');
+
+	const projectNumber = state?.projectNumber ?? DEFAULT_PROJECT.projectNumber;
+	const projectName = state?.projectName ?? DEFAULT_PROJECT.name;
 	const projectState = {
-		projectNumber: CURRENT_PROJECT.projectNumber,
-		projectName: CURRENT_PROJECT.name,
-		manualProjectEntry: false,
+		projectNumber,
+		projectName,
+		manualProjectEntry: state?.manualProjectEntry ?? false,
 	};
 
 	const filtered = DOC_TYPES.filter(
@@ -140,10 +151,10 @@ export default function NewDocumentScreen() {
 
 					<div style={{ paddingBottom: '1.5rem' }}>
 						<p style={{ fontSize: '0.82rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#1d4ed8', marginBottom: '0.45rem' }}>
-							{CURRENT_PROJECT.projectNumber}
+							{projectNumber}
 						</p>
 						<h1 style={{ fontSize: 'clamp(2rem, 6vw, 3rem)', fontWeight: 900, color: '#0f172a', margin: 0, lineHeight: 1.05 }}>
-							{CURRENT_PROJECT.name}
+							{projectName}
 						</h1>
 					</div>
 				</div>
@@ -232,11 +243,7 @@ export default function NewDocumentScreen() {
 									<span style={{ flex: 1, fontSize: 'clamp(1.05rem, 3.2vw, 1.35rem)', fontWeight: 900, color: '#1e293b', fontFamily: 'Arial, sans-serif' }}>
 										{doc.label}
 									</span>
-									{isExpanded && hasChildren ? (
-										<ChevronDown width={22} height={22} color="#94a3b8" strokeWidth={2.5} />
-									) : (
-										<ChevronRight width={22} height={22} color="#94a3b8" strokeWidth={2.5} />
-									)}
+									{isExpanded && hasChildren ? <ChevronDown width={22} height={22} color="#94a3b8" strokeWidth={2.5} /> : <ChevronRight width={22} height={22} color="#94a3b8" strokeWidth={2.5} />}
 								</button>
 
 								{hasChildren && isExpanded ? (

@@ -1,15 +1,25 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import ProjectsScreen from './ProjectsScreen';
+
+function LocationStateView() {
+  const location = useLocation();
+  return (
+    <div>
+      <div data-testid="pathname">{location.pathname}</div>
+      <div data-testid="state">{JSON.stringify(location.state)}</div>
+    </div>
+  );
+}
 
 function renderProjectsScreen() {
   return render(
     <MemoryRouter initialEntries={['/projects']}>
       <Routes>
         <Route path="/projects" element={<ProjectsScreen />} />
-        <Route path="/new-document" element={<div>New document route</div>} />
+        <Route path="/new-document" element={<LocationStateView />} />
         <Route path="/avvik" element={<div>Avvik route</div>} />
       </Routes>
     </MemoryRouter>,
@@ -43,5 +53,18 @@ describe('ProjectsScreen', () => {
 
     expect(await screen.findByText(/Troms. Terminal Fasade/i)).toBeInTheDocument();
     expect(screen.queryByText(/Elkj.p Hercules/i)).not.toBeInTheDocument();
+  });
+
+  it('passes the selected project to the next screen', async () => {
+    const user = userEvent.setup();
+
+    renderProjectsScreen();
+
+    await screen.findByText('Bergen kontor vinduer');
+    await user.click(screen.getByRole('button', { name: /Bergen kontor vinduer/i }));
+
+    expect(screen.getByTestId('pathname')).toHaveTextContent('/new-document');
+    expect(screen.getByTestId('state')).toHaveTextContent('AF-2024-012');
+    expect(screen.getByTestId('state')).toHaveTextContent('Bergen kontor vinduer');
   });
 });

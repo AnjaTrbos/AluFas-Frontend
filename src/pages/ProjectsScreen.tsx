@@ -120,13 +120,7 @@ export default function ProjectsScreen() {
 
 		let list = projects
 			.filter((project) => project.status === activeTab)
-			.filter((project) =>
-				!q
-					? true
-					: [project.projectNumber, project.name, project.location].some((value) =>
-							value.toLowerCase().includes(q),
-					  ),
-			);
+			.filter((project) => (!q ? true : [project.projectNumber, project.name, project.location].some((value) => value.toLowerCase().includes(q))));
 
 		if (activeFilter === 'window') list = list.filter((project) => project.type === 'window');
 		else if (activeFilter === 'door') list = list.filter((project) => project.type === 'door');
@@ -146,6 +140,7 @@ export default function ProjectsScreen() {
 	return (
 		<div className="min-h-screen bg-slate-100 px-4 pb-5 pt-6 font-[Arial,sans-serif] sm:pb-6 sm:pt-10">
 			<div className="mx-auto max-w-3xl">
+				{/* BACKEND: Replace the hardcoded name with the signed-in user's display name. */}
 				<h1 className="text-3xl font-black text-slate-900 sm:text-4xl md:text-5xl">Velkommen, Ola Nordmann</h1>
 
 				<div className="mt-5 rounded-xl border border-slate-300 bg-[#c6d5ea] p-1">
@@ -156,9 +151,7 @@ export default function ProjectsScreen() {
 								type="button"
 								onClick={() => setActiveTab(tab)}
 								style={{ fontSize: 'clamp(0.95rem, 2vw, 1.25rem)', fontWeight: 900 }}
-								className={`rounded-lg px-3 py-3 transition-colors sm:px-6 ${
-									activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-800/90 hover:bg-white/50'
-								}`}
+								className={`rounded-lg px-3 py-3 transition-colors sm:px-6 ${activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-800/90 hover:bg-white/50'}`}
 							>
 								{tab === 'active' ? 'Aktive prosjekter' : 'Arkiverte prosjekter'}
 							</button>
@@ -202,11 +195,7 @@ export default function ProjectsScreen() {
 
 									return (
 										<div key={group || 'top'}>
-											{group && (
-												<p className="px-4 pb-1 pt-3 text-xs font-black uppercase tracking-widest text-slate-400">
-													{group}
-												</p>
-											)}
+											{group ? <p className="px-4 pb-1 pt-3 text-xs font-black uppercase tracking-widest text-slate-400">{group}</p> : null}
 											{items.map((option) => {
 												const isActive = activeFilter === option.value;
 
@@ -230,7 +219,7 @@ export default function ProjectsScreen() {
 									);
 								})}
 
-								{activeFilter !== 'all' && (
+								{activeFilter !== 'all' ? (
 									<div className="border-t border-slate-200 p-3">
 										<button
 											type="button"
@@ -243,7 +232,7 @@ export default function ProjectsScreen() {
 											Tilbakestill filter
 										</button>
 									</div>
-								)}
+								) : null}
 							</div>
 						)}
 					</div>
@@ -268,16 +257,24 @@ export default function ProjectsScreen() {
 							<button
 								key={project.id}
 								type="button"
-								onClick={() => navigate('/new-document')}
+								onClick={() =>
+									navigate('/new-document', {
+										state: {
+											projectNumber: project.projectNumber,
+											projectName: project.name,
+											manualProjectEntry: false,
+										},
+									})
+								}
 								className={`relative w-full rounded-2xl bg-white px-4 py-4 text-left shadow-sm transition hover:bg-slate-50 ${
 									project.recentlyUpdated ? 'border-[3px] border-slate-900' : 'border border-slate-300'
 								}`}
 							>
-								{project.recentlyUpdated && (
+								{project.recentlyUpdated ? (
 									<span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-sm font-black text-white sm:px-4 sm:py-1.5 sm:text-base">
 										<Zap className="h-4 w-4 text-white/30" /> Nylig
 									</span>
-								)}
+								) : null}
 
 								<div className="flex items-start gap-3 sm:items-center sm:gap-4">
 									<div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-slate-900 text-white sm:h-16 sm:w-16">
@@ -285,12 +282,8 @@ export default function ProjectsScreen() {
 									</div>
 
 									<div className="flex-1">
-										<p className="text-sm font-black uppercase tracking-wide text-blue-700 sm:text-xl">
-											{project.projectNumber}
-										</p>
-										<h2 className="mt-1 text-xl font-black leading-tight text-slate-900 sm:text-3xl md:text-4xl">
-											{project.name}
-										</h2>
+										<p className="text-sm font-black uppercase tracking-wide text-blue-700 sm:text-xl">{project.projectNumber}</p>
+										<h2 className="mt-1 text-xl font-black leading-tight text-slate-900 sm:text-3xl md:text-4xl">{project.name}</h2>
 										<div className="mt-2 flex items-center gap-2 text-base font-bold text-slate-700 sm:text-2xl">
 											<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
 											<span>{project.location}</span>
@@ -307,11 +300,9 @@ export default function ProjectsScreen() {
 						);
 					})}
 
-					{visibleProjects.length === 0 && (
-						<div className="rounded-2xl border border-slate-300 bg-white px-6 py-10 text-center text-slate-500">
-							Ingen prosjekter matcher søket.
-						</div>
-					)}
+					{visibleProjects.length === 0 ? (
+						<div className="rounded-2xl border border-slate-300 bg-white px-6 py-10 text-center text-slate-500">Ingen prosjekter matcher søket.</div>
+					) : null}
 				</div>
 			</div>
 		</div>

@@ -27,6 +27,26 @@ function renderScreen() {
   );
 }
 
+function renderScreenWithProjectState() {
+  return render(
+    <MemoryRouter
+      initialEntries={[
+        {
+          pathname: '/new-document',
+          state: { projectNumber: 'AF-2024-012', projectName: 'Bergen kontor vinduer', manualProjectEntry: false },
+        },
+      ]}
+    >
+      <Routes>
+        <Route path="/new-document" element={<NewDocumentScreen />} />
+        <Route path="/avvik" element={<LocationStateView />} />
+        <Route path="/ks-montasje" element={<LocationStateView />} />
+        <Route path="/projects" element={<LocationStateView />} />
+      </Routes>
+    </MemoryRouter>,
+  );
+}
+
 describe('NewDocumentScreen', () => {
   it('filters document types based on search', async () => {
     const user = userEvent.setup();
@@ -60,5 +80,12 @@ describe('NewDocumentScreen', () => {
     await user.click(screen.getByRole('button', { name: /Tilbake/i }));
 
     expect(screen.getByTestId('pathname')).toHaveTextContent('/projects');
+  });
+
+  it('shows the selected project from navigation state', () => {
+    renderScreenWithProjectState();
+
+    expect(screen.getByText('AF-2024-012')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Bergen kontor vinduer' })).toBeInTheDocument();
   });
 });
