@@ -16,6 +16,8 @@ interface KSMontasjeLocationState {
 	projectNumber?: string;
 	projectName?: string;
 	montasjeType?: string;
+	returnTo?: string;
+	returnState?: unknown;
 }
 
 interface Kontrollpunkt {
@@ -85,6 +87,8 @@ export default function KSMontasjeScreen() {
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
 	const montasjeType = state?.montasjeType ?? 'Vindu montasje';
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
 	const imageContextKey = createImageContextKey(`ks-montasje:${montasjeType}`, projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
@@ -113,7 +117,20 @@ export default function KSMontasjeScreen() {
 	};
 
 	return (
-		<FormPage title={`KS ${montasjeType}`} subtitle={subtitle} onBack={() => navigate(-1)} projectNumber={projectNumber} projectName={projectName}>
+		<FormPage
+			title={`KS ${montasjeType}`}
+			subtitle={subtitle}
+			onBack={() => {
+				if (returnTo) {
+					navigate(returnTo, { state: returnState });
+					return;
+				}
+
+				navigate(-1);
+			}}
+			projectNumber={projectNumber}
+			projectName={projectName}
+		>
 			<FormSection title="Posnr.">
 				<FormField label="Posisjonsnummer" htmlFor="ksm-posisjonsnummer">
 					<input id="ksm-posisjonsnummer" type="text" value={posisjonsnummer} onChange={(event) => setPosisjonsnummer(event.target.value)} placeholder="Posisjonsnummer" style={formInputStyle} />

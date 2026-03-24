@@ -48,4 +48,34 @@ describe('GlassMottakScreen', () => {
 
     expect(screen.getByTestId('state')).toHaveTextContent('Glass mottak');
   });
+
+  it('returns to the original screen instead of browser history when going back', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: '/glass-mottak',
+            state: {
+              projectNumber: 'AF-42',
+              projectName: 'Testprosjekt',
+              returnTo: '/new-document',
+              returnState: { projectNumber: 'AF-42', projectName: 'Testprosjekt' },
+            },
+          },
+        ]}
+      >
+        <Routes>
+          <Route path="/glass-mottak" element={<GlassMottakScreen />} />
+          <Route path="/new-document" element={<LocationStateView />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Tilbake' }));
+
+    expect(screen.getByTestId('pathname')).toHaveTextContent('/new-document');
+    expect(screen.getByTestId('state')).toHaveTextContent('AF-42');
+  });
 });

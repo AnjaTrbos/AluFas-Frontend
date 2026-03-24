@@ -15,6 +15,8 @@ interface KSVerkstedLocationState {
 	manualProjectEntry?: boolean;
 	projectNumber?: string;
 	projectName?: string;
+	returnTo?: string;
+	returnState?: unknown;
 }
 
 const KONTROLLPUNKTER = [
@@ -35,6 +37,8 @@ export default function KSVerkstedScreen() {
 	const manualProjectEntry = state?.manualProjectEntry ?? false;
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
 	const imageContextKey = createImageContextKey('ks-verksted', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
@@ -56,7 +60,20 @@ export default function KSVerkstedScreen() {
 	};
 
 	return (
-		<FormPage title="KS Verksted" subtitle={subtitle} onBack={() => navigate(-1)} projectNumber={projectNumber} projectName={projectName}>
+		<FormPage
+			title="KS Verksted"
+			subtitle={subtitle}
+			onBack={() => {
+				if (returnTo) {
+					navigate(returnTo, { state: returnState });
+					return;
+				}
+
+				navigate(-1);
+			}}
+			projectNumber={projectNumber}
+			projectName={projectName}
+		>
 			<div>
 				<div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
 					<span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#64748b', letterSpacing: '0.07em', textTransform: 'uppercase' }}>FREMDRIFT</span>

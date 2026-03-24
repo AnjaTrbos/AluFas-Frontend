@@ -14,6 +14,8 @@ import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts'
 interface MontasjePlanLocationState {
 	projectNumber?: string;
 	projectName?: string;
+	returnTo?: string;
+	returnState?: unknown;
 }
 
 const STATUS_OPTIONS = ['Glass mottatt', 'Profiler mottatt', 'Produksjon ferdig'];
@@ -25,6 +27,8 @@ export default function MontasjePlanScreen() {
 
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
 	const imageContextKey = createImageContextKey('montasje-plan', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
@@ -44,7 +48,20 @@ export default function MontasjePlanScreen() {
 	};
 
 	return (
-		<FormPage title="Montasje Plan" subtitle={subtitle} onBack={() => navigate(-1)} projectNumber={projectNumber} projectName={projectName}>
+		<FormPage
+			title="Montasje Plan"
+			subtitle={subtitle}
+			onBack={() => {
+				if (returnTo) {
+					navigate(returnTo, { state: returnState });
+					return;
+				}
+
+				navigate(-1);
+			}}
+			projectNumber={projectNumber}
+			projectName={projectName}
+		>
 			<FormSection title="Timeestimering">
 				<FormField label="Produksjonstimer" htmlFor="mp-produksjonstimer">
 					<input id="mp-produksjonstimer" type="text" value={produksjonstimer} onChange={(event) => setProduksjonstimer(event.target.value)} placeholder="Timer for produksjon" style={formInputStyle} />

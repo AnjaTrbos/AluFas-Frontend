@@ -13,6 +13,8 @@ import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts'
 interface ProfilerMottakLocationState {
 	projectNumber?: string;
 	projectName?: string;
+	returnTo?: string;
+	returnState?: unknown;
 }
 
 interface KontrollStep {
@@ -38,6 +40,8 @@ export default function ProfilerMottakScreen() {
 
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
 	const imageContextKey = createImageContextKey('profiler-mottak', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
@@ -61,7 +65,20 @@ export default function ProfilerMottakScreen() {
 	};
 
 	return (
-		<FormPage title="Profiler mottak" subtitle={subtitle} onBack={() => navigate(-1)} projectNumber={projectNumber} projectName={projectName}>
+		<FormPage
+			title="Profiler mottak"
+			subtitle={subtitle}
+			onBack={() => {
+				if (returnTo) {
+					navigate(returnTo, { state: returnState });
+					return;
+				}
+
+				navigate(-1);
+			}}
+			projectNumber={projectNumber}
+			projectName={projectName}
+		>
 			<FormField label="Ordrenummer" htmlFor="pm-ordrenummer">
 				<input id="pm-ordrenummer" type="text" value={ordrenummer} onChange={(event) => setOrdrenummer(event.target.value)} placeholder="Oppgi ordrenummer" style={formInputStyle} />
 			</FormField>

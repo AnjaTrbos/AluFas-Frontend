@@ -14,6 +14,8 @@ import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts'
 interface GlassMottakLocationState {
 	projectNumber?: string;
 	projectName?: string;
+	returnTo?: string;
+	returnState?: unknown;
 }
 
 interface CheckBlockProps {
@@ -89,6 +91,8 @@ export default function GlassMottakScreen() {
 
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
 	const imageContextKey = createImageContextKey('glass-mottak', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
@@ -104,7 +108,20 @@ export default function GlassMottakScreen() {
 	const subtitle = useMemo(() => 'Visuell sjekk av glass', []);
 
 	return (
-		<FormPage title="Glass mottak" subtitle={subtitle} onBack={() => navigate(-1)} projectNumber={projectNumber} projectName={projectName}>
+		<FormPage
+			title="Glass mottak"
+			subtitle={subtitle}
+			onBack={() => {
+				if (returnTo) {
+					navigate(returnTo, { state: returnState });
+					return;
+				}
+
+				navigate(-1);
+			}}
+			projectNumber={projectNumber}
+			projectName={projectName}
+		>
 			<FormField label="Underprosjekt" htmlFor="glass-underprosjekt">
 				<input id="glass-underprosjekt" type="text" value={underprosjekt} onChange={(event) => setUnderprosjekt(event.target.value)} placeholder="Skriv inn underprosjekt" style={formInputStyle} />
 			</FormField>

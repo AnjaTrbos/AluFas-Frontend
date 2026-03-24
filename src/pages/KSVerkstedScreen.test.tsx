@@ -50,4 +50,34 @@ describe('KSVerkstedScreen', () => {
     expect(screen.getByTestId('pathname')).toHaveTextContent('/success');
     expect(screen.getByTestId('state')).toHaveTextContent('KS Verksted');
   });
+
+  it('returns to the original screen instead of browser history when going back', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: '/ks-verksted',
+            state: {
+              projectNumber: 'AF-42',
+              projectName: 'Testprosjekt',
+              returnTo: '/new-document',
+              returnState: { projectNumber: 'AF-42', projectName: 'Testprosjekt' },
+            },
+          },
+        ]}
+      >
+        <Routes>
+          <Route path="/ks-verksted" element={<KSVerkstedScreen />} />
+          <Route path="/new-document" element={<LocationStateView />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Tilbake' }));
+
+    expect(screen.getByTestId('pathname')).toHaveTextContent('/new-document');
+    expect(screen.getByTestId('state')).toHaveTextContent('AF-42');
+  });
 });
