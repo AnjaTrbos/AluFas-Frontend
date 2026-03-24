@@ -1,3 +1,4 @@
+// Imports
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
@@ -9,24 +10,35 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
+// Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 
+// Navigation state type
 interface AvvikLocationState {
 	manualProjectEntry?: boolean;
 	projectNumber?: string;
 	projectName?: string;
+	returnTo?: string;
+	returnState?: unknown;
 }
 
+// Area options
 const AREA_OPTIONS = ['Verksted', 'Kontor', 'Montasje'];
 
+// Deviation report form
 export default function AvvikScreen() {
+	// Get navigation state
 	const navigate = useNavigate();
 	const location = useLocation();
 	const state = (location.state as AvvikLocationState | null) ?? null;
+	// Extract project info
 	const manualProjectEntry = state?.manualProjectEntry ?? true;
 	const projectNumber = state?.projectNumber ?? '';
 	const projectName = state?.projectName ?? '';
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
 
+	// Form states
 	const [projectInput, setProjectInput] = useState(manualProjectEntry ? '' : [projectNumber, projectName].filter(Boolean).join(' / '));
 	const [areas, setAreas] = useState<string[]>([]);
 	const [typeAvvik, setTypeAvvik] = useState('');
@@ -39,14 +51,17 @@ export default function AvvikScreen() {
 	const [prevention, setPrevention] = useState('');
 	const [date, setDate] = useState('');
 	const [createdBy, setCreatedBy] = useState('');
+	// Image drafts
 	const imageContextKey = createImageContextKey('avvik', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
+	// Dynamic subtitle
 	const subtitle = useMemo(
 		() => (manualProjectEntry ? 'Registrer avvik på prosjekt' : 'Inkludert HMS avvik'),
 		[manualProjectEntry],
 	);
 
+	// Toggle area
 	const toggleArea = (option: string) => {
 		setAreas((current) => (current.includes(option) ? current.filter((value) => value !== option) : [...current, option]));
 	};
@@ -55,7 +70,14 @@ export default function AvvikScreen() {
 		<FormPage
 			title="Avviksrapport"
 			subtitle={subtitle}
-			onBack={() => navigate(-1)}
+			onBack={() => {
+				if (returnTo) {
+					navigate(returnTo, { state: returnState });
+					return;
+				}
+
+				navigate(-1);
+			}}
 			projectNumber={manualProjectEntry ? undefined : projectNumber}
 			projectName={manualProjectEntry ? undefined : projectName}
 		>
@@ -75,9 +97,10 @@ export default function AvvikScreen() {
 			)}
 
 			<FormSection title="Område">
-				<div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-					{AREA_OPTIONS.map((option) => {
-						const checked = areas.includes(option);
+			{/* Area buttons */}
+			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+				{AREA_OPTIONS.map((option) => {
+					const checked = areas.includes(option);
 						return (
 							<button
 								key={option}
@@ -96,6 +119,7 @@ export default function AvvikScreen() {
 									textAlign: 'left',
 								}}
 							>
+								{/* Checkbox */}
 								<span
 									style={{
 										width: '1.4rem',
@@ -109,15 +133,18 @@ export default function AvvikScreen() {
 										flexShrink: 0,
 									}}
 								>
-									{checked ? <Check width={13} height={13} color="#ffffff" strokeWidth={3} /> : null}
-								</span>
-								<span style={{ fontSize: '1.18rem', fontWeight: 800, color: '#0f172a' }}>{option}</span>
+								{/* Checkmark when selected */}
+								{checked ? <Check width={13} height={13} color="#ffffff" strokeWidth={3} /> : null}
+							</span>
+							{/* Area label */}
+							<span style={{ fontSize: '1.18rem', fontWeight: 800, color: '#0f172a' }}>{option}</span>
 							</button>
 						);
 					})}
 				</div>
 			</FormSection>
 
+			{/* Description section */}
 			<FormSection title="BESKRIVELSE OG EVALUERING AV AVVIK">
 				<FormField label="Type avvik:" htmlFor="avvik-type">
 					<textarea id="avvik-type" value={typeAvvik} onChange={(e) => setTypeAvvik(e.target.value)} placeholder="Beskriv avviket..." style={formTextAreaStyle} />
@@ -141,6 +168,7 @@ export default function AvvikScreen() {
 				</div>
 			</FormSection>
 
+			{/* Measures section */}
 			<FormSection title="TILTAK">
 				<FormField label="Type tiltak:" htmlFor="avvik-measure-type">
 					<textarea id="avvik-measure-type" value={measureType} onChange={(e) => setMeasureType(e.target.value)} placeholder="Beskriv tiltak som skal iverksettes..." style={formTextAreaStyle} />
@@ -150,6 +178,7 @@ export default function AvvikScreen() {
 				</FormField>
 			</FormSection>
 
+			{/* Monitoring section */}
 			<FormSection title="OVERVÅKNING AV TILTAK">
 				<FormField label="Resultat av overvåkning:">
 					<textarea value={monitoringResult} onChange={(e) => setMonitoringResult(e.target.value)} placeholder="Beskriv resultatet av overvåkning..." style={formTextAreaStyle} />
@@ -165,6 +194,7 @@ export default function AvvikScreen() {
 				</FormField>
 			</FormSection>
 
+			{/* Add images button */}
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
@@ -182,6 +212,7 @@ export default function AvvikScreen() {
 				{imageCount > 0 ? `+ Legg til bilde (${imageCount})` : '+ Legg til bilde'}
 			</FormActionButton>
 
+			{/* Submit button */}
 			<FormActionButton
 				variant="dark"
 				onClick={() =>

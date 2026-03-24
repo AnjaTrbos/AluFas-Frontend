@@ -1,5 +1,8 @@
+// Track local UI state for search and expanded groups
 import { useState } from 'react';
+// Read incoming route state and navigate to selected forms
 import { useLocation, useNavigate } from 'react-router-dom';
+// Icons used to make document choices easier to scan quickly
 import {
 	AppWindow,
 	ArrowLeft,
@@ -16,6 +19,7 @@ import {
 	Wind,
 } from 'lucide-react';
 
+// Shared shape for document entries and nested sub-types
 interface DocItem {
 	id: string;
 	label: string;
@@ -25,12 +29,14 @@ interface DocItem {
 	children?: DocItem[];
 }
 
+// Navigation payload expected from project-selection screens
 interface NewDocumentLocationState {
 	projectNumber?: string;
 	projectName?: string;
 	manualProjectEntry?: boolean;
 }
 
+// Available document flows shown to the user
 const DOC_TYPES: DocItem[] = [
 	{ id: 'avvik', label: 'Registrer avvik', iconName: 'avvik', iconBg: 'bg-red-600', route: '/avvik' },
 	{ id: 'ks-verksted', label: 'KS Verksted', iconName: 'verksted', iconBg: 'bg-red-600', route: '/ks-verksted' },
@@ -54,6 +60,7 @@ const DOC_TYPES: DocItem[] = [
 // Fallback project until the picker is fully driven by backend data.
 const DEFAULT_PROJECT = { projectNumber: 'AF-2024-001', name: 'Elkjøp Hercules' };
 
+// Map logical icon names to concrete icon components
 function DocIcon({ name, small }: { name: string; small?: boolean }) {
 	const size = small ? 22 : 26;
 	const color = small ? '#475569' : '#ffffff';
@@ -86,28 +93,39 @@ function DocIcon({ name, small }: { name: string; small?: boolean }) {
 }
 
 export default function NewDocumentScreen() {
+	// Router helpers for reading project context and opening target forms
 	const navigate = useNavigate();
 	const location = useLocation();
+	// Resolve optional incoming route state safely
 	const state = (location.state as NewDocumentLocationState | null) ?? null;
+	// Keep track of currently expanded parent group
 	const [expandedId, setExpandedId] = useState<string | null>(null);
+	// Keep search query local for instant filtering
 	const [search, setSearch] = useState('');
 
+	// Use incoming project values or fallback placeholders
 	const projectNumber = state?.projectNumber ?? DEFAULT_PROJECT.projectNumber;
 	const projectName = state?.projectName ?? DEFAULT_PROJECT.name;
+	// Reuse a shared payload so downstream forms retain project context
 	const projectState = {
 		projectNumber,
 		projectName,
 		manualProjectEntry: state?.manualProjectEntry ?? false,
+		returnTo: location.pathname,
+		returnState: location.state,
 	};
 
+	// Filter parent and child entries to match user search input
 	const filtered = DOC_TYPES.filter(
 		(doc) =>
 			doc.label.toLowerCase().includes(search.toLowerCase()) ||
 			doc.children?.some((child) => child.label.toLowerCase().includes(search.toLowerCase())),
 	);
 
+	// Main document-type picker screen
 	return (
 		<div style={{ minHeight: '100vh', background: '#f1f5f9', fontFamily: 'Arial, sans-serif' }}>
+			{/* Sticky-feel top area with back action and project identity */}
 			<div
 				style={{
 					background: '#ffffff',
@@ -117,6 +135,7 @@ export default function NewDocumentScreen() {
 			>
 				<div style={{ maxWidth: '42rem', margin: '0 auto', padding: '0 1rem' }}>
 					<div style={{ paddingTop: '1.1rem', paddingBottom: '1.1rem' }}>
+						{/* Return to projects list */}
 						<button
 							type="button"
 							onClick={() => navigate('/projects')}
@@ -131,6 +150,7 @@ export default function NewDocumentScreen() {
 								color: '#0f172a',
 							}}
 						>
+							{/* Keep back icon highly visible on touch devices */}
 							<span
 								style={{
 									width: '2.55rem',
@@ -145,12 +165,14 @@ export default function NewDocumentScreen() {
 							>
 								<ArrowLeft width={22} height={22} color="#ffffff" strokeWidth={2.6} />
 							</span>
+							{/* Explicit text label improves discoverability of back action */}
 							<span style={{ fontSize: 'clamp(1rem, 2.6vw, 1.35rem)', fontWeight: 800, color: '#0f172a' }}>Tilbake</span>
 						</button>
 					</div>
 
+					{/* Show active project so users create docs in the right context */}
 					<div style={{ paddingBottom: '1.5rem' }}>
-						<p style={{ fontSize: '0.82rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#1d4ed8', marginBottom: '0.45rem' }}>
+						<p style={{ fontSize: '0.82rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0f172a', marginBottom: '0.45rem' }}>
 							{projectNumber}
 						</p>
 						<h1 style={{ fontSize: 'clamp(2rem, 6vw, 3rem)', fontWeight: 900, color: '#0f172a', margin: 0, lineHeight: 1.05 }}>
@@ -160,11 +182,13 @@ export default function NewDocumentScreen() {
 				</div>
 			</div>
 
+			{/* Search + document options list */}
 			<div style={{ maxWidth: '42rem', margin: '0 auto', padding: '1.2rem 1rem 0' }}>
 				<h2 style={{ fontSize: 'clamp(1.35rem, 4vw, 1.75rem)', fontWeight: 900, color: '#0f172a', margin: '0 0 1rem' }}>
 					Hva vil du dokumentere?
 				</h2>
 
+				{/* Quick filter to find target form faster */}
 				<div style={{ position: 'relative', marginBottom: '1.1rem' }}>
 					<Search
 						style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' }}
@@ -194,13 +218,16 @@ export default function NewDocumentScreen() {
 					/>
 				</div>
 
+				{/* Render each document card and optional child choices */}
 				<div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
 					{filtered.map((doc) => {
+						// Derived flags keep click behavior and UI state easy to follow
 						const isExpanded = expandedId === doc.id;
 						const hasChildren = !!doc.children?.length;
 
 						return (
 							<div key={doc.id}>
+								{/* Parent row: either expands children or navigates directly */}
 								<button
 									type="button"
 									onClick={() => {
@@ -222,6 +249,7 @@ export default function NewDocumentScreen() {
 										boxShadow: '0 1px 0 rgba(148, 163, 184, 0.12)',
 									}}
 								>
+									{/* Color-coded icon background helps category recognition */}
 									<div
 										style={{
 											width: 'clamp(2.8rem, 8vw, 3.35rem)',
@@ -240,15 +268,19 @@ export default function NewDocumentScreen() {
 									>
 										<DocIcon name={doc.iconName} />
 									</div>
+									{/* Primary doc label takes remaining space for readability */}
 									<span style={{ flex: 1, fontSize: 'clamp(1.05rem, 3.2vw, 1.35rem)', fontWeight: 900, color: '#1e293b', fontFamily: 'Arial, sans-serif' }}>
 										{doc.label}
 									</span>
+									{/* Chevron communicates whether children are expanded */}
 									{isExpanded && hasChildren ? <ChevronDown width={22} height={22} color="#94a3b8" strokeWidth={2.5} /> : <ChevronRight width={22} height={22} color="#94a3b8" strokeWidth={2.5} />}
 								</button>
 
 								{hasChildren && isExpanded ? (
+									/* Child list appears only when parent row is expanded */
 									<div style={{ marginLeft: 'clamp(0.75rem, 3vw, 1.5rem)', marginTop: '0.6rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
 										{doc.children!.map((child) => (
+											/* Child row passes selected montasje type into next screen */
 											<button
 												key={child.id}
 												type="button"
@@ -268,6 +300,7 @@ export default function NewDocumentScreen() {
 													boxShadow: '0 1px 0 rgba(148, 163, 184, 0.1)',
 												}}
 											>
+													{/* Lighter icon style differentiates child from parent rows */}
 												<div
 													style={{
 														width: 'clamp(2.45rem, 7vw, 3rem)',
@@ -281,6 +314,7 @@ export default function NewDocumentScreen() {
 												>
 													<DocIcon name={child.iconName} small />
 												</div>
+													{/* Child label and chevron keep interaction pattern consistent */}
 												<span style={{ flex: 1, fontSize: 'clamp(1rem, 3vw, 1.24rem)', fontWeight: 800, color: '#334155', fontFamily: 'Arial, sans-serif' }}>
 													{child.label}
 												</span>

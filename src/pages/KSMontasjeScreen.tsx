@@ -1,6 +1,10 @@
+// Essential React hooks for state management and memoization
 import { useMemo, useState } from 'react';
+// Router hooks to access navigation state and navigate between screens
 import { useLocation, useNavigate } from 'react-router-dom';
+// Icons for visual feedback in UI elements
 import { Check, Save, X } from 'lucide-react';
+// Import reusable form components and styling for consistent layout
 import {
 	FormActionButton,
 	FormField,
@@ -9,8 +13,10 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
+// Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 
+// Define expected navigation state from previous screens
 interface KSMontasjeLocationState {
 	manualProjectEntry?: boolean;
 	projectNumber?: string;
@@ -20,11 +26,13 @@ interface KSMontasjeLocationState {
 	returnState?: unknown;
 }
 
+// Type definition for inspection checkpoints
 interface Kontrollpunkt {
 	id: string;
 	label: string;
 }
 
+// Assembly quality control checkpoints that require verification
 const KONTROLLPUNKTER: Kontrollpunkt[] = [
 	{ id: 'lakk-overflate', label: 'Lakk / overflate' },
 	{ id: 'maal-utvendig', label: 'Mål kontroller (utvendig)' },
@@ -44,8 +52,10 @@ const KONTROLLPUNKTER: Kontrollpunkt[] = [
 	{ id: 'teipet', label: 'Teipet' },
 ];
 
+// Track whether a checkpoint is approved, rejected, or not yet evaluated
 type PunktState = 'ok' | 'not-ok' | null;
 
+// Provide visual toggle buttons for OK/Not OK status selection
 function RowToggle({
 	selected,
 	onSelect,
@@ -53,6 +63,7 @@ function RowToggle({
 	selected: PunktState;
 	onSelect: (value: PunktState) => void;
 }) {
+	// Generate button styles based on status (OK vs Not OK) and active state
 	const boxStyle = (variant: 'ok' | 'not-ok', isActive: boolean): React.CSSProperties => ({
 		width: '2.45rem',
 		height: '2.45rem',
@@ -69,9 +80,11 @@ function RowToggle({
 
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+			{/* Toggle OK status with visual checkmark when selected */}
 			<button type="button" onClick={() => onSelect(selected === 'ok' ? null : 'ok')} style={boxStyle('ok', selected === 'ok')} aria-label="OK">
 				{selected === 'ok' ? <Check width={18} height={18} color="#ffffff" strokeWidth={3} /> : null}
 			</button>
+			{/* Toggle Not OK status with visual X mark when selected */}
 			<button type="button" onClick={() => onSelect(selected === 'not-ok' ? null : 'not-ok')} style={boxStyle('not-ok', selected === 'not-ok')} aria-label="Ikke OK">
 				{selected === 'not-ok' ? <X width={18} height={18} color="#ffffff" strokeWidth={3} /> : null}
 			</button>
@@ -80,47 +93,67 @@ function RowToggle({
 }
 
 export default function KSMontasjeScreen() {
+	// Access router navigation for redirecting to other screens
 	const navigate = useNavigate();
+	// Retrieve navigation state from previous screen
 	const location = useLocation();
+	// Extract navigation state with fallback to null
 	const state = (location.state as KSMontasjeLocationState | null) ?? null;
 
+	// Use passed project details or fallback to defaults
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
 	const montasjeType = state?.montasjeType ?? 'Vindu montasje';
+	// Store navigation destination for returning from image capture screen
 	const returnTo = state?.returnTo;
 	const returnState = state?.returnState;
+	// Generate unique key for image storage tied to this assembly type and project
 	const imageContextKey = createImageContextKey(`ks-montasje:${montasjeType}`, projectNumber);
+	// Count existing images to show in upload button
 	const imageCount = getImageDraftCount(imageContextKey);
 
+	// Track position number on assembly
 	const [posisjonsnummer, setPosisjonsnummer] = useState('');
+	// Record defects that were corrected during assembly
 	const [feilskaderUtbedret, setFeilskaderUtbedret] = useState('');
+	// Capture any additional notes or observations
 	const [andreMerknader, setAndreMerknader] = useState('');
+	// Store inspector name for signature
 	const [signaturNavn, setSignaturNavn] = useState('');
+	// Record inspection completion date
 	const [signaturDato, setSignaturDato] = useState('');
+	// Map checkpoint IDs to approval status (ok, not-ok, or pending)
 	const [punktVerdier, setPunktVerdier] = useState<Record<string, PunktState>>({});
+	// Store notes for failed checkpoints
 	const [punktMerknader, setPunktMerknader] = useState<Record<string, string>>({});
 
+	// Generate dynamic page subtitle based on assembly type
 	const subtitle = useMemo(() => `${montasjeType} kontroll`, [montasjeType]);
 
+	// Update checkpoint status and clear notes when changing selection
 	const setPunkt = (punktId: string, value: PunktState) => {
 		setPunktVerdier((current) => ({ ...current, [punktId]: value }));
 	};
 
+	// Update notes for a specific checkpoint when reported as not-ok
 	const setPunktMerknad = (punktId: string, value: string) => {
 		setPunktMerknader((current) => ({ ...current, [punktId]: value }));
 	};
 
+	// Custom sizing for checkpoint note input fields
 	const merknadInputStyle: React.CSSProperties = {
 		...formInputStyle,
 		minHeight: '3rem',
 		fontSize: 'clamp(0.95rem, 2.4vw, 1.02rem)',
 	};
 
+	// Main form container for assembly quality control
 	return (
 		<FormPage
 			title={`KS ${montasjeType}`}
 			subtitle={subtitle}
 			onBack={() => {
+				// Return to previous screen using stored navigation path
 				if (returnTo) {
 					navigate(returnTo, { state: returnState });
 					return;
@@ -131,17 +164,23 @@ export default function KSMontasjeScreen() {
 			projectNumber={projectNumber}
 			projectName={projectName}
 		>
+			{/* Assembly position identifier */}
 			<FormSection title="Posnr.">
 				<FormField label="Posisjonsnummer" htmlFor="ksm-posisjonsnummer">
 					<input id="ksm-posisjonsnummer" type="text" value={posisjonsnummer} onChange={(event) => setPosisjonsnummer(event.target.value)} placeholder="Posisjonsnummer" style={formInputStyle} />
 				</FormField>
 			</FormSection>
 
+			{/* Quality control checkpoint verification section */}
 			<FormSection title="KONTROLLPUNKTER">
+				{/* Guide user through checkpoint evaluation process */}
 				<p style={{ margin: '0 0 1rem', fontSize: '1.05rem', fontWeight: 700, color: '#64748b' }}>Kryss av OK / Ikke OK / og før evt. merknad</p>
+				{/* Render all quality checkpoints as toggleable list items */}
 				<div style={{ border: '2px solid #1e293b', borderRadius: '1rem', overflow: 'hidden', background: '#ffffff' }}>
 					{KONTROLLPUNKTER.map((punkt, index) => {
+						// Retrieve saved status for this checkpoint
 						const selected = punktVerdier[punkt.id] ?? null;
+						// Show note input only when checkpoint is marked as not-ok
 						const showMerknad = selected === 'not-ok';
 
 						return (
@@ -175,27 +214,33 @@ export default function KSMontasjeScreen() {
 				</div>
 			</FormSection>
 
+			{/* Document any defects that were corrected during assembly */}
 			<FormSection title="Feilskader utbedret:">
 				<FormField label="Feilskader utbedret" htmlFor="ksm-feilskader-utbedret">
 					<textarea id="ksm-feilskader-utbedret" value={feilskaderUtbedret} onChange={(event) => setFeilskaderUtbedret(event.target.value)} placeholder="Beskriv utbedrede feilskader..." style={formTextAreaStyle} />
 				</FormField>
 			</FormSection>
 
+			{/* Capture additional observations and general feedback */}
 			<FormSection title="Andre mangler / merknader:">
 				<FormField label="Andre mangler / merknader" htmlFor="ksm-andre-merknader">
 					<textarea id="ksm-andre-merknader" value={andreMerknader} onChange={(event) => setAndreMerknader(event.target.value)} placeholder="Andre merknader..." style={formTextAreaStyle} />
 				</FormField>
 			</FormSection>
 
+			{/* Collect inspector identification and completion timestamp */}
 			<FormSection title="SIGNATUR">
+				{/* Record technician responsible for assembly inspection */}
 				<FormField label="Montør signatur:" htmlFor="ksm-signatur-navn">
 					<input id="ksm-signatur-navn" type="text" value={signaturNavn} onChange={(event) => setSignaturNavn(event.target.value)} placeholder="Navn" style={formInputStyle} />
-				</FormField>
-				<FormField label="Dato:" htmlFor="ksm-signatur-dato">
+			</FormField>
+			{/* Record when inspection was completed */}
+			<FormField label="Dato:" htmlFor="ksm-signatur-dato">
 					<input id="ksm-signatur-dato" type="text" value={signaturDato} onChange={(event) => setSignaturDato(event.target.value)} placeholder="mm/dd/yyyy" style={formInputStyle} />
 				</FormField>
 			</FormSection>
 
+			{/* Navigate to image capture screen to document assembly work */}
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
@@ -210,9 +255,11 @@ export default function KSMontasjeScreen() {
 					})
 				}
 			>
+				{/* Display count to show user they have images attached */}
 				{imageCount > 0 ? `+ Legg til bilde (${imageCount})` : '+ Legg til bilde'}
 			</FormActionButton>
 
+			{/* Submit form and navigate to success screen */}
 			<FormActionButton
 				variant="dark"
 				onClick={() =>

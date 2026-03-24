@@ -1,5 +1,8 @@
+// Core React hooks for state, effects, memoized lists, and DOM refs
 import { useEffect, useMemo, useRef, useState } from 'react';
+// Navigation hook to move into project-specific flows
 import { useNavigate } from 'react-router-dom';
+// Icons improve scannability and visual hierarchy across controls
 import {
 	CalendarDays,
 	ChevronDown,
@@ -13,8 +16,10 @@ import {
 	TriangleAlert,
 	Zap,
 } from 'lucide-react';
+// Shared project type used by the app
 import type { Project } from '../types/app';
 
+// Extended project model for UI-only metadata
 type ProjectListItem = Project & {
 	recentlyUpdated?: boolean;
 	year?: number;
@@ -22,6 +27,7 @@ type ProjectListItem = Project & {
 
 type ProjectTab = 'active' | 'closed';
 
+// Filter values driving sort/type filtering behavior
 type FilterOption = 'all' | 'a-z' | 'z-a' | 'newest' | 'oldest' | 'window' | 'door' | 'facade' | 'general';
 
 interface FilterConfig {
@@ -30,6 +36,7 @@ interface FilterConfig {
 	group?: string;
 }
 
+// Available filter actions grouped for easier discovery in the dropdown
 const FILTER_OPTIONS: FilterConfig[] = [
 	{ value: 'all', label: 'Alle prosjekter' },
 	{ value: 'a-z', label: 'A -> Å', group: 'Alfabetisk' },
@@ -44,6 +51,7 @@ const FILTER_OPTIONS: FilterConfig[] = [
 
 const FILTER_GROUPS = ['', 'Alfabetisk', 'År', 'Type'];
 
+// Temporary local dataset until backend integration is wired
 const DUMMY_PROJECTS: ProjectListItem[] = [
 	{
 		id: '1',
@@ -89,23 +97,29 @@ const DUMMY_PROJECTS: ProjectListItem[] = [
 ];
 
 async function getProjectsData(): Promise<ProjectListItem[]> {
+	// Keep async signature compatible with future API fetch
 	return DUMMY_PROJECTS;
 }
 
 export default function ProjectsScreen() {
+	// Router navigation used by project cards and actions
 	const navigate = useNavigate();
+	// Keep tab, search, and filtering state local for responsive UX
 	const [activeTab, setActiveTab] = useState<ProjectTab>('active');
 	const [searchQuery, setSearchQuery] = useState('');
 	const [projects, setProjects] = useState<ProjectListItem[]>([]);
 	const [activeFilter, setActiveFilter] = useState<FilterOption>('all');
 	const [filterOpen, setFilterOpen] = useState(false);
+	// Ref allows outside-click detection for closing the dropdown
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
+		// Load projects once on mount
 		void getProjectsData().then(setProjects);
 	}, []);
 
 	useEffect(() => {
+		// Close filter menu when user clicks outside of it
 		const handleClickOutside = (e: MouseEvent) => {
 			if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
 				setFilterOpen(false);
@@ -115,6 +129,7 @@ export default function ProjectsScreen() {
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, []);
 
+	// Derive visible list from tab, search, type filter, and sort option
 	const visibleProjects = useMemo(() => {
 		const q = searchQuery.trim().toLowerCase();
 
@@ -135,15 +150,18 @@ export default function ProjectsScreen() {
 		return list;
 	}, [activeFilter, activeTab, projects, searchQuery]);
 
+	// Human-readable label for currently selected filter
 	const activeFilterLabel = FILTER_OPTIONS.find((filter) => filter.value === activeFilter)?.label ?? 'Filtrer';
 
 	return (
+		// Main container for project selection and quick actions
 		<div className="min-h-screen bg-slate-100 px-4 pb-5 pt-6 font-[Arial,sans-serif] sm:pb-6 sm:pt-10">
 			<div className="mx-auto max-w-3xl">
 				{/* BACKEND: Replace the hardcoded name with the signed-in user's display name. */}
 				<h1 className="text-3xl font-black text-slate-900 sm:text-4xl md:text-5xl">Velkommen, Ola Nordmann</h1>
 
 				<div className="mt-5 rounded-xl border border-slate-300 bg-[#c6d5ea] p-1">
+					{/* Tab switch keeps active and archived contexts separated */}
 					<div className="grid grid-cols-2 gap-1">
 						{(['active', 'closed'] as const).map((tab) => (
 							<button
@@ -159,6 +177,7 @@ export default function ProjectsScreen() {
 					</div>
 				</div>
 
+				{/* Search + filter controls for narrowing large project lists */}
 				<div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
 					<div className="relative flex-1">
 						<Search className="pointer-events-none absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-slate-400 sm:h-6 sm:w-6" />
@@ -174,6 +193,7 @@ export default function ProjectsScreen() {
 					</div>
 
 					<div className="relative w-full sm:w-auto" ref={dropdownRef}>
+						{/* Filter trigger doubles as current-filter indicator */}
 						<button
 							type="button"
 							onClick={() => setFilterOpen((prev) => !prev)}
@@ -188,6 +208,7 @@ export default function ProjectsScreen() {
 						</button>
 
 						{filterOpen && (
+							/* Grouped filter menu improves discoverability of sort/type options */
 							<div className="absolute right-0 top-full z-50 mt-2 min-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl sm:min-w-56">
 								{FILTER_GROUPS.map((group) => {
 									const items = FILTER_OPTIONS.filter((filter) => (filter.group ?? '') === group);
@@ -220,6 +241,7 @@ export default function ProjectsScreen() {
 								})}
 
 								{activeFilter !== 'all' ? (
+									/* Fast reset avoids reopening and unselecting manually */
 									<div className="border-t border-slate-200 p-3">
 										<button
 											type="button"
@@ -240,17 +262,27 @@ export default function ProjectsScreen() {
 
 				<div className="mt-6 h-px bg-slate-300" />
 
+				{/* Quick entry path for deviation registration outside project context */}
 				<button
 					type="button"
-					onClick={() => navigate('/avvik', { state: { manualProjectEntry: true } })}
+					onClick={() =>
+						navigate('/avvik', {
+							state: {
+								manualProjectEntry: true,
+								returnTo: '/projects',
+							},
+						})
+					}
 					className="mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-xl bg-[#b91d2a] text-xl font-black tracking-wide text-white hover:bg-[#a61a27] sm:h-20 sm:gap-3 sm:text-3xl"
 				>
 					<TriangleAlert className="h-7 w-7 sm:h-9 sm:w-9" />
 					Registrer avvik
 				</button>
 
+				{/* Project cards lead into document creation scoped to a project */}
 				<div className="mt-4 space-y-3 pb-4">
 					{visibleProjects.map((project) => {
+						// Type icon helps distinguish project categories at a glance
 						const Icon = project.type === 'window' ? Link2 : FileText;
 
 						return (
@@ -271,6 +303,7 @@ export default function ProjectsScreen() {
 								}`}
 							>
 								{project.recentlyUpdated ? (
+									/* Surface freshness so users prioritize recently changed projects */
 									<span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-sm font-black text-white sm:px-4 sm:py-1.5 sm:text-base">
 										<Zap className="h-4 w-4 text-white/30" /> Nylig
 									</span>
@@ -301,6 +334,7 @@ export default function ProjectsScreen() {
 					})}
 
 					{visibleProjects.length === 0 ? (
+						/* Empty state confirms filter/search currently hides all projects */
 						<div className="rounded-2xl border border-slate-300 bg-white px-6 py-10 text-center text-slate-500">Ingen prosjekter matcher søket.</div>
 					) : null}
 				</div>

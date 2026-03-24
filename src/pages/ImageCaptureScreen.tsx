@@ -1,3 +1,4 @@
+// Essential React and routing dependencies
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Camera, ImagePlus, Trash2 } from 'lucide-react';
@@ -10,12 +11,14 @@ import {
 	saveImageDrafts,
 } from '../utils/imageDrafts';
 
+// Fallback state if user navigates directly without context
 const defaultState: ImageCaptureLocationState = {
 	contextKey: 'generic',
 	contextTitle: 'Skjema',
 	returnTo: '/projects',
 };
 
+// Generate unique identifiable records for each image
 function createDraft(file: File, dataUrl: string, source: 'camera' | 'gallery'): ImageDraft {
 	return {
 		id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
@@ -26,29 +29,36 @@ function createDraft(file: File, dataUrl: string, source: 'camera' | 'gallery'):
 	};
 }
 
+// Allow users to upload photos from camera or gallery
 export default function ImageCaptureScreen() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const state = (location.state as ImageCaptureLocationState | null) ?? defaultState;
+	// Trigger file dialogs from button clicks
 	const cameraInputRef = useRef<HTMLInputElement | null>(null);
 	const galleryInputRef = useRef<HTMLInputElement | null>(null);
+	// Track uploaded images during user session
 	const [images, setImages] = useState<ImageDraft[]>([]);
+	// Communicate validation results to user
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isProcessing, setIsProcessing] = useState(false);
 
+	// Restore previously saved drafts
 	useEffect(() => {
 		setImages(loadImageDrafts(state.contextKey));
 	}, [state.contextKey]);
 
+	// Show progress on max upload limit
 	const remainingSlots = MAX_IMAGE_UPLOADS - images.length;
 	const subtitle = useMemo(() => `${images.length} av ${MAX_IMAGE_UPLOADS} bilder`, [images.length]);
 
-	// Save local changes both in state and session storage.
+	// Ensure drafts persist across navigation
 	const persistImages = (nextImages: ImageDraft[]) => {
 		setImages(nextImages);
 		saveImageDrafts(state.contextKey, nextImages);
 	};
 
+	// Validate and process user selections
 	const handleFilesSelected = async (fileList: FileList | null, source: 'camera' | 'gallery') => {
 		if (!fileList || fileList.length === 0) {
 			return;
@@ -84,42 +94,46 @@ export default function ImageCaptureScreen() {
 		}
 	};
 
+	// Allow deletion and update storage
 	const handleRemoveImage = (id: string) => {
 		persistImages(images.filter((image) => image.id !== id));
 	};
 
 	return (
 		<div style={{ minHeight: '100vh', background: '#eff4fb', fontFamily: 'Arial, sans-serif' }}>
+			{/* Display title, context, and navigation */}
 			<div style={{ background: '#ffffff', borderBottom: '1px solid #dbe4ee', boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' }}>
 				<div style={{ maxWidth: '76rem', margin: '0 auto', padding: '1rem 1rem 1.25rem' }}>
+				{/* Return to previous screen with state */}
 					<button
 						type="button"
 						onClick={() => navigate(state.returnTo, { state: state.returnState })}
 						style={{
 							display: 'inline-flex',
 							alignItems: 'center',
-							gap: '0.55rem',
+							gap: '0.75rem',
 							border: 'none',
 							background: 'transparent',
 							padding: 0,
 							cursor: 'pointer',
 							color: '#0f172a',
-							fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)',
+							fontSize: 'clamp(1rem, 2.6vw, 1.35rem)',
 							fontWeight: 800,
 						}}
 					>
 						<span
 							style={{
-								width: '2rem',
-								height: '2rem',
-								borderRadius: '999px',
+								width: '2.55rem',
+								height: '2.55rem',
+								borderRadius: '0.9rem',
 								background: '#0f172a',
 								display: 'inline-flex',
 								alignItems: 'center',
 								justifyContent: 'center',
+								flexShrink: 0,
 							}}
 						>
-							<ArrowLeft width={18} height={18} color="#ffffff" strokeWidth={2.8} />
+							<ArrowLeft width={22} height={22} color="#ffffff" strokeWidth={2.6} />
 						</span>
 						Tilbake
 					</button>
@@ -132,8 +146,10 @@ export default function ImageCaptureScreen() {
 				</div>
 			</div>
 
-			<div style={{ maxWidth: '76rem', margin: '0 auto', padding: '1.35rem 1rem 2rem' }}>
-				<input
+		{/* Organize upload controls and image gallery */}
+		<div style={{ maxWidth: '76rem', margin: '0 auto', padding: '1.35rem 1rem 2rem' }}>
+			{/* Trigger file dialogs from buttons instead of appearing directly */}
+			<input
 					ref={cameraInputRef}
 					type="file"
 					accept="image/*"
@@ -157,8 +173,9 @@ export default function ImageCaptureScreen() {
 					}}
 				/>
 
-				<div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-					<button
+			{/* Allow users to choose between camera and gallery */}
+			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+				<button
 						type="button"
 						onClick={() => cameraInputRef.current?.click()}
 						disabled={remainingSlots === 0 || isProcessing}
@@ -179,6 +196,7 @@ export default function ImageCaptureScreen() {
 							boxShadow: '0 10px 18px rgba(15, 23, 42, 0.08)',
 						}}
 					>
+						{/* Visual indicator for camera action */}
 						<Camera width={24} height={24} color="#ffffff" strokeWidth={2.5} />
 						Ta bilde
 					</button>
@@ -203,12 +221,14 @@ export default function ImageCaptureScreen() {
 							gap: '0.65rem',
 						}}
 					>
+						{/* Visual indicator for gallery action */}
 						<ImagePlus width={24} height={24} color="#0f172a" strokeWidth={2.5} />
 						Velg fra galleri
 					</button>
 				</div>
 
-				{errorMessage ? (
+			{/* Show validation feedback when issues occur */}
+			{errorMessage ? (
 					<div
 						style={{
 							marginTop: '1rem',
@@ -225,6 +245,7 @@ export default function ImageCaptureScreen() {
 					</div>
 				) : null}
 
+				{/* Display uploaded images or guide user to upload first */}
 				<div
 					style={{
 						marginTop: '1.2rem',
@@ -290,8 +311,7 @@ export default function ImageCaptureScreen() {
 													alignItems: 'center',
 													justifyContent: 'center',
 												}}
-											>
-												<Trash2 width={18} height={18} strokeWidth={2.3} />
+											>											{/* Allow quick removal of specific images */}												<Trash2 width={18} height={18} strokeWidth={2.3} />
 											</button>
 										</div>
 									</div>

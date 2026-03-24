@@ -1,3 +1,4 @@
+// Imports
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Save } from 'lucide-react';
@@ -9,8 +10,10 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
+// Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 
+// Navigation state type
 interface GlassMottakLocationState {
 	projectNumber?: string;
 	projectName?: string;
@@ -18,6 +21,7 @@ interface GlassMottakLocationState {
 	returnState?: unknown;
 }
 
+// Props for reusable checkbox section
 interface CheckBlockProps {
 	title: string;
 	options: string[];
@@ -27,11 +31,13 @@ interface CheckBlockProps {
 	onCommentChange: (value: string) => void;
 }
 
+// Reusable component for checklist sections
 function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommentChange }: CheckBlockProps) {
 	const commentId = `glass-comment-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
 	return (
 		<FormSection title={title}>
+			{/* Radio button options */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
 				{options.map((option) => {
 					const checked = selectedValue === option;
@@ -56,6 +62,7 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 								textAlign: 'left',
 							}}
 						>
+							{/* Radio circle */}
 							<span
 								style={{
 									width: '1.45rem',
@@ -71,12 +78,14 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 							>
 								{checked ? <span style={{ width: '0.45rem', height: '0.45rem', borderRadius: '50%', background: '#ffffff' }} /> : null}
 							</span>
+							{/* Option text */}
 							<span style={{ fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 800, color: checked ? '#ffffff' : '#0f172a' }}>{option}</span>
 						</button>
 					);
 				})}
 			</div>
 
+			{/* Comment field */}
 			<FormField label="Kommentar" htmlFor={commentId}>
 				<textarea id={commentId} value={comment} onChange={(event) => onCommentChange(event.target.value)} placeholder="Legg til kommentar..." style={{ ...formTextAreaStyle, minHeight: '4.8rem' }} />
 			</FormField>
@@ -84,18 +93,23 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 	);
 }
 
+// Glass receiving inspection form
 export default function GlassMottakScreen() {
+	// Get navigation state
 	const navigate = useNavigate();
 	const location = useLocation();
 	const state = (location.state as GlassMottakLocationState | null) ?? null;
 
+	// Extract project info
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
 	const returnTo = state?.returnTo;
 	const returnState = state?.returnState;
+	// Image drafts
 	const imageContextKey = createImageContextKey('glass-mottak', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
+	// Form states
 	const [underprosjekt, setUnderprosjekt] = useState('');
 	const [emne, setEmne] = useState('');
 	const [sprekkerResultat, setSprekkerResultat] = useState('');
@@ -105,6 +119,7 @@ export default function GlassMottakScreen() {
 	const [stativBildeResultat, setStativBildeResultat] = useState('');
 	const [stativBildeKommentar, setStativBildeKommentar] = useState('');
 
+	// Fixed subtitle
 	const subtitle = useMemo(() => 'Visuell sjekk av glass', []);
 
 	return (
@@ -130,6 +145,7 @@ export default function GlassMottakScreen() {
 				<input id="glass-emne" type="text" value={emne} onChange={(event) => setEmne(event.target.value)} placeholder="Legg inn emnetekst" style={formInputStyle} />
 			</FormField>
 
+			{/* Crack inspection */}
 			<CheckBlock
 				title="Glass er visuelt sjekket for sprekker"
 				options={['Ja', 'Avvik, send eget avvik og informer prosjektleder']}
@@ -139,6 +155,7 @@ export default function GlassMottakScreen() {
 				onCommentChange={setSprekkerKommentar}
 			/>
 
+			{/* Corner inspection */}
 			<CheckBlock
 				title="Hjørner på glass er sjekket"
 				options={['Ja', 'Avvik, send eget avvik og informer prosjektleder']}
@@ -148,6 +165,7 @@ export default function GlassMottakScreen() {
 				onCommentChange={setHjornerKommentar}
 			/>
 
+			{/* Racks photo inspection */}
 			<CheckBlock
 				title="Bilde av glassstativ er tatt med ordre synlig"
 				options={['Ja', 'Annet']}
@@ -157,6 +175,7 @@ export default function GlassMottakScreen() {
 				onCommentChange={setStativBildeKommentar}
 			/>
 
+			{/* Add images button */}
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
@@ -174,6 +193,7 @@ export default function GlassMottakScreen() {
 				{imageCount > 0 ? `+ Legg til bilde (${imageCount})` : '+ Legg til bilde'}
 			</FormActionButton>
 
+			{/* Submit button */}
 			<FormActionButton
 				variant="dark"
 				icon={<Save width={22} height={22} color="#ffffff" strokeWidth={2.5} />}

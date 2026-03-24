@@ -1,6 +1,9 @@
+// Icons reinforce completion and navigation actions
 import { Check, FileText, Home } from 'lucide-react';
+// Router hooks used to read submission context and navigate onward
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// Route state passed from completed form screens
 interface SuccessLocationState {
 	projectNumber?: string;
 	projectName?: string;
@@ -10,15 +13,18 @@ interface SuccessLocationState {
 }
 
 export default function SuccessScreen() {
+	// Navigation and route context for post-submit actions
 	const navigate = useNavigate();
 	const location = useLocation();
+	// Safely resolve optional route state
 	const state = (location.state as SuccessLocationState | null) ?? null;
 
-	// Fallback values keep the screen usable when it is opened directly.
+	// Fallback values keep the screen usable when opened directly
 	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
 	const projectName = state?.projectName ?? 'Elkjøp Hercules';
 	const formTitle = state?.formTitle ?? 'Skjema';
 
+	// Full-screen success confirmation with clear next actions
 	return (
 		<div
 			style={{
@@ -30,6 +36,7 @@ export default function SuccessScreen() {
 				padding: 'clamp(1.25rem, 4vw, 2rem) 1rem',
 			}}
 		>
+			{/* Inline keyframes avoid global stylesheet coupling for this one-off animation */}
 			<style>
 				{`\
 				@keyframes success-fade-up {
@@ -52,7 +59,9 @@ export default function SuccessScreen() {
 				`}
 			</style>
 
+			{/* Centered content keeps focus on successful submission state */}
 			<div style={{ width: '100%', maxWidth: '28rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+				{/* Animated badge gives immediate visual confirmation */}
 				<div
 					style={{
 						position: 'relative',
@@ -61,6 +70,7 @@ export default function SuccessScreen() {
 						animation: 'success-pop 0.55s ease-out both, success-float 3s ease-in-out 0.8s infinite',
 					}}
 				>
+					{/* Soft pulse behind badge adds depth and motion cue */}
 					<div
 						style={{
 							position: 'absolute',
@@ -72,6 +82,7 @@ export default function SuccessScreen() {
 							animation: 'success-pulse 1.8s ease-out infinite',
 						}}
 					/>
+					{/* Main success circle anchors the checkmark icon */}
 					<div
 						style={{
 							position: 'absolute',
@@ -84,6 +95,7 @@ export default function SuccessScreen() {
 							boxShadow: '0 25px 50px rgba(0,0,0,0.22)',
 						}}
 					>
+						{/* Inner ring improves contrast and draws focus to completion icon */}
 						<div
 							style={{
 								width: 'clamp(4rem, 15vw, 5.2rem)',
@@ -100,6 +112,7 @@ export default function SuccessScreen() {
 					</div>
 				</div>
 
+					{/* Confirmation copy reiterates what was submitted and where */}
 				<div style={{ marginTop: 'clamp(2.5rem, 10vw, 4.6rem)', animation: 'success-fade-up 0.45s ease-out 0.18s both' }}>
 					<h1 style={{ margin: 0, fontSize: 'clamp(1.75rem, 6vw, 2.15rem)', lineHeight: 1.1, fontWeight: 900, color: '#0f172b' }}>Sendt inn!</h1>
 					<p style={{ margin: '0.75rem 0 0', fontSize: 'clamp(1.15rem, 4.5vw, 1.55rem)', fontWeight: 600, color: '#45556c' }}>Skjemaet er lagret</p>
@@ -109,6 +122,7 @@ export default function SuccessScreen() {
 					<p style={{ margin: '0.4rem 0 0', fontSize: 'clamp(0.82rem, 2.6vw, 0.9rem)', fontWeight: 700, color: '#64748b' }}>{formTitle}</p>
 				</div>
 
+				{/* Primary and secondary actions guide the next user step */}
 				<div
 					style={{
 						marginTop: 'clamp(2.25rem, 9vw, 4rem)',
@@ -119,6 +133,7 @@ export default function SuccessScreen() {
 						animation: 'success-fade-up 0.45s ease-out 0.28s both',
 					}}
 				>
+					{/* Return users directly to document selection in current project flow */}
 					<button
 						type="button"
 						onClick={() => navigate('/new-document')}
@@ -143,6 +158,7 @@ export default function SuccessScreen() {
 						Tilbake til prosjektet
 					</button>
 
+					{/* Alternate action routes back to full projects overview */}
 					<button
 						type="button"
 						onClick={() => navigate('/projects')}
@@ -167,6 +183,7 @@ export default function SuccessScreen() {
 					</button>
 				</div>
 
+				{/* Footer reassurance confirms where submitted data can be found */}
 				<p style={{ marginTop: 'clamp(2rem, 7vw, 3rem)', fontSize: 'clamp(0.82rem, 2.5vw, 0.92rem)', color: '#90a1b9', animation: 'success-fade-up 0.45s ease-out 0.36s both' }}>
 					Skjemaet er tilgjengelig i prosjektmappen
 				</p>

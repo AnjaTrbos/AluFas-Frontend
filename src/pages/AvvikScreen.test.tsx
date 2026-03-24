@@ -21,6 +21,7 @@ function renderAvvik(initialState?: unknown) {
         <Route path="/avvik" element={<AvvikScreen />} />
         <Route path="/image-capture" element={<LocationStateView />} />
         <Route path="/success" element={<LocationStateView />} />
+        <Route path="/new-document" element={<LocationStateView />} />
       </Routes>
     </MemoryRouter>,
   );
@@ -80,5 +81,22 @@ describe('AvvikScreen', () => {
 
     expect(screen.getByTestId('pathname')).toHaveTextContent('/success');
     expect(screen.getByTestId('state')).toHaveTextContent('"formTitle":"Avvik"');
+  });
+
+  it('returns to the original screen instead of browser history when going back', async () => {
+    const user = userEvent.setup();
+
+    renderAvvik({
+      manualProjectEntry: false,
+      projectNumber: 'AF-42',
+      projectName: 'Testprosjekt',
+      returnTo: '/new-document',
+      returnState: { projectNumber: 'AF-42', projectName: 'Testprosjekt' },
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Tilbake' }));
+
+    expect(screen.getByTestId('pathname')).toHaveTextContent('/new-document');
+    expect(screen.getByTestId('state')).toHaveTextContent('AF-42');
   });
 });

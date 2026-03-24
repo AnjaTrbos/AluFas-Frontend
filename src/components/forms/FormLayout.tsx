@@ -162,7 +162,7 @@ export function FormPage({ title, subtitle, onBack, projectNumber, projectName, 
 				<div style={formContainerStyle}>
 					<div style={formHeaderInnerStyle}>
 						<div style={formTitleRowStyle}>
-							<button type="button" onClick={onBack} style={backButtonStyle}>
+							<button type="button" onClick={onBack} style={backButtonStyle} aria-label="Tilbake">
 								<ArrowLeft width={24} height={24} color="#ffffff" strokeWidth={2.6} />
 							</button>
 							<div>
