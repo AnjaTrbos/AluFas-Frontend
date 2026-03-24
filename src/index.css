@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@source "./**/*.{js,ts,jsx,tsx}";
+@source "../index.html";
+
+@theme inline {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-card: var(--color-card);
+  --color-card-foreground: var(--color-text);
+  --color-popover: var(--color-card);
+  --color-popover-foreground: var(--color-text);
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-contrast);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-text);
+  --color-muted: var(--color-secondary);
+  --color-muted-foreground: var(--color-muted);
+  --color-accent: var(--color-secondary);
+  --color-accent-foreground: var(--color-text);
+  --color-destructive: var(--color-danger);
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--color-border);
+  --color-input: var(--color-border);
+  --color-input-background: var(--color-card);
+  --color-ring: var(--focus-ring);
+}
+
+@keyframes enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform:
+      translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0)
+      scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), 1);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+@keyframes exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+
+  to {
+    opacity: var(--tw-exit-opacity, 1);
+    transform:
+      translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0)
+      scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), 1);
+  }
+}
+
+@utility animate-in {
+  animation: enter 200ms ease-out both;
+}
+
+@utility animate-out {
+  animation: exit 150ms ease-in both;
+}
+
+@utility fade-in-0 {
+  --tw-enter-opacity: 0;
+}
+
+@utility fade-out-0 {
+  --tw-exit-opacity: 0;
+}
+
+@utility zoom-in-95 {
+  --tw-enter-scale: 0.95;
+}
+
+@utility zoom-out-95 {
+  --tw-exit-scale: 0.95;
+}
+
+@utility slide-in-from-top-2 {
+  --tw-enter-translate-y: calc(var(--spacing) * -2);
+}
+
+@utility slide-in-from-bottom-2 {
+  --tw-enter-translate-y: calc(var(--spacing) * 2);
+}
+
+@utility slide-in-from-left-2 {
+  --tw-enter-translate-x: calc(var(--spacing) * -2);
+}
+
+@utility slide-in-from-right-2 {
+  --tw-enter-translate-x: calc(var(--spacing) * 2);
+}
+
+@import "./styles/globals.css";
