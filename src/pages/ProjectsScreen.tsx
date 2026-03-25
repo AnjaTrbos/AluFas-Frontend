@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 // Shared project type used by the app
 import type { Project } from '../types/app';
+import { createReturnNavigation } from '../utils/navigation';
 
 // Extended project model for UI-only metadata
 type ProjectListItem = Project & {
@@ -152,6 +153,7 @@ export default function ProjectsScreen() {
 
 	// Human-readable label for currently selected filter
 	const activeFilterLabel = FILTER_OPTIONS.find((filter) => filter.value === activeFilter)?.label ?? 'Filtrer';
+	const returnNavigation = createReturnNavigation('/projects', null);
 
 	return (
 		// Main container for project selection and quick actions
@@ -269,7 +271,7 @@ export default function ProjectsScreen() {
 						navigate('/avvik', {
 							state: {
 								manualProjectEntry: true,
-								returnTo: '/projects',
+								...returnNavigation,
 							},
 						})
 					}

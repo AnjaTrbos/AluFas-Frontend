@@ -13,18 +13,10 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
+import type { ProjectRouteState } from '../types/navigation';
 // Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-
-// Define expected navigation state from previous screens
-interface KSMontasjeLocationState {
-	manualProjectEntry?: boolean;
-	projectNumber?: string;
-	projectName?: string;
-	montasjeType?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
+import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 
 // Type definition for inspection checkpoints
 interface Kontrollpunkt {
@@ -98,15 +90,14 @@ export default function KSMontasjeScreen() {
 	// Retrieve navigation state from previous screen
 	const location = useLocation();
 	// Extract navigation state with fallback to null
-	const state = (location.state as KSMontasjeLocationState | null) ?? null;
+	const state = (location.state as (ProjectRouteState & { montasjeType?: string }) | null) ?? null;
 
 	// Use passed project details or fallback to defaults
-	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
-	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
 	const montasjeType = state?.montasjeType ?? 'Vindu montasje';
 	// Store navigation destination for returning from image capture screen
-	const returnTo = state?.returnTo;
-	const returnState = state?.returnState;
+	const { returnTo, returnState } = getReturnNavigation(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Generate unique key for image storage tied to this assembly type and project
 	const imageContextKey = createImageContextKey(`ks-montasje:${montasjeType}`, projectNumber);
 	// Count existing images to show in upload button
@@ -244,14 +235,12 @@ export default function KSMontasjeScreen() {
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
-						state: {
+						state: createImageCaptureState({
 							contextKey: imageContextKey,
 							contextTitle: montasjeType,
-							returnTo: location.pathname,
-							returnState: location.state,
-							projectNumber,
-							projectName,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
@@ -264,13 +253,11 @@ export default function KSMontasjeScreen() {
 				variant="dark"
 				onClick={() =>
 					navigate('/success', {
-						state: {
-							projectNumber,
-							projectName,
+						state: createSuccessState({
 							formTitle: montasjeType,
-							returnTo: location.pathname,
-							returnState: location.state,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 				icon={<Save width={22} height={22} color="#ffffff" strokeWidth={2.5} />}

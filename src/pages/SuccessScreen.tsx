@@ -2,26 +2,18 @@
 import { Check, FileText, Home } from 'lucide-react';
 // Router hooks used to read submission context and navigate onward
 import { useLocation, useNavigate } from 'react-router-dom';
-
-// Route state passed from completed form screens
-interface SuccessLocationState {
-	projectNumber?: string;
-	projectName?: string;
-	formTitle?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
+import type { SuccessRouteState } from '../types/navigation';
+import { getProjectContextFromState } from '../utils/navigation';
 
 export default function SuccessScreen() {
 	// Navigation and route context for post-submit actions
 	const navigate = useNavigate();
 	const location = useLocation();
 	// Safely resolve optional route state
-	const state = (location.state as SuccessLocationState | null) ?? null;
+	const state = (location.state as SuccessRouteState | null) ?? null;
 
 	// Fallback values keep the screen usable when opened directly
-	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
-	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const { projectNumber, projectName } = getProjectContextFromState(state);
 	const formTitle = state?.formTitle ?? 'Skjema';
 
 	// Full-screen success confirmation with clear next actions

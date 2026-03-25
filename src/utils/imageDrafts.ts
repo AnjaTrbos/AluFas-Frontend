@@ -1,3 +1,5 @@
+import type { ImageCaptureRouteState } from '../types/navigation';
+
 export const MAX_IMAGE_UPLOADS = 10;
 
 export interface ImageDraft {
@@ -8,14 +10,7 @@ export interface ImageDraft {
 	createdAt: string;
 }
 
-export interface ImageCaptureLocationState {
-	contextKey: string;
-	contextTitle: string;
-	returnTo: string;
-	returnState?: unknown;
-	projectNumber?: string;
-	projectName?: string;
-}
+export type ImageCaptureLocationState = ImageCaptureRouteState;
 
 const STORAGE_PREFIX = 'alufas:image-drafts:';
 

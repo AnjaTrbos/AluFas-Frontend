@@ -13,17 +13,10 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
+import type { ProjectRouteState } from '../types/navigation';
 // Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-
-// Define expected navigation state from previous screens
-interface KSVerkstedLocationState {
-	manualProjectEntry?: boolean;
-	projectNumber?: string;
-	projectName?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
+import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 
 // Workshop quality control checkpoints that require verification
 const KONTROLLPUNKTER = [
@@ -43,15 +36,11 @@ export default function KSVerkstedScreen() {
 	// Retrieve navigation state from previous screen
 	const location = useLocation();
 	// Extract navigation state with fallback to null
-	const state = (location.state as KSVerkstedLocationState | null) ?? null;
-	// Determine if user manually entered project info vs loaded from selection
-	const manualProjectEntry = state?.manualProjectEntry ?? false;
-	// Use passed project details or fallback to defaults
-	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
-	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const state = (location.state as ProjectRouteState | null) ?? null;
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
 	// Store navigation destination for returning to previous screen
-	const returnTo = state?.returnTo;
-	const returnState = state?.returnState;
+	const { returnTo, returnState } = getReturnNavigation(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Generate unique key for image storage tied to this workshop form and project
 	const imageContextKey = createImageContextKey('ks-verksted', projectNumber);
 	// Count existing images to show in upload button
@@ -203,14 +192,12 @@ export default function KSVerkstedScreen() {
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
-						state: {
+						state: createImageCaptureState({
 							contextKey: imageContextKey,
 							contextTitle: 'KS Verksted',
-							returnTo: location.pathname,
-							returnState: location.state,
-							projectNumber,
-							projectName,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
@@ -223,13 +210,11 @@ export default function KSVerkstedScreen() {
 				variant="dark"
 				onClick={() =>
 					navigate('/success', {
-						state: {
-							projectNumber,
-							projectName,
+						state: createSuccessState({
 							formTitle: 'KS Verksted',
-							returnTo: location.pathname,
-							returnState: location.state,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 				icon={<Save width={22} height={22} color="#ffffff" strokeWidth={2.5} />}

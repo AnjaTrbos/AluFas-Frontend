@@ -18,6 +18,8 @@ import {
 	TriangleAlert,
 	Wind,
 } from 'lucide-react';
+import type { ProjectRouteState } from '../types/navigation';
+import { createReturnNavigation, getProjectContextFromState } from '../utils/navigation';
 
 // Shared shape for document entries and nested sub-types
 interface DocItem {
@@ -27,13 +29,6 @@ interface DocItem {
 	iconBg: string;
 	route?: string;
 	children?: DocItem[];
-}
-
-// Navigation payload expected from project-selection screens
-interface NewDocumentLocationState {
-	projectNumber?: string;
-	projectName?: string;
-	manualProjectEntry?: boolean;
 }
 
 // Available document flows shown to the user
@@ -56,10 +51,6 @@ const DOC_TYPES: DocItem[] = [
 	{ id: 'glass-mottak', label: 'Glass mottak', iconName: 'glass', iconBg: 'bg-slate-800', route: '/glass-mottak' },
 	{ id: 'montasje-plan', label: 'Montasjeplan', iconName: 'plan', iconBg: 'bg-green-700', route: '/montasje-plan' },
 ];
-
-// Fallback project until the picker is fully driven by backend data.
-const DEFAULT_PROJECT = { projectNumber: 'AF-2024-001', name: 'Elkjøp Hercules' };
-
 // Map logical icon names to concrete icon components
 function DocIcon({ name, small }: { name: string; small?: boolean }) {
 	const size = small ? 22 : 26;
@@ -97,22 +88,21 @@ export default function NewDocumentScreen() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	// Resolve optional incoming route state safely
-	const state = (location.state as NewDocumentLocationState | null) ?? null;
+	const state = (location.state as ProjectRouteState | null) ?? null;
 	// Keep track of currently expanded parent group
 	const [expandedId, setExpandedId] = useState<string | null>(null);
 	// Keep search query local for instant filtering
 	const [search, setSearch] = useState('');
 
 	// Use incoming project values or fallback placeholders
-	const projectNumber = state?.projectNumber ?? DEFAULT_PROJECT.projectNumber;
-	const projectName = state?.projectName ?? DEFAULT_PROJECT.name;
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Reuse a shared payload so downstream forms retain project context
 	const projectState = {
 		projectNumber,
 		projectName,
-		manualProjectEntry: state?.manualProjectEntry ?? false,
-		returnTo: location.pathname,
-		returnState: location.state,
+		manualProjectEntry,
+		...returnNavigation,
 	};
 
 	// Filter parent and child entries to match user search input

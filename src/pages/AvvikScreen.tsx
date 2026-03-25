@@ -12,16 +12,9 @@ import {
 } from '../components/forms/FormLayout';
 // Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
+import type { ProjectRouteState } from '../types/navigation';
 
-// Navigation state type
-interface AvvikLocationState {
-	manualProjectEntry?: boolean;
-	projectNumber?: string;
-	projectName?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
-
+import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 // Area options
 const AREA_OPTIONS = ['Verksted', 'Kontor', 'Montasje'];
 
@@ -30,14 +23,10 @@ export default function AvvikScreen() {
 	// Get navigation state
 	const navigate = useNavigate();
 	const location = useLocation();
-	const state = (location.state as AvvikLocationState | null) ?? null;
-	// Extract project info
-	const manualProjectEntry = state?.manualProjectEntry ?? true;
-	const projectNumber = state?.projectNumber ?? '';
-	const projectName = state?.projectName ?? '';
-	const returnTo = state?.returnTo;
-	const returnState = state?.returnState;
-
+	const state = (location.state as ProjectRouteState | null) ?? null;
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
+	const { returnTo, returnState } = getReturnNavigation(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Form states
 	const [projectInput, setProjectInput] = useState(manualProjectEntry ? '' : [projectNumber, projectName].filter(Boolean).join(' / '));
 	const [areas, setAreas] = useState<string[]>([]);
@@ -198,14 +187,12 @@ export default function AvvikScreen() {
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
-						state: {
+						state: createImageCaptureState({
 							contextKey: imageContextKey,
 							contextTitle: 'Avvik',
-							returnTo: location.pathname,
-							returnState: location.state,
-							projectNumber,
-							projectName,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
@@ -217,13 +204,11 @@ export default function AvvikScreen() {
 				variant="dark"
 				onClick={() =>
 					navigate('/success', {
-						state: {
-							projectNumber,
-							projectName,
+						state: createSuccessState({
 							formTitle: 'Avvik',
-							returnTo: location.pathname,
-							returnState: location.state,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>

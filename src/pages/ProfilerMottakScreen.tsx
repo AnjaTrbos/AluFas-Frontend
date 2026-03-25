@@ -12,16 +12,10 @@ import {
 	formFieldLabelStyle,
 	formInputStyle,
 } from '../components/forms/FormLayout';
+import type { ProjectRouteState } from '../types/navigation';
 // Draft helpers keep image attachments tied to this form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-
-// Expected payload when arriving from previous project-related screens
-interface ProfilerMottakLocationState {
-	projectNumber?: string;
-	projectName?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
+import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 
 // Shape for each checklist accordion step
 interface KontrollStep {
@@ -47,14 +41,13 @@ export default function ProfilerMottakScreen() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	// Read optional route state safely
-	const state = (location.state as ProfilerMottakLocationState | null) ?? null;
+	const state = (location.state as ProjectRouteState | null) ?? null;
 
 	// Use provided project context or fallback placeholders
-	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
-	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
 	// Preserve route target for clean back navigation
-	const returnTo = state?.returnTo;
-	const returnState = state?.returnState;
+	const { returnTo, returnState } = getReturnNavigation(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Scope image drafts to this form + project so attachments do not mix
 	const imageContextKey = createImageContextKey('profiler-mottak', projectNumber);
 	// Show current attachment count on the image action button
@@ -210,14 +203,12 @@ export default function ProfilerMottakScreen() {
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
-						state: {
+						state: createImageCaptureState({
 							contextKey: imageContextKey,
 							contextTitle: 'Profiler mottak',
-							returnTo: location.pathname,
-							returnState: location.state,
-							projectNumber,
-							projectName,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
@@ -230,13 +221,11 @@ export default function ProfilerMottakScreen() {
 				variant="dark"
 				onClick={() =>
 					navigate('/success', {
-						state: {
-							projectNumber,
-							projectName,
+						state: createSuccessState({
 							formTitle: 'Profiler mottak',
-							returnTo: location.pathname,
-							returnState: location.state,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 				icon={<Save width={22} height={22} color="#ffffff" strokeWidth={2.5} />}

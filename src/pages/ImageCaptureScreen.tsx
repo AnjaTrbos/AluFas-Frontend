@@ -18,6 +18,12 @@ const defaultState: ImageCaptureLocationState = {
 	returnTo: '/projects',
 };
 
+type ResolvedImageCaptureState = ImageCaptureLocationState & {
+	contextKey: string;
+	contextTitle: string;
+	returnTo: string;
+};
+
 // Generate unique identifiable records for each image
 function createDraft(file: File, dataUrl: string, source: 'camera' | 'gallery'): ImageDraft {
 	return {
@@ -33,7 +39,14 @@ function createDraft(file: File, dataUrl: string, source: 'camera' | 'gallery'):
 export default function ImageCaptureScreen() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const state = (location.state as ImageCaptureLocationState | null) ?? defaultState;
+	const incomingState = (location.state as ImageCaptureLocationState | null) ?? null;
+	const state: ResolvedImageCaptureState = {
+		...defaultState,
+		...incomingState,
+		returnTo: incomingState?.returnTo ?? defaultState.returnTo ?? '/projects',
+		contextKey: incomingState?.contextKey ?? defaultState.contextKey,
+		contextTitle: incomingState?.contextTitle ?? defaultState.contextTitle,
+	};
 	// Trigger file dialogs from button clicks
 	const cameraInputRef = useRef<HTMLInputElement | null>(null);
 	const galleryInputRef = useRef<HTMLInputElement | null>(null);

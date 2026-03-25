@@ -12,16 +12,10 @@ import {
 	FormSection,
 	formInputStyle,
 } from '../components/forms/FormLayout';
+import type { ProjectRouteState } from '../types/navigation';
 // Draft helpers keep image attachments scoped to this form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-
-// Expected route payload when arriving from project/document flows
-interface VarerMottakLocationState {
-	projectNumber?: string;
-	projectName?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
+import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 
 // Data shape for each accordion checklist step
 interface KontrollStep {
@@ -47,14 +41,13 @@ export default function VarerMottakScreen() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	// Resolve optional route state safely
-	const state = (location.state as VarerMottakLocationState | null) ?? null;
+	const state = (location.state as ProjectRouteState | null) ?? null;
 
 	// Use incoming project context or safe fallback placeholders
-	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
-	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
 	// Preserve explicit return path when this screen is nested in another flow
-	const returnTo = state?.returnTo;
-	const returnState = state?.returnState;
+	const { returnTo, returnState } = getReturnNavigation(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Scope draft image storage to this form and project
 	const imageContextKey = createImageContextKey('varer-mottak', projectNumber);
 	// Show count of currently attached image drafts
@@ -230,14 +223,12 @@ export default function VarerMottakScreen() {
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
-						state: {
+						state: createImageCaptureState({
 							contextKey: imageContextKey,
 							contextTitle: 'Varer mottak',
-							returnTo: location.pathname,
-							returnState: location.state,
-							projectNumber,
-							projectName,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
@@ -251,13 +242,11 @@ export default function VarerMottakScreen() {
 				icon={<Save width={22} height={22} color="#ffffff" strokeWidth={2.5} />}
 				onClick={() =>
 					navigate('/success', {
-						state: {
-							projectNumber,
-							projectName,
+						state: createSuccessState({
 							formTitle: 'Varer mottak',
-							returnTo: location.pathname,
-							returnState: location.state,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>

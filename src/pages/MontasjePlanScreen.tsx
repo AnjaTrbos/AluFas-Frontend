@@ -13,16 +13,10 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
+import type { ProjectRouteState } from '../types/navigation';
 // Image draft helpers so attachments persist per form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-
-// Expected data passed when arriving from another screen
-interface MontasjePlanLocationState {
-	projectNumber?: string;
-	projectName?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
+import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 
 // Track progress milestones for installation planning
 const STATUS_OPTIONS = ['Glass mottatt', 'Profiler mottatt', 'Produksjon ferdig'];
@@ -32,14 +26,13 @@ export default function MontasjePlanScreen() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	// Read optional state with safe fallback
-	const state = (location.state as MontasjePlanLocationState | null) ?? null;
+	const state = (location.state as ProjectRouteState | null) ?? null;
 
 	// Use incoming project data or sensible defaults for standalone access
-	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
-	const projectName = state?.projectName ?? 'Elkjøp Hercules';
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
 	// Preserve return target when leaving this screen
-	const returnTo = state?.returnTo;
-	const returnState = state?.returnState;
+	const { returnTo, returnState } = getReturnNavigation(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Build project-specific key so image drafts stay scoped correctly
 	const imageContextKey = createImageContextKey('montasje-plan', projectNumber);
 	// Show users how many images are already attached
@@ -178,14 +171,12 @@ export default function MontasjePlanScreen() {
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
-						state: {
+						state: createImageCaptureState({
 							contextKey: imageContextKey,
 							contextTitle: 'Montasje Plan',
-							returnTo: location.pathname,
-							returnState: location.state,
-							projectNumber,
-							projectName,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
@@ -198,13 +189,11 @@ export default function MontasjePlanScreen() {
 				variant="dark"
 				onClick={() =>
 					navigate('/success', {
-						state: {
-							projectNumber,
-							projectName,
+						state: createSuccessState({
 							formTitle: 'Montasje Plan',
-							returnTo: location.pathname,
-							returnState: location.state,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 				icon={<Save width={22} height={22} color="#ffffff" strokeWidth={2.5} />}

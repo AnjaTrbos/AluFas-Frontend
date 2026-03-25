@@ -10,16 +10,10 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
+import type { ProjectRouteState } from '../types/navigation';
 // Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-
-// Navigation state type
-interface GlassMottakLocationState {
-	projectNumber?: string;
-	projectName?: string;
-	returnTo?: string;
-	returnState?: unknown;
-}
+import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 
 // Props for reusable checkbox section
 interface CheckBlockProps {
@@ -98,13 +92,12 @@ export default function GlassMottakScreen() {
 	// Get navigation state
 	const navigate = useNavigate();
 	const location = useLocation();
-	const state = (location.state as GlassMottakLocationState | null) ?? null;
+	const state = (location.state as ProjectRouteState | null) ?? null;
 
 	// Extract project info
-	const projectNumber = state?.projectNumber ?? 'AF-2024-001';
-	const projectName = state?.projectName ?? 'Elkjøp Hercules';
-	const returnTo = state?.returnTo;
-	const returnState = state?.returnState;
+	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
+	const { returnTo, returnState } = getReturnNavigation(state);
+	const returnNavigation = createReturnNavigation(location.pathname, location.state);
 	// Image drafts
 	const imageContextKey = createImageContextKey('glass-mottak', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
@@ -179,14 +172,12 @@ export default function GlassMottakScreen() {
 			<FormActionButton
 				onClick={() =>
 					navigate('/image-capture', {
-						state: {
+						state: createImageCaptureState({
 							contextKey: imageContextKey,
 							contextTitle: 'Glass mottak',
-							returnTo: location.pathname,
-							returnState: location.state,
-							projectNumber,
-							projectName,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
@@ -199,13 +190,11 @@ export default function GlassMottakScreen() {
 				icon={<Save width={22} height={22} color="#ffffff" strokeWidth={2.5} />}
 				onClick={() =>
 					navigate('/success', {
-						state: {
-							projectNumber,
-							projectName,
+						state: createSuccessState({
 							formTitle: 'Glass mottak',
-							returnTo: location.pathname,
-							returnState: location.state,
-						},
+							projectContext: { manualProjectEntry, projectNumber, projectName },
+							returnNavigation,
+						}),
 					})
 				}
 			>
