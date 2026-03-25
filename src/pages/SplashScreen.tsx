@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Shared brand asset for consistent entry-screen identity
 import BrandLogo from '../components/BrandLogo';
+import { APP_FONT_FAMILY } from '../styles/uiTokens';
 // Auth utility used to guard direct access to documentation flow
 import { isAuthenticated } from '../utils/auth';
 
 // Persistent storage keys for theme and language preferences
 const THEME_STORAGE_KEY = 'app-theme';
 const LANGUAGE_STORAGE_KEY = 'app-language';
+const pageFontStyle = { fontFamily: APP_FONT_FAMILY } as const;
 
 type Language = 'no' | 'en';
 
@@ -103,7 +105,7 @@ export default function SplashScreen() {
 
 	return (
 		// Splash layout with top controls, brand block, and primary actions
-		<div className={pageClassName} style={{ fontFamily: 'Arial, sans-serif' }}>
+		<div className={`app-font ${pageClassName}`} style={pageFontStyle}>
 			{/* Preference controls for language and color mode */}
 			<div className="flex w-full justify-end gap-3">
 				{/* Language toggle improves accessibility for bilingual users */}

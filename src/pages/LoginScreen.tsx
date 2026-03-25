@@ -2,10 +2,16 @@
 import { useNavigate } from 'react-router-dom';
 // Brand logo component for visual identity
 import BrandLogo from '../components/BrandLogo';
+import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 // Type definition for component props
 import type { LoginScreenProps } from '../types/app';
 // Authentication state management utility
 import { setAuthenticated } from '../utils/auth';
+
+const appFontStyle = { fontFamily: APP_FONT_FAMILY } as const;
+const loginButtonTextStyle = { fontSize: 'clamp(1rem, 2vw, 1.25rem)' } as const;
+const helperTextStyle = { color: '#a1a5ab', fontFamily: APP_FONT_FAMILY } as const;
+const iconTileColors = ['#f25022', '#7fba00', '#00a4ef', '#ffb900'] as const;
 
 // Primary authentication screen for user login via Microsoft
 export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps) {
@@ -33,7 +39,7 @@ export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps
 	};
 
 	return (
-		<div className="relative min-h-screen bg-white px-4 py-6 sm:px-6 sm:py-8" style={{ fontFamily: 'Arial, sans-serif' }}>
+		<div className="app-font relative min-h-screen bg-white px-4 py-6 sm:px-6 sm:py-8" style={appFontStyle}>
 			{/* Full-screen login form container */}
 			<button
 				onClick={handleBack}
@@ -56,7 +62,7 @@ export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps
 					</div>
 
 					{/* Login page heading */}
-					<h1 className="mt-6 text-center text-2xl font-black text-slate-900 sm:mt-8 sm:text-3xl" style={{ fontFamily: 'Arial, sans-serif' }}>
+					<h1 className="mt-6 text-center text-2xl font-black text-slate-900 sm:mt-8 sm:text-3xl" style={appFontStyle}>
 						{copy.title}
 					</h1>
 
@@ -64,21 +70,21 @@ export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps
 					<button
 						onClick={handleMicrosoftLogin}
 						className="mt-12 flex w-full items-center justify-center gap-4 rounded-2xl bg-slate-950 px-5 py-4 font-black text-white transition-all hover:bg-slate-800 active:scale-95 sm:mt-20 sm:gap-5 sm:px-8 sm:py-6"
-						style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}
+						style={loginButtonTextStyle}
 					>
 						{/* Microsoft logo using brand colors */}
 						<span className="grid h-8 w-8 grid-cols-2 gap-0.5 sm:h-10 sm:w-10">
-							<span className="bg-[#f25022]" />
-							<span className="bg-[#7fba00]" />
-							<span className="bg-[#00a4ef]" />
-							<span className="bg-[#ffb900]" />
+							<span style={{ background: iconTileColors[0] }} />
+							<span style={{ background: iconTileColors[1] }} />
+							<span style={{ background: iconTileColors[2] }} />
+							<span style={{ background: iconTileColors[3] }} />
 						</span>
 						{/* Button text for login action */}
 						<span>{copy.loginButton}</span>
 					</button>
 
 					{/* Helper text explaining login requirement */}
-					<p className="mt-6 text-center text-sm leading-relaxed sm:mt-8 sm:text-base" style={{ color: '#a1a5ab', fontFamily: 'Arial, sans-serif' }}>
+					<p className="mt-6 text-center text-sm leading-relaxed sm:mt-8 sm:text-base" style={{ ...helperTextStyle, color: UI_COLORS.ink500 }}>
 						{copy.helper}
 					</p>
 				</div>

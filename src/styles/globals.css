@@ -117,3 +117,7 @@ textarea:focus {
   border-radius: var(--radius);
   padding: 1rem;
 }
+
+.app-font {
+  font-family: Arial, sans-serif;
+}

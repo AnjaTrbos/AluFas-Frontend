@@ -2,8 +2,41 @@
 import { Check, FileText, Home } from 'lucide-react';
 // Router hooks used to read submission context and navigate onward
 import { useLocation, useNavigate } from 'react-router-dom';
+import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 import type { SuccessRouteState } from '../types/navigation';
 import { getProjectContextFromState } from '../utils/navigation';
+
+const pageStyle = {
+	minHeight: '100vh',
+	background: '#e2e8f0',
+	fontFamily: APP_FONT_FAMILY,
+	display: 'flex',
+	justifyContent: 'center',
+	padding: 'clamp(1.25rem, 4vw, 2rem) 1rem',
+} as const;
+
+const contentStyle = { width: '100%', maxWidth: '28rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' } as const;
+const headlineWrapStyle = { marginTop: 'clamp(2.5rem, 10vw, 4.6rem)', animation: 'success-fade-up 0.45s ease-out 0.18s both' } as const;
+const actionGroupStyle = {
+	marginTop: 'clamp(2.25rem, 9vw, 4rem)',
+	width: '100%',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '1rem',
+	animation: 'success-fade-up 0.45s ease-out 0.28s both',
+} as const;
+const actionButtonBaseStyle = {
+	width: '100%',
+	minHeight: 'clamp(4rem, 12vw, 5rem)',
+	borderRadius: '0.9rem',
+	fontSize: 'clamp(1rem, 3.5vw, 1.25rem)',
+	fontWeight: 900,
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	gap: '0.75rem',
+	cursor: 'pointer',
+} as const;
 
 export default function SuccessScreen() {
 	// Navigation and route context for post-submit actions
@@ -18,16 +51,7 @@ export default function SuccessScreen() {
 
 	// Full-screen success confirmation with clear next actions
 	return (
-		<div
-			style={{
-				minHeight: '100vh',
-				background: '#e2e8f0',
-				fontFamily: 'Arial, sans-serif',
-				display: 'flex',
-				justifyContent: 'center',
-				padding: 'clamp(1.25rem, 4vw, 2rem) 1rem',
-			}}
-		>
+		<div className="app-font" style={pageStyle}>
 			{/* Inline keyframes avoid global stylesheet coupling for this one-off animation */}
 			<style>
 				{`\
@@ -52,7 +76,7 @@ export default function SuccessScreen() {
 			</style>
 
 			{/* Centered content keeps focus on successful submission state */}
-			<div style={{ width: '100%', maxWidth: '28rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+			<div style={contentStyle}>
 				{/* Animated badge gives immediate visual confirmation */}
 				<div
 					style={{
@@ -105,44 +129,26 @@ export default function SuccessScreen() {
 				</div>
 
 					{/* Confirmation copy reiterates what was submitted and where */}
-				<div style={{ marginTop: 'clamp(2.5rem, 10vw, 4.6rem)', animation: 'success-fade-up 0.45s ease-out 0.18s both' }}>
-					<h1 style={{ margin: 0, fontSize: 'clamp(1.75rem, 6vw, 2.15rem)', lineHeight: 1.1, fontWeight: 900, color: '#0f172b' }}>Sendt inn!</h1>
+				<div style={headlineWrapStyle}>
+					<h1 style={{ margin: 0, fontSize: 'clamp(1.75rem, 6vw, 2.15rem)', lineHeight: 1.1, fontWeight: 900, color: UI_COLORS.ink900 }}>Sendt inn!</h1>
 					<p style={{ margin: '0.75rem 0 0', fontSize: 'clamp(1.15rem, 4.5vw, 1.55rem)', fontWeight: 600, color: '#45556c' }}>Skjemaet er lagret</p>
-					<p style={{ margin: '0.8rem 0 0', fontSize: 'clamp(0.95rem, 3vw, 1rem)', fontWeight: 700, color: '#2563eb' }}>
+					<p style={{ margin: '0.8rem 0 0', fontSize: 'clamp(0.95rem, 3vw, 1rem)', fontWeight: 700, color: UI_COLORS.accentBlue }}>
 						{projectNumber} - {projectName}
 					</p>
-					<p style={{ margin: '0.4rem 0 0', fontSize: 'clamp(0.82rem, 2.6vw, 0.9rem)', fontWeight: 700, color: '#64748b' }}>{formTitle}</p>
+					<p style={{ margin: '0.4rem 0 0', fontSize: 'clamp(0.82rem, 2.6vw, 0.9rem)', fontWeight: 700, color: UI_COLORS.ink500 }}>{formTitle}</p>
 				</div>
 
 				{/* Primary and secondary actions guide the next user step */}
-				<div
-					style={{
-						marginTop: 'clamp(2.25rem, 9vw, 4rem)',
-						width: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '1rem',
-						animation: 'success-fade-up 0.45s ease-out 0.28s both',
-					}}
-				>
+				<div style={actionGroupStyle}>
 					{/* Return users directly to document selection in current project flow */}
 					<button
 						type="button"
 						onClick={() => navigate('/new-document')}
 						style={{
-							width: '100%',
-							minHeight: 'clamp(4rem, 12vw, 5rem)',
-							borderRadius: '0.9rem',
+							...actionButtonBaseStyle,
 							border: 'none',
-							background: '#0f172b',
+							background: UI_COLORS.ink900,
 							color: '#ffffff',
-							fontSize: 'clamp(1rem, 3.5vw, 1.25rem)',
-							fontWeight: 900,
-							display: 'inline-flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							gap: '0.75rem',
-							cursor: 'pointer',
 							boxShadow: '0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.1)',
 						}}
 					>
@@ -155,19 +161,10 @@ export default function SuccessScreen() {
 						type="button"
 						onClick={() => navigate('/projects')}
 						style={{
-							width: '100%',
-							minHeight: 'clamp(4rem, 12vw, 5rem)',
-							borderRadius: '0.9rem',
-							border: '2px solid #0f172b',
+							...actionButtonBaseStyle,
+							border: `2px solid ${UI_COLORS.ink900}`,
 							background: '#ffffff',
-							color: '#0f172b',
-							fontSize: 'clamp(1rem, 3.5vw, 1.25rem)',
-							fontWeight: 900,
-							display: 'inline-flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							gap: '0.75rem',
-							cursor: 'pointer',
+							color: UI_COLORS.ink900,
 						}}
 					>
 						<Home width={22} height={22} strokeWidth={2.5} />

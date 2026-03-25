@@ -2,8 +2,8 @@
 import { useMemo, useState } from 'react';
 // Router hooks to retain flow context and navigate between screens
 import { useLocation, useNavigate } from 'react-router-dom';
-// Icons used for status, expand/collapse, and submit affordances
-import { Check, ChevronDown, ChevronRight, Save } from 'lucide-react';
+// Icons used for submit affordances
+import { Save } from 'lucide-react';
 // Shared form components/styles to keep screen layout consistent
 import {
 	FormActionButton,
@@ -12,24 +12,17 @@ import {
 	formFieldLabelStyle,
 	formInputStyle,
 } from '../components/forms/FormLayout';
+import ChecklistAccordion, { type ChecklistStep } from '../components/forms/ChecklistAccordion';
 import type { ProjectRouteState } from '../types/navigation';
 // Draft helpers keep image attachments tied to this form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 
-// Shape for each checklist accordion step
-interface KontrollStep {
-	id: number;
-	title: string;
-	kontrolleresMot: string;
-	testprosedyre: string;
-}
-
 // Result categories checked per step to document received items
 const RESULTAT_OPTIONS = ['Profilene', 'Beslag og tilbehør', 'Pakninger', 'T-forbindere', 'Glass og paneler'];
 
 // Predefined control procedure used during incoming profile inspection
-const KONTROLL_STEPS: KontrollStep[] = [
+const KONTROLL_STEPS: ChecklistStep[] = [
 	{ id: 1, title: 'Identifikasjon og sjekk av leveransen', kontrolleresMot: 'Følgeseddel', testprosedyre: 'Visuell sjekk' },
 	{ id: 2, title: 'Evt. transportskade', kontrolleresMot: 'Riper, bulker, deformasjoner', testprosedyre: 'Visuell sjekk' },
 	{ id: 3, title: 'Dimensjoner', kontrolleresMot: 'Tekniske tegninger, tegningskatalogen og ordremanualer', testprosedyre: 'Lengder og dimensjoner' },
@@ -109,94 +102,14 @@ export default function ProfilerMottakScreen() {
 			{/* Accordion checklist keeps each control step focused and readable */}
 			<div>
 				<p style={formFieldLabelStyle}>Kontrollsjekkliste</p>
-				<div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-					{KONTROLL_STEPS.map((step) => {
-						// Derived UI flags for step expansion and selected result values
-						const isExpanded = expandedSteps.includes(step.id);
-						const stepValues = resultatChecked[step.id] ?? [];
-
-						return (
-							<div key={step.id}>
-								<button
-									type="button"
-									onClick={() => toggleStep(step.id)}
-									style={{
-										width: '100%',
-										borderRadius: '1rem',
-										border: '1.5px solid #c8d3df',
-										background: '#ffffff',
-										padding: '0.95rem 1rem',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'space-between',
-										gap: '0.8rem',
-										cursor: 'pointer',
-										boxShadow: '0 1px 0 rgba(148, 163, 184, 0.14)',
-									}}
-								>
-									{/* Step number makes sequence and execution order clear */}
-									<div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
-										<span
-											style={{
-												width: '2.1rem',
-												height: '2.1rem',
-												borderRadius: '0.62rem',
-												background: '#0f172a',
-												color: '#ffffff',
-												fontWeight: 900,
-												fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
-												display: 'inline-flex',
-												alignItems: 'center',
-												justifyContent: 'center',
-											}}
-										>
-											{step.id}
-										</span>
-										{/* Step title describes the control objective */}
-										<span style={{ fontSize: 'clamp(1rem, 3vw, 1.35rem)', fontWeight: 900, color: '#0f172a', textAlign: 'left' }}>{step.title}</span>
-									</div>
-									{/* Chevron indicates expandable details and current state */}
-									{isExpanded ? <ChevronDown width={24} height={24} color="#0f172a" strokeWidth={2.5} /> : <ChevronRight width={24} height={24} color="#0f172a" strokeWidth={2.5} />}
-								</button>
-
-								{isExpanded ? (
-									/* Expanded area shows criteria, procedure, and result capture */
-									<div style={{ marginTop: '0.55rem', borderRadius: '1rem', border: '1.5px solid #d8e1ec', background: '#ffffff', padding: '1rem 1rem 1.05rem' }}>
-										<p style={{ margin: '0 0 0.5rem', fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: '#0f172a' }}>
-											<span style={{ fontWeight: 900 }}>Kontrolleres mot:</span> {step.kontrolleresMot}
-										</p>
-										<p style={{ margin: '0 0 1rem', fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: '#0f172a' }}>
-											<span style={{ fontWeight: 900 }}>Testprosedyre:</span> {step.testprosedyre}
-										</p>
-										<h3 style={{ margin: '0 0 0.65rem', fontSize: 'clamp(1.1rem, 3vw, 1.35rem)', fontWeight: 900, color: '#0f172a' }}>Resultat</h3>
-										<div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-											{RESULTAT_OPTIONS.map((option) => {
-												// Reflect whether this option is selected for current step
-												const checked = stepValues.includes(option);
-
-												return (
-													<button
-														key={option}
-														type="button"
-														onClick={() => toggleResultat(step.id, option)}
-														style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem', border: 'none', padding: 0, background: 'none', cursor: 'pointer', textAlign: 'left' }}
-													>
-														{/* Checkbox-like indicator keeps multi-select state obvious */}
-														<span style={{ width: '1.4rem', height: '1.4rem', borderRadius: '0.25rem', border: checked ? '2px solid #1e3a8a' : '2px solid #b7c4d6', background: checked ? '#1e3a8a' : '#ffffff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-															{checked ? <Check width={12} height={12} color="#ffffff" strokeWidth={3.2} /> : null}
-														</span>
-														{/* Keep option text readable for quick scanning */}
-														<span style={{ fontSize: 'clamp(1rem, 2.8vw, 1.2rem)', fontWeight: 700, color: '#0f172a' }}>{option}</span>
-													</button>
-												);
-											})}
-										</div>
-									</div>
-								) : null}
-							</div>
-						);
-					})}
-				</div>
+				<ChecklistAccordion
+					steps={KONTROLL_STEPS}
+					resultOptions={RESULTAT_OPTIONS}
+					expandedSteps={expandedSteps}
+					selectedResults={resultatChecked}
+					onToggleStep={toggleStep}
+					onToggleResult={toggleResultat}
+				/>
 			</div>
 
 			{/* Allow photo evidence to be attached to this inspection */}
