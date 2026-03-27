@@ -12,8 +12,7 @@ import {
 	FormSection,
 	formInputStyle,
 	formTextAreaStyle,
-} from '../components/forms/FormLayout';
-import type { ProjectRouteState } from '../types/navigation';
+} from '../components/forms/FormLayout';import { UI_COLORS } from '../styles/uiTokens';import type { ProjectRouteState } from '../types/navigation';
 // Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
@@ -60,8 +59,8 @@ function RowToggle({
 		width: '2.45rem',
 		height: '2.45rem',
 		borderRadius: '0.62rem',
-		border: `2px solid ${isActive ? (variant === 'ok' ? '#0f172a' : '#dc2626') : '#cbd5e1'}`,
-		background: isActive ? (variant === 'ok' ? '#0f172a' : '#ef4444') : '#ffffff',
+		border: `2px solid ${isActive ? (variant === 'ok' ? UI_COLORS.ink900 : UI_COLORS.statusError) : UI_COLORS.line300}`,
+		background: isActive ? (variant === 'ok' ? UI_COLORS.ink900 : UI_COLORS.statusError) : UI_COLORS.surface0,
 		cursor: 'pointer',
 		padding: 0,
 		flexShrink: 0,
@@ -165,9 +164,9 @@ export default function KSMontasjeScreen() {
 			{/* Quality control checkpoint verification section */}
 			<FormSection title="KONTROLLPUNKTER">
 				{/* Guide user through checkpoint evaluation process */}
-				<p style={{ margin: '0 0 1rem', fontSize: '1.05rem', fontWeight: 700, color: '#64748b' }}>Kryss av OK / Ikke OK / og før evt. merknad</p>
+				<p style={{ margin: '0 0 1rem', fontSize: '1.05rem', fontWeight: 700, color: UI_COLORS.ink500 }}>Kryss av OK / Ikke OK / og før evt. merknad</p>
 				{/* Render all quality checkpoints as toggleable list items */}
-				<div style={{ border: '2px solid #1e293b', borderRadius: '1rem', overflow: 'hidden', background: '#ffffff' }}>
+				<div style={{ border: `2px solid ${UI_COLORS.ink800}`, borderRadius: '1rem', overflow: 'hidden', background: UI_COLORS.surface0 }}>
 					{KONTROLLPUNKTER.map((punkt, index) => {
 						// Retrieve saved status for this checkpoint
 						const selected = punktVerdier[punkt.id] ?? null;
@@ -179,11 +178,11 @@ export default function KSMontasjeScreen() {
 								key={punkt.id}
 								style={{
 									padding: '0.95rem 0.9rem',
-									borderBottom: index === KONTROLLPUNKTER.length - 1 ? 'none' : '1.5px solid #d2dae6',
+										borderBottom: index === KONTROLLPUNKTER.length - 1 ? 'none' : `1.5px solid ${UI_COLORS.line250}`,
 								}}
 							>
 								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
-									<span style={{ fontSize: 'clamp(0.98rem, 2.7vw, 1.1rem)', fontWeight: 800, color: '#0f172a' }}>{punkt.label}</span>
+									<span style={{ fontSize: 'clamp(0.98rem, 2.7vw, 1.1rem)', fontWeight: 800, color: UI_COLORS.ink900 }}>{punkt.label}</span>
 									<RowToggle selected={selected} onSelect={(value) => setPunkt(punkt.id, value)} />
 								</div>
 

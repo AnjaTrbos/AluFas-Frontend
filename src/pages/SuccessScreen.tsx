@@ -8,7 +8,7 @@ import { getProjectContextFromState } from '../utils/navigation';
 
 const pageStyle = {
 	minHeight: '100vh',
-	background: '#e2e8f0',
+	background: UI_COLORS.surface75,
 	fontFamily: APP_FONT_FAMILY,
 	display: 'flex',
 	justifyContent: 'center',
@@ -92,7 +92,7 @@ export default function SuccessScreen() {
 							position: 'absolute',
 							inset: 0,
 							borderRadius: '999px',
-							background: '#22c55e',
+							background: UI_COLORS.successGreen,
 							filter: 'blur(24px)',
 							opacity: 0.28,
 							animation: 'success-pulse 1.8s ease-out infinite',
@@ -104,7 +104,7 @@ export default function SuccessScreen() {
 							position: 'absolute',
 							inset: 0,
 							borderRadius: '999px',
-							background: '#00a63e',
+							background: UI_COLORS.successGreenDark,
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
@@ -117,7 +117,7 @@ export default function SuccessScreen() {
 								width: 'clamp(4rem, 15vw, 5.2rem)',
 								height: 'clamp(4rem, 15vw, 5.2rem)',
 								borderRadius: '999px',
-								border: 'clamp(7px, 1.8vw, 10px) solid #ffffff',
+								border: `clamp(7px, 1.8vw, 10px) solid ${UI_COLORS.surface0}`,
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
@@ -131,7 +131,7 @@ export default function SuccessScreen() {
 					{/* Confirmation copy reiterates what was submitted and where */}
 				<div style={headlineWrapStyle}>
 					<h1 style={{ margin: 0, fontSize: 'clamp(1.75rem, 6vw, 2.15rem)', lineHeight: 1.1, fontWeight: 900, color: UI_COLORS.ink900 }}>Sendt inn!</h1>
-					<p style={{ margin: '0.75rem 0 0', fontSize: 'clamp(1.15rem, 4.5vw, 1.55rem)', fontWeight: 600, color: '#45556c' }}>Skjemaet er lagret</p>
+					<p style={{ margin: '0.75rem 0 0', fontSize: 'clamp(1.15rem, 4.5vw, 1.55rem)', fontWeight: 600, color: UI_COLORS.ink500 }}>Skjemaet er lagret</p>
 					<p style={{ margin: '0.8rem 0 0', fontSize: 'clamp(0.95rem, 3vw, 1rem)', fontWeight: 700, color: UI_COLORS.accentBlue }}>
 						{projectNumber} - {projectName}
 					</p>
@@ -148,7 +148,7 @@ export default function SuccessScreen() {
 							...actionButtonBaseStyle,
 							border: 'none',
 							background: UI_COLORS.ink900,
-							color: '#ffffff',
+							color: UI_COLORS.surface0,
 							boxShadow: '0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.1)',
 						}}
 					>
@@ -163,7 +163,7 @@ export default function SuccessScreen() {
 						style={{
 							...actionButtonBaseStyle,
 							border: `2px solid ${UI_COLORS.ink900}`,
-							background: '#ffffff',
+							background: UI_COLORS.surface0,
 							color: UI_COLORS.ink900,
 						}}
 					>
@@ -173,7 +173,7 @@ export default function SuccessScreen() {
 				</div>
 
 				{/* Footer reassurance confirms where submitted data can be found */}
-				<p style={{ marginTop: 'clamp(2rem, 7vw, 3rem)', fontSize: 'clamp(0.82rem, 2.5vw, 0.92rem)', color: '#90a1b9', animation: 'success-fade-up 0.45s ease-out 0.36s both' }}>
+				<p style={{ marginTop: 'clamp(2rem, 7vw, 3rem)', fontSize: 'clamp(0.82rem, 2.5vw, 0.92rem)', color: UI_COLORS.ink400, animation: 'success-fade-up 0.45s ease-out 0.36s both' }}>
 					Skjemaet er tilgjengelig i prosjektmappen
 				</p>
 			</div>

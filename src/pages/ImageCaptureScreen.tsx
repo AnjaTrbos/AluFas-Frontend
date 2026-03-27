@@ -25,8 +25,8 @@ type ResolvedImageCaptureState = ImageCaptureLocationState & {
 	returnTo: string;
 };
 
-const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface100, fontFamily: APP_FONT_FAMILY } as const;
-const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line200}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
+const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface75, fontFamily: APP_FONT_FAMILY } as const;
+const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line250}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
 const topContentStyle = { maxWidth: '76rem', margin: '0 auto', padding: '1rem 1rem 1.25rem' } as const;
 const backButtonStyle = {
 	display: 'inline-flex',
@@ -71,20 +71,20 @@ const actionButtonBaseStyle = {
 const errorBoxStyle = {
 	marginTop: '1rem',
 	borderRadius: '1rem',
-	border: '2px solid #fecaca',
-	background: '#fef2f2',
+	border: `2px solid ${UI_COLORS.errorText}`,
+	background: UI_COLORS.errorBg,
 	padding: '0.9rem 1rem',
 	fontSize: 'clamp(0.9rem, 2.6vw, 0.98rem)',
 	fontWeight: 700,
-	color: '#991b1b',
+	color: UI_COLORS.errorText,
 } as const;
 const galleryBoxStyle = {
 	marginTop: '1.2rem',
 	borderRadius: '1.2rem',
-	background: UI_COLORS.surface25,
+	background: UI_COLORS.surface50,
 	minHeight: '20rem',
 	padding: 'clamp(1rem, 3vw, 1.5rem)',
-	border: `1px solid ${UI_COLORS.line200}`,
+	border: `1px solid ${UI_COLORS.line250}`,
 	display: 'flex',
 	flexDirection: 'column',
 } as const;
@@ -93,7 +93,7 @@ const emptyIconBubbleStyle = {
 	width: 'clamp(4rem, 16vw, 5.25rem)',
 	height: 'clamp(4rem, 16vw, 5.25rem)',
 	borderRadius: '999px',
-	background: '#e2e8f0',
+	background: UI_COLORS.surface75,
 	margin: '0 auto 1rem',
 	display: 'inline-flex',
 	alignItems: 'center',
@@ -102,8 +102,8 @@ const emptyIconBubbleStyle = {
 const emptyTitleStyle = { margin: '0 0 0.45rem', fontSize: 'clamp(1rem, 3vw, 1.15rem)', fontWeight: 800, color: UI_COLORS.ink900 } as const;
 const emptyDescriptionStyle = { margin: 0, fontSize: 'clamp(0.95rem, 2.8vw, 1rem)', fontWeight: 600 } as const;
 const imageGridStyle = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem' } as const;
-const cardStyle = { borderRadius: '1rem', border: '1px solid #d8e1ec', background: UI_COLORS.surface0, overflow: 'hidden', boxShadow: '0 8px 18px rgba(15, 23, 42, 0.05)' } as const;
-const imagePreviewStyle = { display: 'block', width: '100%', height: '10rem', objectFit: 'cover', background: '#e2e8f0' } as const;
+const cardStyle = { borderRadius: '1rem', border: `1px solid ${UI_COLORS.line250}`, background: UI_COLORS.surface0, overflow: 'hidden', boxShadow: '0 8px 18px rgba(15, 23, 42, 0.05)' } as const;
+const imagePreviewStyle = { display: 'block', width: '100%', height: '10rem', objectFit: 'cover', background: UI_COLORS.surface75 } as const;
 const cardBodyStyle = { padding: '0.9rem' } as const;
 const imageTitleStyle = { margin: '0 0 0.25rem', fontSize: 'clamp(0.9rem, 2.6vw, 0.98rem)', fontWeight: 800, color: UI_COLORS.ink900 } as const;
 const imageNameStyle = { margin: '0 0 0.75rem', fontSize: 'clamp(0.82rem, 2.4vw, 0.9rem)', fontWeight: 600, color: UI_COLORS.ink500, wordBreak: 'break-word' } as const;
@@ -111,8 +111,8 @@ const imageMetaRowStyle = { display: 'flex', justifyContent: 'space-between', al
 const sourceLabelStyle = { fontSize: 'clamp(0.78rem, 2.3vw, 0.85rem)', fontWeight: 700, color: UI_COLORS.ink500 } as const;
 const deleteButtonStyle = {
 	border: 'none',
-	background: '#fee2e2',
-	color: '#b91c1c',
+	background: UI_COLORS.errorBg,
+	color: UI_COLORS.errorText,
 	borderRadius: '0.8rem',
 	padding: '0.55rem',
 	cursor: 'pointer',
@@ -271,7 +271,7 @@ export default function ImageCaptureScreen() {
 						style={{
 							...actionButtonBaseStyle,
 							border: 'none',
-							background: remainingSlots === 0 ? '#94a3b8' : UI_COLORS.ink900,
+							background: remainingSlots === 0 ? UI_COLORS.ink400 : UI_COLORS.ink900,
 							color: '#ffffff',
 							cursor: remainingSlots === 0 ? 'not-allowed' : 'pointer',
 							boxShadow: '0 10px 18px rgba(15, 23, 42, 0.08)',
@@ -317,7 +317,7 @@ export default function ImageCaptureScreen() {
 					{images.length === 0 ? (
 						<div style={emptyStateWrapStyle}>
 							<div style={emptyIconBubbleStyle}>
-								<Camera width={34} height={34} color="#94a3b8" strokeWidth={2.2} />
+								<Camera width={34} height={34} color={UI_COLORS.ink400} strokeWidth={2.2} />
 							</div>
 							<h2 style={emptyTitleStyle}>Ingen bilder ennå</h2>
 							<p style={emptyDescriptionStyle}>Ta et bilde eller velg fra galleriet</p>

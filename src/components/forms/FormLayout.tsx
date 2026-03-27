@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { ArrowLeft } from 'lucide-react';
 import type { CSSProperties, ReactNode } from 'react';
+import { APP_FONT_FAMILY, UI_COLORS } from '../../styles/uiTokens';
 
 interface FormPageProps {
 	title: string;
@@ -33,13 +34,13 @@ interface ActionButtonProps {
 // Shared page shell for the checklist-style form screens.
 export const formPageStyle: CSSProperties = {
 	minHeight: '100vh',
-	background: '#f1f5f9',
-	fontFamily: 'Arial, sans-serif',
+	background: UI_COLORS.surface50,
+	fontFamily: APP_FONT_FAMILY,
 };
 
 const formHeaderShellStyle: CSSProperties = {
-	background: '#ffffff',
-	borderBottom: '1px solid #dbe4ee',
+	background: UI_COLORS.surface0,
+	borderBottom: `1px solid ${UI_COLORS.line250}`,
 	boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)',
 };
 
@@ -64,7 +65,7 @@ const backButtonStyle: CSSProperties = {
 	height: '3.1rem',
 	borderRadius: '0.95rem',
 	border: 'none',
-	background: '#0f172a',
+	background: UI_COLORS.ink900,
 	display: 'inline-flex',
 	alignItems: 'center',
 	justifyContent: 'center',
@@ -75,8 +76,8 @@ const backButtonStyle: CSSProperties = {
 const projectCardStyle: CSSProperties = {
 	marginTop: '1rem',
 	borderRadius: '1rem',
-	border: '2px solid #d8e1ec',
-	background: '#e8eef7',
+	border: `2px solid ${UI_COLORS.line250}`,
+	background: UI_COLORS.surface75,
 	padding: '1rem 1rem 1.05rem',
 };
 
@@ -90,9 +91,9 @@ export const formContentStyle: CSSProperties = {
 };
 
 export const formSectionStyle: CSSProperties = {
-	border: '2px solid #1e293b',
+	border: `2px solid ${UI_COLORS.ink800}`,
 	borderRadius: '1.1rem',
-	background: '#ffffff',
+	background: UI_COLORS.surface0,
 	padding: '1.25rem 1rem 1.05rem',
 };
 
@@ -100,7 +101,7 @@ export const formSectionTitleStyle: CSSProperties = {
 	margin: '0 0 1rem',
 	fontSize: 'clamp(1.1rem, 3vw, 1.35rem)',
 	fontWeight: 900,
-	color: '#0f172a',
+	color: UI_COLORS.ink900,
 };
 
 export const formFieldLabelStyle: CSSProperties = {
@@ -108,7 +109,7 @@ export const formFieldLabelStyle: CSSProperties = {
 	marginBottom: '0.65rem',
 	fontSize: 'clamp(1rem, 2.8vw, 1.15rem)',
 	fontWeight: 800,
-	color: '#0f172a',
+	color: UI_COLORS.ink900,
 };
 
 export const formFieldStyle: CSSProperties = {
@@ -119,14 +120,14 @@ export const formInputStyle: CSSProperties = {
 	width: '100%',
 	minHeight: '3.35rem',
 	borderRadius: '1rem',
-	border: '2px solid #d8e1ec',
+	border: `2px solid ${UI_COLORS.line250}`,
 	padding: '0 1.1rem',
 	fontSize: 'clamp(1rem, 2.5vw, 1.12rem)',
 	fontWeight: 700,
-	color: '#0f172a',
-	background: '#ffffff',
+	color: UI_COLORS.ink900,
+	background: UI_COLORS.surface0,
 	boxSizing: 'border-box',
-	fontFamily: 'Arial, sans-serif',
+	fontFamily: APP_FONT_FAMILY,
 };
 
 export const formTextAreaStyle: CSSProperties = {
@@ -143,8 +144,8 @@ export function getActionButtonStyle(variant: 'primary' | 'dark' = 'primary'): C
 		minHeight: '4rem',
 		borderRadius: '1rem',
 		border: 'none',
-		background: variant === 'primary' ? '#1e3a8a' : '#111827',
-		color: '#ffffff',
+		background: variant === 'primary' ? UI_COLORS.statusChecked : UI_COLORS.ink900,
+		color: UI_COLORS.surface0,
 		fontSize: 'clamp(1.05rem, 3vw, 1.3rem)',
 		fontWeight: 900,
 		cursor: 'pointer',
@@ -166,11 +167,11 @@ export function FormPage({ title, subtitle, onBack, projectNumber, projectName, 
 								<ArrowLeft width={24} height={24} color="#ffffff" strokeWidth={2.6} />
 							</button>
 							<div>
-								<h1 style={{ margin: 0, fontSize: 'clamp(1.6rem, 4vw, 2rem)', fontWeight: 900, color: '#0f172a', lineHeight: 1.05 }}>
+								<h1 style={{ margin: 0, fontSize: 'clamp(1.6rem, 4vw, 2rem)', fontWeight: 900, color: UI_COLORS.ink900, lineHeight: 1.05 }}>
 									{title}
 								</h1>
 								{subtitle ? (
-									<p style={{ margin: '0.2rem 0 0', fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: '#64748b' }}>
+									<p style={{ margin: '0.2rem 0 0', fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: UI_COLORS.ink500 }}>
 										{subtitle}
 									</p>
 								) : null}
@@ -179,14 +180,14 @@ export function FormPage({ title, subtitle, onBack, projectNumber, projectName, 
 
 						{projectNumber || projectName ? (
 							<div style={projectCardStyle}>
-								<p style={{ margin: '0 0 0.25rem', fontSize: '1rem', fontWeight: 800, color: '#0f172a' }}>{projectLabel}</p>
+								<p style={{ margin: '0 0 0.25rem', fontSize: '1rem', fontWeight: 800, color: UI_COLORS.ink900 }}>{projectLabel}</p>
 								{projectNumber ? (
-									<p style={{ margin: '0 0 0.45rem', fontSize: 'clamp(1.2rem, 3.5vw, 1.6rem)', fontWeight: 900, color: '#0f172a' }}>
+									<p style={{ margin: '0 0 0.45rem', fontSize: 'clamp(1.2rem, 3.5vw, 1.6rem)', fontWeight: 900, color: UI_COLORS.ink900 }}>
 										{projectNumber}
 									</p>
 								) : null}
 								{projectName ? (
-									<p style={{ margin: 0, fontSize: 'clamp(1.05rem, 3vw, 1.3rem)', fontWeight: 700, color: '#0f172a' }}>{projectName}</p>
+									<p style={{ margin: 0, fontSize: 'clamp(1.05rem, 3vw, 1.3rem)', fontWeight: 700, color: UI_COLORS.ink900 }}>{projectName}</p>
 								) : null}
 							</div>
 						) : null}

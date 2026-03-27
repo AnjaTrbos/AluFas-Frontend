@@ -14,6 +14,7 @@ import type { ProjectRouteState } from '../types/navigation';
 // Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { UI_COLORS } from '../styles/uiTokens';
 
 // Props for reusable checkbox section
 interface CheckBlockProps {
@@ -36,7 +37,7 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 				{options.map((option) => {
 					const checked = selectedValue === option;
 					const isNegativeChoice = option.toLowerCase().includes('avvik') || option.toLowerCase().includes('annet');
-					const activeBackground = isNegativeChoice ? '#ef4444' : '#0b1737';
+					const activeBackground = isNegativeChoice ? UI_COLORS.statusError : UI_COLORS.ink900;
 
 					return (
 						<button
@@ -49,8 +50,8 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 								gap: '0.8rem',
 								width: '100%',
 								borderRadius: '0.95rem',
-								border: checked ? '2px solid #ffffff' : '2px solid #d8e1ec',
-								background: checked ? activeBackground : '#ffffff',
+						border: checked ? `2px solid ${UI_COLORS.surface0}` : `2px solid ${UI_COLORS.line250}`,
+						background: checked ? activeBackground : UI_COLORS.surface0,
 								padding: '0.85rem 0.9rem',
 								cursor: 'pointer',
 								textAlign: 'left',
@@ -62,18 +63,18 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 									width: '1.45rem',
 									height: '1.45rem',
 									borderRadius: '50%',
-									border: checked ? '3px solid #ffffff' : '2px solid #b7c4d6',
-									background: checked ? activeBackground : '#ffffff',
+							border: checked ? `3px solid ${UI_COLORS.surface0}` : `2px solid ${UI_COLORS.line300}`,
+							background: checked ? activeBackground : UI_COLORS.surface0,
 									display: 'inline-flex',
 									alignItems: 'center',
 									justifyContent: 'center',
 									flexShrink: 0,
 								}}
 							>
-								{checked ? <span style={{ width: '0.45rem', height: '0.45rem', borderRadius: '50%', background: '#ffffff' }} /> : null}
+								{checked ? <span style={{ width: '0.45rem', height: '0.45rem', borderRadius: '50%', background: UI_COLORS.surface0 }} /> : null}
 							</span>
 							{/* Option text */}
-							<span style={{ fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 800, color: checked ? '#ffffff' : '#0f172a' }}>{option}</span>
+							<span style={{ fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 800, color: checked ? UI_COLORS.surface0 : UI_COLORS.ink900 }}>{option}</span>
 						</button>
 					);
 				})}

@@ -54,7 +54,7 @@ const DOC_TYPES: DocItem[] = [
 ];
 
 const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface50 } as const;
-const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line200}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
+const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line250}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
 const maxContentStyle = { maxWidth: '42rem', margin: '0 auto', padding: '0 1rem' } as const;
 const topBackWrapStyle = { paddingTop: '1.1rem', paddingBottom: '1.1rem' } as const;
 const backButtonStyle = {
@@ -84,7 +84,7 @@ const projectTitleStyle = { fontSize: 'clamp(2rem, 6vw, 3rem)', fontWeight: 900,
 const bodyWrapStyle = { maxWidth: '42rem', margin: '0 auto', padding: '1.2rem 1rem 0' } as const;
 const headingStyle = { fontSize: 'clamp(1.35rem, 4vw, 1.75rem)', fontWeight: 900, color: UI_COLORS.ink900, margin: '0 0 1rem' } as const;
 const searchWrapStyle = { position: 'relative', marginBottom: '1.1rem' } as const;
-const searchIconStyle = { position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' } as const;
+const searchIconStyle = { position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: UI_COLORS.ink400 } as const;
 const searchInputStyle = {
 	width: '100%',
 	height: 'clamp(3.3rem, 8vw, 3.9rem)',
@@ -131,19 +131,19 @@ const childButtonStyle = {
 	boxSizing: 'border-box',
 	boxShadow: '0 1px 0 rgba(148, 163, 184, 0.1)',
 } as const;
-const childIconStyle = { width: 'clamp(2.45rem, 7vw, 3rem)', height: 'clamp(2.45rem, 7vw, 3rem)', borderRadius: '0.625rem', display: 'grid', placeItems: 'center', flexShrink: 0, background: '#e2e8f0' } as const;
-const childLabelStyle = { flex: 1, fontSize: 'clamp(1rem, 3vw, 1.24rem)', fontWeight: 800, color: '#334155', fontFamily: APP_FONT_FAMILY } as const;
+const childIconStyle = { width: 'clamp(2.45rem, 7vw, 3rem)', height: 'clamp(2.45rem, 7vw, 3rem)', borderRadius: '0.625rem', display: 'grid', placeItems: 'center', flexShrink: 0, background: UI_COLORS.surface75 } as const;
+const childLabelStyle = { flex: 1, fontSize: 'clamp(1rem, 3vw, 1.24rem)', fontWeight: 800, color: UI_COLORS.ink500, fontFamily: APP_FONT_FAMILY } as const;
 const bottomSpacerStyle = { height: '2rem' } as const;
 
 function getDocIconBackground(iconBg: string) {
-	if (iconBg === 'bg-red-600') return '#dc2626';
+	if (iconBg === 'bg-red-600') return UI_COLORS.statusError;
 	if (iconBg === 'bg-slate-800') return UI_COLORS.ink800;
-	return '#16a34a';
+	return UI_COLORS.successGreenDark;
 }
 // Map logical icon names to concrete icon components
 function DocIcon({ name, small }: { name: string; small?: boolean }) {
 	const size = small ? 22 : 26;
-	const color = small ? '#475569' : '#ffffff';
+	const color = small ? UI_COLORS.ink500 : UI_COLORS.surface0;
 	const props = { width: size, height: size, color, strokeWidth: 2.2 };
 
 	switch (name) {
@@ -271,7 +271,7 @@ export default function NewDocumentScreen() {
 									}}
 									style={{
 										...parentButtonBaseStyle,
-										border: isExpanded ? '2.5px solid #0f172a' : '1.5px solid #cbd5e1',
+										border: isExpanded ? `2.5px solid ${UI_COLORS.ink900}` : `1.5px solid ${UI_COLORS.line300}`,
 									}}
 								>
 									{/* Color-coded icon background helps category recognition */}
@@ -283,7 +283,7 @@ export default function NewDocumentScreen() {
 										{doc.label}
 									</span>
 									{/* Chevron communicates whether children are expanded */}
-									{isExpanded && hasChildren ? <ChevronDown width={22} height={22} color="#94a3b8" strokeWidth={2.5} /> : <ChevronRight width={22} height={22} color="#94a3b8" strokeWidth={2.5} />}
+									{isExpanded && hasChildren ? <ChevronDown width={22} height={22} color={UI_COLORS.ink400} strokeWidth={2.5} /> : <ChevronRight width={22} height={22} color={UI_COLORS.ink400} strokeWidth={2.5} />}
 								</button>
 
 								{hasChildren && isExpanded ? (
@@ -305,7 +305,7 @@ export default function NewDocumentScreen() {
 												<span style={childLabelStyle}>
 													{child.label}
 												</span>
-												<ChevronRight width={20} height={20} color="#94a3b8" strokeWidth={2.5} />
+												<ChevronRight width={20} height={20} color={UI_COLORS.ink400} strokeWidth={2.5} />
 											</button>
 										))}
 									</div>

@@ -13,6 +13,7 @@ import {
 // Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 import type { ProjectRouteState } from '../types/navigation';
+import { UI_COLORS } from '../styles/uiTokens';
 
 import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
 // Area options
@@ -102,8 +103,8 @@ export default function AvvikScreen() {
 									width: '100%',
 									padding: '1rem 1rem',
 									borderRadius: '1rem',
-									border: '2px solid #d8e1ec',
-									background: '#ffffff',
+								border: `2px solid ${UI_COLORS.line250}`,
+								background: UI_COLORS.surface0,
 									cursor: 'pointer',
 									textAlign: 'left',
 								}}
@@ -114,8 +115,8 @@ export default function AvvikScreen() {
 										width: '1.4rem',
 										height: '1.4rem',
 										borderRadius: '0.3rem',
-										border: checked ? '2px solid #1e3a8a' : '2px solid #cbd5e1',
-										background: checked ? '#1e3a8a' : '#ffffff',
+									border: checked ? `2px solid ${UI_COLORS.statusChecked}` : `2px solid ${UI_COLORS.line300}`,
+									background: checked ? UI_COLORS.statusChecked : UI_COLORS.surface0,
 										display: 'inline-flex',
 										alignItems: 'center',
 										justifyContent: 'center',
@@ -126,7 +127,7 @@ export default function AvvikScreen() {
 								{checked ? <Check width={13} height={13} color="#ffffff" strokeWidth={3} /> : null}
 							</span>
 							{/* Area label */}
-							<span style={{ fontSize: '1.18rem', fontWeight: 800, color: '#0f172a' }}>{option}</span>
+							<span style={{ fontSize: '1.18rem', fontWeight: 800, color: UI_COLORS.ink900 }}>{option}</span>
 							</button>
 						);
 					})}

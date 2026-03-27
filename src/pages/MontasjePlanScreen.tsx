@@ -17,6 +17,7 @@ import type { ProjectRouteState } from '../types/navigation';
 // Image draft helpers so attachments persist per form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
 import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { UI_COLORS } from '../styles/uiTokens';
 
 // Track progress milestones for installation planning
 const STATUS_OPTIONS = ['Glass mottatt', 'Profiler mottatt', 'Produksjon ferdig'];
@@ -115,8 +116,8 @@ export default function MontasjePlanScreen() {
 									gap: '0.75rem',
 									width: '100%',
 									borderRadius: '0.95rem',
-									border: '2px solid #d8e1ec',
-									background: '#ffffff',
+									border: `2px solid ${UI_COLORS.line250}`,
+									background: UI_COLORS.surface0,
 									padding: '0.85rem 0.95rem',
 									cursor: 'pointer',
 									textAlign: 'left',
@@ -128,8 +129,8 @@ export default function MontasjePlanScreen() {
 										width: '1.45rem',
 										height: '1.45rem',
 										borderRadius: '0.25rem',
-										border: checked ? '2px solid #1e3a8a' : '2px solid #b7c4d6',
-										background: checked ? '#1e3a8a' : '#ffffff',
+										border: checked ? `2px solid ${UI_COLORS.statusChecked}` : `2px solid ${UI_COLORS.line300}`,
+										background: checked ? UI_COLORS.statusChecked : UI_COLORS.surface0,
 										display: 'inline-flex',
 										alignItems: 'center',
 										justifyContent: 'center',
@@ -139,7 +140,7 @@ export default function MontasjePlanScreen() {
 									{checked ? <Check width={11} height={11} color="#ffffff" strokeWidth={3.1} /> : null}
 								</span>
 								{/* Keep status label readable and consistent across options */}
-								<span style={{ fontSize: 'clamp(0.98rem, 2.8vw, 1.05rem)', fontWeight: 800, color: '#0f172a' }}>{option}</span>
+								<span style={{ fontSize: 'clamp(0.98rem, 2.8vw, 1.05rem)', fontWeight: 800, color: UI_COLORS.ink900 }}>{option}</span>
 							</button>
 						);
 					})}
