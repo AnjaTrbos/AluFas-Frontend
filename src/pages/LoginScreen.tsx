@@ -55,14 +55,14 @@ export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps
 			{/* Centered card container for login form */}
 			<div className="flex min-h-[calc(100vh-3rem)] items-center justify-center">
 				{/* Login form card with branding and authentication */}
-				<div className="w-full max-w-[28rem] rounded-3xl border border-slate-300 bg-slate-50 px-5 py-7 shadow-xl sm:px-8 sm:py-10">
+				<div className="w-full max-w-[28rem] rounded-3xl border border-gray-200 bg-white px-5 py-7 shadow-xl sm:px-8 sm:py-10">
 					{/* Display company logo for brand recognition */}
 					<div className="flex justify-center">
 						<BrandLogo size="card" />
 					</div>
 
 					{/* Login page heading */}
-					<h1 className="mt-6 text-center text-2xl font-black text-slate-900 sm:mt-8 sm:text-3xl" style={appFontStyle}>
+					<h1 className="mt-10 text-center text-2xl font-black text-slate-900 sm:mt-12 sm:text-3xl" style={appFontStyle}>
 						{copy.title}
 					</h1>
 

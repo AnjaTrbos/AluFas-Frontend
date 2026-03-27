@@ -35,80 +35,82 @@ html {
   font-size: var(--font-size);
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-body {
-  margin: 0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  line-height: 1.5;
-  color: var(--color-text);
-  background: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0 0 0.6rem;
-  font-weight: 600;
-  line-height: 1.25;
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0 0 0.6rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
 
-p {
-  margin: 0 0 1rem;
-  color: var(--color-text);
-}
+  p {
+    margin: 0 0 1rem;
+    color: var(--color-text);
+  }
 
-label {
-  display: inline-block;
-  margin-bottom: 0.35rem;
-  font-weight: 500;
-}
+  label {
+    display: inline-block;
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
 
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: calc(var(--radius) - 2px);
-  background: var(--color-card);
-  color: var(--color-text);
-}
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius) - 2px);
+    background: var(--color-card);
+    color: var(--color-text);
+  }
 
-button {
-  cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
 
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid var(--focus-ring);
-  outline-offset: 1px;
-}
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 1px;
+  }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #111827 !important;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.18);
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #111827 !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.18);
+  }
 }
 
 .card {

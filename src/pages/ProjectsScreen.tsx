@@ -317,7 +317,7 @@ export default function ProjectsScreen() {
 									</div>
 
 									<div className="flex-1">
-										<p className="text-sm font-black uppercase tracking-wide text-blue-700 sm:text-xl">{project.projectNumber}</p>
+										<p className="text-sm font-black uppercase tracking-wide text-slate-900 sm:text-xl">{project.projectNumber}</p>
 										<h2 className="mt-1 text-xl font-black leading-tight text-slate-900 sm:text-3xl md:text-4xl">{project.name}</h2>
 										<div className="mt-2 flex items-center gap-2 text-base font-bold text-slate-700 sm:text-2xl">
 											<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
