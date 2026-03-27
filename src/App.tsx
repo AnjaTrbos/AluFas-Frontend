@@ -21,99 +21,23 @@ function ProtectedRoute({ children }: { children: ReactElement }) {
 }
 
 function App() {
+	const pr = (el: ReactElement) => <ProtectedRoute>{el}</ProtectedRoute>;
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<SplashScreen />} />
-				<Route path="/login" element={<LoginScreen onBack={() => {}} onLoginSuccess={() => {}} />} />
-				<Route
-					path="/projects"
-					element={
-						<ProtectedRoute>
-							<ProjectsScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/new-document"
-					element={
-						<ProtectedRoute>
-							<NewDocumentScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/avvik"
-					element={
-						<ProtectedRoute>
-							<AvvikScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/ks-verksted"
-					element={
-						<ProtectedRoute>
-							<KSVerkstedScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/ks-montasje"
-					element={
-						<ProtectedRoute>
-							<KSMontasjeScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/profiler-mottak"
-					element={
-						<ProtectedRoute>
-							<ProfilerMottakScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/varer-mottak"
-					element={
-						<ProtectedRoute>
-							<VarerMottakScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/glass-mottak"
-					element={
-						<ProtectedRoute>
-							<GlassMottakScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/montasje-plan"
-					element={
-						<ProtectedRoute>
-							<MontasjePlanScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/image-capture"
-					element={
-						<ProtectedRoute>
-							<ImageCaptureScreen />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/success"
-					element={
-						<ProtectedRoute>
-							<SuccessScreen />
-						</ProtectedRoute>
-					}
-				/>
+				<Route path="/login" element={<LoginScreen />} />
+				<Route path="/projects"        element={pr(<ProjectsScreen />)} />
+				<Route path="/new-document"    element={pr(<NewDocumentScreen />)} />
+				<Route path="/avvik"           element={pr(<AvvikScreen />)} />
+				<Route path="/ks-verksted"     element={pr(<KSVerkstedScreen />)} />
+				<Route path="/ks-montasje"     element={pr(<KSMontasjeScreen />)} />
+				<Route path="/profiler-mottak" element={pr(<ProfilerMottakScreen />)} />
+				<Route path="/varer-mottak"    element={pr(<VarerMottakScreen />)} />
+				<Route path="/glass-mottak"    element={pr(<GlassMottakScreen />)} />
+				<Route path="/montasje-plan"   element={pr(<MontasjePlanScreen />)} />
+				<Route path="/image-capture"   element={pr(<ImageCaptureScreen />)} />
+				<Route path="/success"         element={pr(<SuccessScreen />)} />
 				<Route path="/components-test" element={<ComponentsTestPage />} />
 			</Routes>
 		</BrowserRouter>

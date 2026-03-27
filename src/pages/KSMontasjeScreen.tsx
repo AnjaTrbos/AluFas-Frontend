@@ -1,6 +1,4 @@
-// Essential React hooks for state management and memoization
-import { useMemo, useState } from 'react';
-// Router hooks to access navigation state and navigate between screens
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // Icons for visual feedback in UI elements
 import { Check, Save, X } from 'lucide-react';
@@ -15,7 +13,7 @@ import {
 } from '../components/forms/FormLayout';import { UI_COLORS } from '../styles/uiTokens';import type { ProjectRouteState } from '../types/navigation';
 // Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { createImageCaptureState, createSuccessState, getProjectContextFromState } from '../utils/navigation';
 
 // Type definition for inspection checkpoints
 interface Kontrollpunkt {
@@ -94,9 +92,9 @@ export default function KSMontasjeScreen() {
 	// Use passed project details or fallback to defaults
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
 	const montasjeType = state?.montasjeType ?? 'Vindu montasje';
-	// Store navigation destination for returning from image capture screen
-	const { returnTo, returnState } = getReturnNavigation(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Generate unique key for image storage tied to this assembly type and project
 	const imageContextKey = createImageContextKey(`ks-montasje:${montasjeType}`, projectNumber);
 	// Count existing images to show in upload button
@@ -117,8 +115,7 @@ export default function KSMontasjeScreen() {
 	// Store notes for failed checkpoints
 	const [punktMerknader, setPunktMerknader] = useState<Record<string, string>>({});
 
-	// Generate dynamic page subtitle based on assembly type
-	const subtitle = useMemo(() => `${montasjeType} kontroll`, [montasjeType]);
+	const subtitle = `${montasjeType} kontroll`;
 
 	// Update checkpoint status and clear notes when changing selection
 	const setPunkt = (punktId: string, value: PunktState) => {
@@ -137,20 +134,13 @@ export default function KSMontasjeScreen() {
 		fontSize: 'clamp(0.95rem, 2.4vw, 1.02rem)',
 	};
 
-	// Main form container for assembly quality control
+	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
+
 	return (
 		<FormPage
 			title={`KS ${montasjeType}`}
 			subtitle={subtitle}
-			onBack={() => {
-				// Return to previous screen using stored navigation path
-				if (returnTo) {
-					navigate(returnTo, { state: returnState });
-					return;
-				}
-
-				navigate(-1);
-			}}
+			onBack={handleBack}
 			projectNumber={projectNumber}
 			projectName={projectName}
 		>

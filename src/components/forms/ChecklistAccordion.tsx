@@ -46,8 +46,7 @@ const stepBadgeStyle = {
 } as const;
 const stepTitleStyle = { fontSize: 'clamp(1rem, 3vw, 1.35rem)', fontWeight: 900, color: UI_COLORS.ink900, textAlign: 'left' } as const;
 const expandedPanelStyle = { marginTop: '0.55rem', borderRadius: '1rem', border: `1.5px solid ${UI_COLORS.line250}`, background: UI_COLORS.surface0, padding: '1rem 1rem 1.05rem' } as const;
-const detailTextStyle = { margin: '0 0 0.5rem', fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: UI_COLORS.ink900 } as const;
-const detailTextLastStyle = { margin: '0 0 1rem', fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: UI_COLORS.ink900 } as const;
+const detailTextBase = { fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: UI_COLORS.ink900 } as const;
 const detailLabelStyle = { fontWeight: 900 } as const;
 const resultHeadingStyle = { margin: '0 0 0.65rem', fontSize: 'clamp(1.1rem, 3vw, 1.35rem)', fontWeight: 900, color: UI_COLORS.ink900 } as const;
 const resultListStyle = { display: 'flex', flexDirection: 'column', gap: '0.65rem' } as const;
@@ -81,10 +80,10 @@ export default function ChecklistAccordion({
 
 						{isExpanded ? (
 							<div style={expandedPanelStyle}>
-								<p style={detailTextStyle}>
+								<p style={{ ...detailTextBase, margin: '0 0 0.5rem' }}>
 									<span style={detailLabelStyle}>Kontrolleres mot:</span> {step.kontrolleresMot}
 								</p>
-								<p style={detailTextLastStyle}>
+								<p style={{ ...detailTextBase, margin: '0 0 1rem' }}>
 									<span style={detailLabelStyle}>Testprosedyre:</span> {step.testprosedyre}
 								</p>
 								<h3 style={resultHeadingStyle}>Resultat</h3>

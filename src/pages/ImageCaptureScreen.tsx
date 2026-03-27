@@ -1,10 +1,10 @@
 // Essential React and routing dependencies
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Camera, ImagePlus, Trash2 } from 'lucide-react';
+import type { ImageCaptureRouteState } from '../types/navigation';
 import {
 	MAX_IMAGE_UPLOADS,
-	type ImageCaptureLocationState,
 	type ImageDraft,
 	fileToDataUrl,
 	loadImageDrafts,
@@ -13,13 +13,13 @@ import {
 import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 
 // Fallback state if user navigates directly without context
-const defaultState: ImageCaptureLocationState = {
+const defaultState: ImageCaptureRouteState = {
 	contextKey: 'generic',
 	contextTitle: 'Skjema',
 	returnTo: '/projects',
 };
 
-type ResolvedImageCaptureState = ImageCaptureLocationState & {
+type ResolvedImageCaptureState = ImageCaptureRouteState & {
 	contextKey: string;
 	contextTitle: string;
 	returnTo: string;
@@ -137,7 +137,7 @@ function createDraft(file: File, dataUrl: string, source: 'camera' | 'gallery'):
 export default function ImageCaptureScreen() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const incomingState = (location.state as ImageCaptureLocationState | null) ?? null;
+	const incomingState = (location.state as ImageCaptureRouteState | null) ?? null;
 	const state: ResolvedImageCaptureState = {
 		...defaultState,
 		...incomingState,
@@ -161,7 +161,7 @@ export default function ImageCaptureScreen() {
 
 	// Show progress on max upload limit
 	const remainingSlots = MAX_IMAGE_UPLOADS - images.length;
-	const subtitle = useMemo(() => `${images.length} av ${MAX_IMAGE_UPLOADS} bilder`, [images.length]);
+	const subtitle = `${images.length} av ${MAX_IMAGE_UPLOADS} bilder`;
 
 	// Ensure drafts persist across navigation
 	const persistImages = (nextImages: ImageDraft[]) => {

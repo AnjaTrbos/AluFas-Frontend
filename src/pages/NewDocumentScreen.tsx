@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 import type { ProjectRouteState } from '../types/navigation';
-import { createReturnNavigation, getProjectContextFromState } from '../utils/navigation';
+import { getProjectContextFromState } from '../utils/navigation';
 
 // Shared shape for document entries and nested sub-types
 interface DocItem {
@@ -158,13 +158,12 @@ function DocIcon({ name, small }: { name: string; small?: boolean }) {
 		case 'dor':
 			return <DoorOpen {...props} />;
 		case 'glass-small':
+		case 'glass':
 			return <AppWindow {...props} />;
 		case 'varer':
 			return <Package {...props} />;
 		case 'profiler':
 			return <Truck {...props} />;
-		case 'glass':
-			return <AppWindow {...props} />;
 		case 'plan':
 			return <Box {...props} />;
 		default:
@@ -183,9 +182,8 @@ export default function NewDocumentScreen() {
 	// Keep search query local for instant filtering
 	const [search, setSearch] = useState('');
 
-	// Use incoming project values or fallback placeholders
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Reuse a shared payload so downstream forms retain project context
 	const projectState = {
 		projectNumber,

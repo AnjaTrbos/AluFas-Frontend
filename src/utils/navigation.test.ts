@@ -1,10 +1,8 @@
 import {
 	FALLBACK_PROJECT_CONTEXT,
 	createImageCaptureState,
-	createReturnNavigation,
 	createSuccessState,
 	getProjectContextFromState,
-	getReturnNavigation,
 } from './navigation';
 import { describe, expect, it } from 'vitest';
 
@@ -35,22 +33,6 @@ describe('navigation helpers', () => {
 				projectName: 'Custom Project',
 				projectAddress: 'Main Street 1',
 				manualProjectEntry: false,
-			});
-		});
-	});
-
-	describe('return navigation helpers', () => {
-		it('creates return navigation payload from pathname and route state', () => {
-			expect(createReturnNavigation('/form', { foo: 'bar' })).toEqual({
-				returnTo: '/form',
-				returnState: { foo: 'bar' },
-			});
-		});
-
-		it('extracts return navigation fields from incoming state', () => {
-			expect(getReturnNavigation({ returnTo: '/back', returnState: { a: 1 } })).toEqual({
-				returnTo: '/back',
-				returnState: { a: 1 },
 			});
 		});
 	});

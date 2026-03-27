@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 // Shared project type used by the app
 import type { Project } from '../types/app';
-import { createReturnNavigation } from '../utils/navigation';
 
 // Extended project model for UI-only metadata
 type ProjectListItem = Project & {
@@ -97,27 +96,17 @@ const DUMMY_PROJECTS: ProjectListItem[] = [
 	},
 ];
 
-async function getProjectsData(): Promise<ProjectListItem[]> {
-	// Keep async signature compatible with future API fetch
-	return DUMMY_PROJECTS;
-}
-
 export default function ProjectsScreen() {
 	// Router navigation used by project cards and actions
 	const navigate = useNavigate();
 	// Keep tab, search, and filtering state local for responsive UX
 	const [activeTab, setActiveTab] = useState<ProjectTab>('active');
 	const [searchQuery, setSearchQuery] = useState('');
-	const [projects, setProjects] = useState<ProjectListItem[]>([]);
+	const projects = DUMMY_PROJECTS;
 	const [activeFilter, setActiveFilter] = useState<FilterOption>('all');
 	const [filterOpen, setFilterOpen] = useState(false);
 	// Ref allows outside-click detection for closing the dropdown
 	const dropdownRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		// Load projects once on mount
-		void getProjectsData().then(setProjects);
-	}, []);
 
 	useEffect(() => {
 		// Close filter menu when user clicks outside of it
@@ -138,10 +127,7 @@ export default function ProjectsScreen() {
 			.filter((project) => project.status === activeTab)
 			.filter((project) => (!q ? true : [project.projectNumber, project.name, project.location].some((value) => value.toLowerCase().includes(q))));
 
-		if (activeFilter === 'window') list = list.filter((project) => project.type === 'window');
-		else if (activeFilter === 'door') list = list.filter((project) => project.type === 'door');
-		else if (activeFilter === 'facade') list = list.filter((project) => project.type === 'facade');
-		else if (activeFilter === 'general') list = list.filter((project) => project.type === 'general');
+		if (['window', 'door', 'facade', 'general'].includes(activeFilter)) list = list.filter((p) => p.type === activeFilter);
 
 		if (activeFilter === 'a-z') list = [...list].sort((a, b) => a.name.localeCompare(b.name, 'no'));
 		else if (activeFilter === 'z-a') list = [...list].sort((a, b) => b.name.localeCompare(a.name, 'no'));
@@ -153,7 +139,6 @@ export default function ProjectsScreen() {
 
 	// Human-readable label for currently selected filter
 	const activeFilterLabel = FILTER_OPTIONS.find((filter) => filter.value === activeFilter)?.label ?? 'Filtrer';
-	const returnNavigation = createReturnNavigation('/projects', null);
 
 	return (
 		// Main container for project selection and quick actions
@@ -271,7 +256,8 @@ export default function ProjectsScreen() {
 						navigate('/avvik', {
 							state: {
 								manualProjectEntry: true,
-								...returnNavigation,
+								returnTo: '/projects',
+								returnState: null,
 							},
 						})
 					}

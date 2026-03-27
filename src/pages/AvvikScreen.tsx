@@ -1,5 +1,4 @@
-// Imports
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import {
@@ -15,7 +14,7 @@ import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts'
 import type { ProjectRouteState } from '../types/navigation';
 import { UI_COLORS } from '../styles/uiTokens';
 
-import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { createImageCaptureState, createSuccessState, getProjectContextFromState } from '../utils/navigation';
 // Area options
 const AREA_OPTIONS = ['Verksted', 'Kontor', 'Montasje'];
 
@@ -26,8 +25,9 @@ export default function AvvikScreen() {
 	const location = useLocation();
 	const state = (location.state as ProjectRouteState | null) ?? null;
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
-	const { returnTo, returnState } = getReturnNavigation(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Form states
 	const [projectInput, setProjectInput] = useState(manualProjectEntry ? '' : [projectNumber, projectName].filter(Boolean).join(' / '));
 	const [areas, setAreas] = useState<string[]>([]);
@@ -45,29 +45,20 @@ export default function AvvikScreen() {
 	const imageContextKey = createImageContextKey('avvik', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
 
-	// Dynamic subtitle
-	const subtitle = useMemo(
-		() => (manualProjectEntry ? 'Registrer avvik på prosjekt' : 'Inkludert HMS avvik'),
-		[manualProjectEntry],
-	);
+	const subtitle = manualProjectEntry ? 'Registrer avvik på prosjekt' : 'Inkludert HMS avvik';
 
 	// Toggle area
 	const toggleArea = (option: string) => {
 		setAreas((current) => (current.includes(option) ? current.filter((value) => value !== option) : [...current, option]));
 	};
 
+	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
+
 	return (
 		<FormPage
 			title="Avviksrapport"
 			subtitle={subtitle}
-			onBack={() => {
-				if (returnTo) {
-					navigate(returnTo, { state: returnState });
-					return;
-				}
-
-				navigate(-1);
-			}}
+			onBack={handleBack}
 			projectNumber={manualProjectEntry ? undefined : projectNumber}
 			projectName={manualProjectEntry ? undefined : projectName}
 		>

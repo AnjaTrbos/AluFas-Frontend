@@ -138,7 +138,7 @@ export const formTextAreaStyle: CSSProperties = {
 };
 
 // Keeps the main action buttons visually consistent across forms.
-export function getActionButtonStyle(variant: 'primary' | 'dark' = 'primary'): CSSProperties {
+function getActionButtonStyle(variant: 'primary' | 'dark' = 'primary'): CSSProperties {
 	return {
 		width: '100%',
 		minHeight: '4rem',

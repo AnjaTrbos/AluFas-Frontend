@@ -1,8 +1,8 @@
 import type { ImageCaptureRouteState, ProjectContext, ProjectRouteState, ReturnNavigationState, SuccessRouteState } from '../types/navigation';
 
 export const FALLBACK_PROJECT_CONTEXT: ProjectContext = {
-	projectNumber: 'AF-2024-001',
-	projectName: 'Elkjøp Hercules',
+	projectNumber: '',
+	projectName: '',
 	manualProjectEntry: false,
 };
 
@@ -19,19 +19,6 @@ export function getProjectContextFromState(state?: ProjectRouteState | null): Pr
 	};
 }
 
-export function getReturnNavigation(state?: ReturnNavigationState | null): ReturnNavigationState {
-	return {
-		returnTo: state?.returnTo,
-		returnState: state?.returnState,
-	};
-}
-
-export function createReturnNavigation(pathname: string, routeState: unknown): ReturnNavigationState {
-	return {
-		returnTo: pathname,
-		returnState: routeState,
-	};
-}
 
 export function createImageCaptureState(params: {
 	contextKey: string;

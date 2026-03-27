@@ -1,6 +1,4 @@
-// Essential React hooks for state management and memoization
-import { useMemo, useState } from 'react';
-// Router hooks to access navigation state and navigate between screens
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // Icons for visual feedback in UI elements
 import { Check, Save } from 'lucide-react';
@@ -17,7 +15,7 @@ import { UI_COLORS } from '../styles/uiTokens';
 import type { ProjectRouteState } from '../types/navigation';
 // Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { createImageCaptureState, createSuccessState, getProjectContextFromState } from '../utils/navigation';
 
 // Workshop quality control checkpoints that require verification
 const KONTROLLPUNKTER = [
@@ -47,9 +45,9 @@ export default function KSVerkstedScreen() {
 	// Extract navigation state with fallback to null
 	const state = (location.state as ProjectRouteState | null) ?? null;
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
-	// Store navigation destination for returning to previous screen
-	const { returnTo, returnState } = getReturnNavigation(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Generate unique key for image storage tied to this workshop form and project
 	const imageContextKey = createImageContextKey('ks-verksted', projectNumber);
 	// Count existing images to show in upload button
@@ -70,16 +68,12 @@ export default function KSVerkstedScreen() {
 	// Store additional observations and remarks
 	const [generelleNotater, setGenerelleNotater] = useState('');
 
-	// Generate dynamic page subtitle
-	const subtitle = useMemo(() => 'Kvalitetsskjema for verkstedproduksjon', []);
-	// Count how many checkpoints have been verified
+	const subtitle = 'Kvalitetsskjema for verkstedproduksjon';
 	const fremdrift = checked.length;
-	// Total number of checkpoints to complete
 	const total = KONTROLLPUNKTER.length;
-	// Calculate percentage progress for visual bar
 	const progress = (fremdrift / total) * 100;
+	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
 
-	// Toggle checkpoint verification state
 	const toggleCheck = (item: string) => {
 		setChecked((prev) => (prev.includes(item) ? prev.filter((value) => value !== item) : [...prev, item]));
 	};
@@ -88,15 +82,7 @@ export default function KSVerkstedScreen() {
 		<FormPage
 			title="KS Verksted"
 			subtitle={subtitle}
-			onBack={() => {
-				// Return to previous screen using stored navigation path
-				if (returnTo) {
-					navigate(returnTo, { state: returnState });
-					return;
-				}
-
-				navigate(-1);
-			}}
+			onBack={handleBack}
 			projectNumber={projectNumber}
 			projectName={projectName}
 		>

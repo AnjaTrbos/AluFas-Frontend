@@ -1,5 +1,3 @@
-import type { ImageCaptureRouteState } from '../types/navigation';
-
 export const MAX_IMAGE_UPLOADS = 10;
 
 export interface ImageDraft {
@@ -9,8 +7,6 @@ export interface ImageDraft {
 	source: 'camera' | 'gallery';
 	createdAt: string;
 }
-
-export type ImageCaptureLocationState = ImageCaptureRouteState;
 
 const STORAGE_PREFIX = 'alufas:image-drafts:';
 

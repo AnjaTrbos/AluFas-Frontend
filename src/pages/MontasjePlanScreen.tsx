@@ -1,6 +1,4 @@
-// Essential React hooks for state management and memoization
-import { useMemo, useState } from 'react';
-// Router hooks to read navigation context and move between screens
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // Icons used to communicate selection and submission actions
 import { Check, Save } from 'lucide-react';
@@ -16,7 +14,7 @@ import {
 import type { ProjectRouteState } from '../types/navigation';
 // Image draft helpers so attachments persist per form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { createImageCaptureState, createSuccessState, getProjectContextFromState } from '../utils/navigation';
 import { UI_COLORS } from '../styles/uiTokens';
 
 // Track progress milestones for installation planning
@@ -31,9 +29,9 @@ export default function MontasjePlanScreen() {
 
 	// Use incoming project data or sensible defaults for standalone access
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
-	// Preserve return target when leaving this screen
-	const { returnTo, returnState } = getReturnNavigation(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Build project-specific key so image drafts stay scoped correctly
 	const imageContextKey = createImageContextKey('montasje-plan', projectNumber);
 	// Show users how many images are already attached
@@ -53,29 +51,18 @@ export default function MontasjePlanScreen() {
 	// Keep free-text notes for context not covered by fixed fields
 	const [merknad, setMerknad] = useState('');
 
-	// Stable subtitle keeps page context clear without recomputation
-	const subtitle = useMemo(() => 'Plan for montering', []);
+	const subtitle = 'Plan for montering';
+	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
 
-	// Toggle status values so users can mark/unmark milestones quickly
 	const toggleStatus = (option: string) => {
 		setStatus((current) => (current.includes(option) ? current.filter((item) => item !== option) : [...current, option]));
 	};
 
-	// Main planning form container
 	return (
 		<FormPage
 			title="Montasje Plan"
 			subtitle={subtitle}
-			onBack={() => {
-				// Prefer explicit return route when screen was opened as a sub-flow
-				if (returnTo) {
-					navigate(returnTo, { state: returnState });
-					return;
-				}
-
-				// Fallback to browser history when no route is provided
-				navigate(-1);
-			}}
+			onBack={handleBack}
 			projectNumber={projectNumber}
 			projectName={projectName}
 		>

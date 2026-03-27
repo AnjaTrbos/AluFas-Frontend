@@ -1,5 +1,5 @@
 // Imports
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Save } from 'lucide-react';
 import {
@@ -13,7 +13,7 @@ import {
 import type { ProjectRouteState } from '../types/navigation';
 // Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { createImageCaptureState, createSuccessState, getProjectContextFromState } from '../utils/navigation';
 import { UI_COLORS } from '../styles/uiTokens';
 
 // Props for reusable checkbox section
@@ -97,8 +97,9 @@ export default function GlassMottakScreen() {
 
 	// Extract project info
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
-	const { returnTo, returnState } = getReturnNavigation(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Image drafts
 	const imageContextKey = createImageContextKey('glass-mottak', projectNumber);
 	const imageCount = getImageDraftCount(imageContextKey);
@@ -113,21 +114,14 @@ export default function GlassMottakScreen() {
 	const [stativBildeResultat, setStativBildeResultat] = useState('');
 	const [stativBildeKommentar, setStativBildeKommentar] = useState('');
 
-	// Fixed subtitle
-	const subtitle = useMemo(() => 'Visuell sjekk av glass', []);
+	const subtitle = 'Visuell sjekk av glass';
+	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
 
 	return (
 		<FormPage
 			title="Glass mottak"
 			subtitle={subtitle}
-			onBack={() => {
-				if (returnTo) {
-					navigate(returnTo, { state: returnState });
-					return;
-				}
-
-				navigate(-1);
-			}}
+			onBack={handleBack}
 			projectNumber={projectNumber}
 			projectName={projectName}
 		>

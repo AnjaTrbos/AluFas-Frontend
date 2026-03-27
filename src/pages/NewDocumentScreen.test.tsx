@@ -69,7 +69,6 @@ describe('NewDocumentScreen', () => {
 
     expect(screen.getByTestId('pathname')).toHaveTextContent('/ks-montasje');
     expect(screen.getByTestId('state')).toHaveTextContent('Vindu montasje');
-    expect(screen.getByTestId('state')).toHaveTextContent('AF-2024-001');
   });
 
   it('navigates back to projects', async () => {

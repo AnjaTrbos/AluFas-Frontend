@@ -1,6 +1,4 @@
-// Essential React hooks for local form state and stable derived text
-import { useMemo, useState } from 'react';
-// Router hooks to retain flow context and navigate between screens
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // Icons used for submit affordances
 import { Save } from 'lucide-react';
@@ -16,7 +14,7 @@ import ChecklistAccordion, { type ChecklistStep } from '../components/forms/Chec
 import type { ProjectRouteState } from '../types/navigation';
 // Draft helpers keep image attachments tied to this form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { createImageCaptureState, createSuccessState, getProjectContextFromState } from '../utils/navigation';
 
 // Result categories checked per step to document received items
 const RESULTAT_OPTIONS = ['Profilene', 'Beslag og tilbehør', 'Pakninger', 'T-forbindere', 'Glass og paneler'];
@@ -38,9 +36,9 @@ export default function ProfilerMottakScreen() {
 
 	// Use provided project context or fallback placeholders
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
-	// Preserve route target for clean back navigation
-	const { returnTo, returnState } = getReturnNavigation(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Scope image drafts to this form + project so attachments do not mix
 	const imageContextKey = createImageContextKey('profiler-mottak', projectNumber);
 	// Show current attachment count on the image action button
@@ -54,8 +52,8 @@ export default function ProfilerMottakScreen() {
 	// Store checked result options per step id
 	const [resultatChecked, setResultatChecked] = useState<Record<number, string[]>>({});
 
-	// Stable subtitle clarifies which control procedure this screen follows
-	const subtitle = useMemo(() => 'S.02 Kontroll av innkommende materialer', []);
+	const subtitle = 'S.02 Kontroll av innkommende materialer';
+	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
 
 	// Toggle expanded state for a checklist step
 	const toggleStep = (id: number) => {
@@ -71,21 +69,11 @@ export default function ProfilerMottakScreen() {
 		});
 	};
 
-	// Main profiler mottak form container
 	return (
 		<FormPage
 			title="Profiler mottak"
 			subtitle={subtitle}
-			onBack={() => {
-				// Prefer explicit return route when the screen is opened from a sub-flow
-				if (returnTo) {
-					navigate(returnTo, { state: returnState });
-					return;
-				}
-
-				// Fallback to history navigation when no return route was passed
-				navigate(-1);
-			}}
+			onBack={handleBack}
 			projectNumber={projectNumber}
 			projectName={projectName}
 		>

@@ -7,13 +7,12 @@ import BrandLogo from '../components/BrandLogo';
 import { APP_FONT_FAMILY } from '../styles/uiTokens';
 // Auth utility used to guard direct access to documentation flow
 import { isAuthenticated } from '../utils/auth';
+import type { Language } from '../types/app';
 
 // Persistent storage keys for theme and language preferences
 const THEME_STORAGE_KEY = 'app-theme';
 const LANGUAGE_STORAGE_KEY = 'app-language';
 const pageFontStyle = { fontFamily: APP_FONT_FAMILY } as const;
-
-type Language = 'no' | 'en';
 
 // Initialize theme from saved preference, with system fallback for first visit
 function getInitialTheme() {

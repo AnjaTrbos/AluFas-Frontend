@@ -4,7 +4,6 @@ import { Check, FileText, Home } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 import type { SuccessRouteState } from '../types/navigation';
-import { getProjectContextFromState } from '../utils/navigation';
 
 const pageStyle = {
 	minHeight: '100vh',
@@ -45,8 +44,8 @@ export default function SuccessScreen() {
 	// Safely resolve optional route state
 	const state = (location.state as SuccessRouteState | null) ?? null;
 
-	// Fallback values keep the screen usable when opened directly
-	const { projectNumber, projectName } = getProjectContextFromState(state);
+	const projectNumber = state?.projectNumber ?? '';
+	const projectName = state?.projectName ?? '';
 	const formTitle = state?.formTitle ?? 'Skjema';
 
 	// Full-screen success confirmation with clear next actions

@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 // Brand logo component for visual identity
 import BrandLogo from '../components/BrandLogo';
 import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
-// Type definition for component props
-import type { LoginScreenProps } from '../types/app';
 // Authentication state management utility
 import { setAuthenticated } from '../utils/auth';
 
@@ -14,29 +12,16 @@ const helperTextStyle = { color: UI_COLORS.ink400, fontFamily: APP_FONT_FAMILY }
 const iconTileColors = ['#f25022', '#7fba00', '#00a4ef', '#ffb900'] as const;
 
 // Primary authentication screen for user login via Microsoft
-export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps) {
+export default function LoginScreen() {
 	// Access router navigation for redirecting to other screens
 	const navigate = useNavigate();
 
-	// Localized UI text strings for login form
-	const copy = {
-		title: 'Innlogging',
-		loginButton: 'Logg inn med Microsoft',
-		helper: 'Logg inn med din @aluminiumfasader.no-konto for å fortsette.',
-	};
-
-	// Authenticate user and navigate to main projects screen
 	const handleMicrosoftLogin = () => {
 		setAuthenticated(true);
-		onLoginSuccess();
 		navigate('/projects');
 	};
 
-	// Return to splash screen and reset navigation
-	const handleBack = () => {
-		onBack();
-		navigate('/');
-	};
+	const handleBack = () => navigate('/');
 
 	return (
 		<div className="app-font relative min-h-screen bg-white px-4 py-6 sm:px-6 sm:py-8" style={appFontStyle}>
@@ -63,7 +48,7 @@ export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps
 
 					{/* Login page heading */}
 					<h1 className="mt-10 text-center text-2xl font-black text-slate-900 sm:mt-12 sm:text-3xl" style={appFontStyle}>
-						{copy.title}
+						Innlogging
 					</h1>
 
 					{/* Microsoft authentication button with brand colors */}
@@ -80,12 +65,12 @@ export default function LoginScreen({ onBack, onLoginSuccess }: LoginScreenProps
 							<span style={{ background: iconTileColors[3] }} />
 						</span>
 						{/* Button text for login action */}
-						<span>{copy.loginButton}</span>
+						<span>Logg inn med Microsoft</span>
 					</button>
 
 					{/* Helper text explaining login requirement */}
 					<p className="mt-6 text-center text-sm leading-relaxed sm:mt-8 sm:text-base" style={{ ...helperTextStyle, color: UI_COLORS.ink500 }}>
-						{copy.helper}
+						Logg inn med din @aluminiumfasader.no-konto for å fortsette.
 					</p>
 				</div>
 			</div>

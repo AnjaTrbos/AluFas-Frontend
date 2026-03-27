@@ -1,6 +1,4 @@
-// Essential React hooks for local form state and stable derived text
-import { useMemo, useState } from 'react';
-// Router hooks to keep navigation context across flows
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // Icons used for submit action
 import { Save } from 'lucide-react';
@@ -16,7 +14,7 @@ import ChecklistAccordion, { type ChecklistStep } from '../components/forms/Chec
 import type { ProjectRouteState } from '../types/navigation';
 // Draft helpers keep image attachments scoped to this form context
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
-import { createImageCaptureState, createReturnNavigation, createSuccessState, getProjectContextFromState, getReturnNavigation } from '../utils/navigation';
+import { createImageCaptureState, createSuccessState, getProjectContextFromState } from '../utils/navigation';
 
 // Reusable result tags recorded per checklist step
 const RESULTAT_OPTIONS = ['Profilene', 'Beslag og tilbehør', 'Pakninger', 'T-forbindere', 'Glass og paneler'];
@@ -38,9 +36,9 @@ export default function VarerMottakScreen() {
 
 	// Use incoming project context or safe fallback placeholders
 	const { manualProjectEntry, projectNumber, projectName } = getProjectContextFromState(state);
-	// Preserve explicit return path when this screen is nested in another flow
-	const { returnTo, returnState } = getReturnNavigation(state);
-	const returnNavigation = createReturnNavigation(location.pathname, location.state);
+	const returnTo = state?.returnTo;
+	const returnState = state?.returnState;
+	const returnNavigation = { returnTo: location.pathname, returnState: location.state };
 	// Scope draft image storage to this form and project
 	const imageContextKey = createImageContextKey('varer-mottak', projectNumber);
 	// Show count of currently attached image drafts
@@ -54,8 +52,8 @@ export default function VarerMottakScreen() {
 	// Store selected result options per checklist step
 	const [resultatChecked, setResultatChecked] = useState<Record<number, string[]>>({});
 
-	// Stable subtitle communicates inspection procedure context
-	const subtitle = useMemo(() => 'S.02 Kontroll av innkommende materialer', []);
+	const subtitle = 'S.02 Kontroll av innkommende materialer';
+	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
 
 	// Toggle accordion expansion for a step
 	const toggleStep = (id: number) => {
@@ -71,21 +69,11 @@ export default function VarerMottakScreen() {
 		});
 	};
 
-	// Main incoming-goods control form
 	return (
 		<FormPage
 			title="Varer mottak"
 			subtitle={subtitle}
-			onBack={() => {
-				// Prefer explicit return route when available
-				if (returnTo) {
-					navigate(returnTo, { state: returnState });
-					return;
-				}
-
-				// Fallback to browser history when no route was provided
-				navigate(-1);
-			}}
+			onBack={handleBack}
 			projectNumber={projectNumber}
 			projectName={projectName}
 		>
