@@ -55,8 +55,8 @@ describe('NewDocumentScreen', () => {
 
     await user.type(screen.getByPlaceholderText(/S.k dokumenttype/i), 'Glass');
 
-    expect(screen.getByRole('button', { name: /Glass mottak/i })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /Varer mottak/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Mottak/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /KS Verksted/i })).not.toBeInTheDocument();
   });
 
   it('expands montage options and navigates with child state', async () => {
@@ -65,10 +65,10 @@ describe('NewDocumentScreen', () => {
     renderScreen();
 
     await user.click(screen.getByRole('button', { name: /KS Montasje/i }));
-    await user.click(screen.getByRole('button', { name: /Vindu montasje/i }));
+    await user.click(screen.getByRole('button', { name: /KS Vindu/i }));
 
     expect(screen.getByTestId('pathname')).toHaveTextContent('/ks-montasje');
-    expect(screen.getByTestId('state')).toHaveTextContent('Vindu montasje');
+    expect(screen.getByTestId('state')).toHaveTextContent('KS Vindu');
   });
 
   it('navigates back to projects', async () => {

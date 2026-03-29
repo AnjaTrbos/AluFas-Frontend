@@ -6,17 +6,24 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	AppWindow,
 	ArrowLeft,
+	ArrowLeftRight,
 	Box,
+	Boxes,
+	Building2,
 	ChevronDown,
 	ChevronRight,
 	ClipboardCheck,
-	DoorOpen,
+	Flame,
 	LayoutGrid,
+	Lock,
 	Package,
 	Search,
-	Truck,
+	ShieldCheck,
 	TriangleAlert,
+	Truck,
+	Warehouse,
 	Wind,
+	Wrench,
 } from 'lucide-react';
 import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 import type { ProjectRouteState } from '../types/navigation';
@@ -32,25 +39,49 @@ interface DocItem {
 	children?: DocItem[];
 }
 
-// Available document flows shown to the user
+// Available document flows — structured per the employer's hierarchy
 const DOC_TYPES: DocItem[] = [
-	{ id: 'avvik', label: 'Registrer avvik', iconName: 'avvik', iconBg: 'bg-red-600', route: '/avvik' },
-	{ id: 'ks-verksted', label: 'KS Verksted', iconName: 'verksted', iconBg: 'bg-red-600', route: '/ks-verksted' },
+	{ id: 'avvik', label: 'Registrer avvik', iconName: 'avvik', iconBg: 'red', route: '/avvik' },
+	{
+		id: 'ks-verksted',
+		label: 'KS Verksted',
+		iconName: 'verksted',
+		iconBg: 'blue',
+		children: [
+			{ id: 'ks-fasade-v', label: 'KS Fasade', iconName: 'fasade', iconBg: '' },
+			{ id: 'ks-fastkammer', label: 'KS Fastkammer', iconName: 'fastkammer', iconBg: '' },
+			{ id: 'ks-vindu-dor-v', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-verksted' },
+			{ id: 'ks-skyv-folde-v', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '' },
+			{ id: 'ks-brann-v', label: 'KS Brann produkter', iconName: 'brann', iconBg: '' },
+		],
+	},
 	{
 		id: 'ks-montasje',
 		label: 'KS Montasje',
 		iconName: 'montasje',
-		iconBg: 'bg-red-600',
+		iconBg: 'navy',
 		children: [
-			{ id: 'vindu-montasje', label: 'Vindu montasje', iconName: 'vindu', iconBg: 'bg-slate-200', route: '/ks-montasje' },
-			{ id: 'dor-montasje', label: 'Dørmontasje', iconName: 'dor', iconBg: 'bg-slate-200', route: '/ks-montasje' },
-			{ id: 'glass-montasje', label: 'Glass montasje', iconName: 'glass-small', iconBg: 'bg-slate-200', route: '/ks-montasje' },
+			{ id: 'sja', label: 'SJA (Sikker jobb analyse)', iconName: 'sja', iconBg: '' },
+			{ id: 'ks-fasade-tak', label: 'KS Fasade/tak', iconName: 'fasade', iconBg: '' },
+			{ id: 'ks-vindu-dor-m', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-montasje' },
+			{ id: 'ks-skyv-folde-m', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '' },
+			{ id: 'ks-brann-m', label: 'KS Brann produkter', iconName: 'brann', iconBg: '' },
+			{ id: 'ks-sma', label: 'KS Små produkter', iconName: 'sma', iconBg: '' },
+			{ id: 'service-jobb', label: 'Service jobb', iconName: 'service', iconBg: '' },
 		],
 	},
-	{ id: 'varer-mottak', label: 'Varer mottak', iconName: 'varer', iconBg: 'bg-slate-800', route: '/varer-mottak' },
-	{ id: 'profiler-mottak', label: 'Profiler mottak', iconName: 'profiler', iconBg: 'bg-slate-800', route: '/profiler-mottak' },
-	{ id: 'glass-mottak', label: 'Glass mottak', iconName: 'glass', iconBg: 'bg-slate-800', route: '/glass-mottak' },
-	{ id: 'montasje-plan', label: 'Montasjeplan', iconName: 'plan', iconBg: 'bg-green-700', route: '/montasje-plan' },
+	{
+		id: 'mottak',
+		label: 'Mottak',
+		iconName: 'mottak',
+		iconBg: 'green',
+		children: [
+			{ id: 'varer-mottak', label: 'Varemottak', iconName: 'varer', iconBg: '', route: '/varer-mottak' },
+			{ id: 'profiler-mottak', label: 'Profilmottak', iconName: 'profiler', iconBg: '', route: '/profiler-mottak' },
+			{ id: 'glass-mottak', label: 'Glassmottak', iconName: 'glass', iconBg: '', route: '/glass-mottak' },
+		],
+	},
+	{ id: 'montasje-plan', label: 'Montasjeplan', iconName: 'plan', iconBg: 'orange', route: '/montasje-plan' },
 ];
 
 const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface50 } as const;
@@ -131,43 +162,44 @@ const childButtonStyle = {
 	boxSizing: 'border-box',
 	boxShadow: '0 1px 0 rgba(148, 163, 184, 0.1)',
 } as const;
-const childIconStyle = { width: 'clamp(2.45rem, 7vw, 3rem)', height: 'clamp(2.45rem, 7vw, 3rem)', borderRadius: '0.625rem', display: 'grid', placeItems: 'center', flexShrink: 0, background: UI_COLORS.surface75 } as const;
+const childIconStyle = { width: 'clamp(2.45rem, 7vw, 3rem)', height: 'clamp(2.45rem, 7vw, 3rem)', borderRadius: '0.625rem', display: 'grid', placeItems: 'center', flexShrink: 0 } as const;
 const childLabelStyle = { flex: 1, fontSize: 'clamp(1rem, 3vw, 1.24rem)', fontWeight: 800, color: UI_COLORS.ink500, fontFamily: BODY_FONT_FAMILY } as const;
 const bottomSpacerStyle = { height: '2rem' } as const;
 
 function getDocIconBackground(iconBg: string) {
-	if (iconBg === 'bg-red-600') return UI_COLORS.statusError;
-	if (iconBg === 'bg-slate-800') return UI_COLORS.ink800;
-	return UI_COLORS.successGreenDark;
+	switch (iconBg) {
+		case 'red': return '#dc2626';
+		case 'blue': return '#2563eb';
+		case 'navy': return '#1e3a5f';
+		case 'green': return '#16a34a';
+		case 'orange': return '#ea580c';
+		default: return UI_COLORS.ink800;
+	}
 }
 // Map logical icon names to concrete icon components
 function DocIcon({ name, small }: { name: string; small?: boolean }) {
 	const size = small ? 22 : 26;
-	const color = small ? UI_COLORS.ink500 : UI_COLORS.surface0;
+	const color = UI_COLORS.surface0;
 	const props = { width: size, height: size, color, strokeWidth: 2.2 };
 
 	switch (name) {
-		case 'avvik':
-			return <TriangleAlert {...props} />;
-		case 'verksted':
-			return <ClipboardCheck {...props} />;
-		case 'montasje':
-			return <LayoutGrid {...props} />;
-		case 'vindu':
-			return <Wind {...props} />;
-		case 'dor':
-			return <DoorOpen {...props} />;
-		case 'glass-small':
-		case 'glass':
-			return <AppWindow {...props} />;
-		case 'varer':
-			return <Package {...props} />;
-		case 'profiler':
-			return <Truck {...props} />;
-		case 'plan':
-			return <Box {...props} />;
-		default:
-			return <Box {...props} />;
+		case 'avvik': return <TriangleAlert {...props} />;
+		case 'verksted': return <ClipboardCheck {...props} />;
+		case 'montasje': return <LayoutGrid {...props} />;
+		case 'mottak': return <Warehouse {...props} />;
+		case 'vindu': return <Wind {...props} />;
+		case 'glass': return <AppWindow {...props} />;
+		case 'varer': return <Package {...props} />;
+		case 'profiler': return <Truck {...props} />;
+		case 'plan': return <Box {...props} />;
+		case 'fasade': return <Building2 {...props} />;
+		case 'fastkammer': return <Lock {...props} />;
+		case 'skyv': return <ArrowLeftRight {...props} />;
+		case 'brann': return <Flame {...props} />;
+		case 'sja': return <ShieldCheck {...props} />;
+		case 'sma': return <Boxes {...props} />;
+		case 'service': return <Wrench {...props} />;
+		default: return <Box {...props} />;
 	}
 }
 
@@ -287,25 +319,27 @@ export default function NewDocumentScreen() {
 								{hasChildren && isExpanded ? (
 									/* Child list appears only when parent row is expanded */
 									<div style={childListStyle}>
-										{doc.children!.map((child) => (
-											/* Child row passes selected montasje type into next screen */
-											<button
-												key={child.id}
-												type="button"
-												onClick={() => child.route && navigate(child.route, { state: { ...projectState, montasjeType: child.label } })}
-												style={childButtonStyle}
-											>
-													{/* Lighter icon style differentiates child from parent rows */}
-												<div style={childIconStyle}>
-													<DocIcon name={child.iconName} small />
-												</div>
-													{/* Child label and chevron keep interaction pattern consistent */}
-												<span style={childLabelStyle}>
-													{child.label}
-												</span>
-												<ChevronRight width={20} height={20} color={UI_COLORS.ink400} strokeWidth={2.5} />
-											</button>
-										))}
+										{doc.children!.map((child) => {
+											const isAvailable = !!child.route;
+											return (
+												<button
+													key={child.id}
+													type="button"
+													disabled={!isAvailable}
+													onClick={() => isAvailable && navigate(child.route!, { state: { ...projectState, montasjeType: child.label } })}
+													style={{ ...childButtonStyle, opacity: isAvailable ? 1 : 0.45, cursor: isAvailable ? 'pointer' : 'default' }}
+												>
+													<div style={{ ...childIconStyle, background: getDocIconBackground(doc.iconBg) }}>
+														<DocIcon name={child.iconName} small />
+													</div>
+													<span style={childLabelStyle}>{child.label}</span>
+													{isAvailable
+														? <ChevronRight width={20} height={20} color={UI_COLORS.ink400} strokeWidth={2.5} />
+														: <span style={{ fontSize: '0.72rem', fontWeight: 700, color: UI_COLORS.ink400, fontFamily: BODY_FONT_FAMILY, whiteSpace: 'nowrap' }}>Kommer snart</span>
+													}
+												</button>
+											);
+										})}
 									</div>
 								) : null}
 							</div>
