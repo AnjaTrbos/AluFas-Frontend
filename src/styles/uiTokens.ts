@@ -1,5 +1,5 @@
 export const APP_FONT_FAMILY = 'Arial, sans-serif';
-export const BODY_FONT_FAMILY = "'Roboto', Arial, sans-serif";
+export const BODY_FONT_FAMILY = "'Roboto Mono', monospace";
 
 export const UI_COLORS = {
 	// Ink scale (text / dark UI)

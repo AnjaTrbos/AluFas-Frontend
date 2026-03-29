@@ -55,7 +55,7 @@ const DOC_TYPES: DocItem[] = [
 
 const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface50 } as const;
 const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line250}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
-const maxContentStyle = { maxWidth: '42rem', margin: '0 auto', padding: '0 1rem' } as const;
+const maxContentStyle = { maxWidth: '48rem', margin: '0 auto', padding: '0 1rem' } as const;
 const topBackWrapStyle = { paddingTop: '1.1rem', paddingBottom: '1.1rem' } as const;
 const backButtonStyle = {
 	display: 'inline-flex',
@@ -81,7 +81,7 @@ const backLabelStyle = { fontSize: 'clamp(1rem, 2.6vw, 1.35rem)', fontWeight: 80
 const projectHeaderStyle = { paddingBottom: '1.5rem' } as const;
 const projectNumberStyle = { fontSize: '0.82rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: UI_COLORS.ink900, marginBottom: '0.45rem' } as const;
 const projectTitleStyle = { fontSize: 'clamp(2rem, 6vw, 3rem)', fontWeight: 900, color: UI_COLORS.ink900, margin: 0, lineHeight: 1.05 } as const;
-const bodyWrapStyle = { maxWidth: '42rem', margin: '0 auto', padding: '1.2rem 1rem 0' } as const;
+const bodyWrapStyle = { maxWidth: '48rem', margin: '0 auto', padding: '1.2rem 1rem 0' } as const;
 const headingStyle = { fontSize: 'clamp(1.35rem, 4vw, 1.75rem)', fontWeight: 900, color: UI_COLORS.ink900, margin: '0 0 1rem' } as const;
 const searchWrapStyle = { position: 'relative', marginBottom: '1.1rem' } as const;
 const searchIconStyle = { position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: UI_COLORS.ink400 } as const;

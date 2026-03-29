@@ -128,7 +128,7 @@ export const formInputStyle: CSSProperties = {
 	color: UI_COLORS.ink900,
 	background: UI_COLORS.surface0,
 	boxSizing: 'border-box',
-	fontFamily: APP_FONT_FAMILY,
+	fontFamily: BODY_FONT_FAMILY,
 };
 
 export const formTextAreaStyle: CSSProperties = {

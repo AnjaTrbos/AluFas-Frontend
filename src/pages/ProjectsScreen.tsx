@@ -16,6 +16,7 @@ import {
 	TriangleAlert,
 	Zap,
 } from 'lucide-react';
+import { BODY_FONT_FAMILY } from '../styles/uiTokens';
 // Shared project type used by the app
 import type { Project } from '../types/app';
 
@@ -175,7 +176,7 @@ export default function ProjectsScreen() {
 							placeholder="Søk prosjekter..."
 							aria-label="Søk prosjekter"
 							className="h-12 w-full rounded-2xl border border-slate-300 bg-white pr-4 text-lg font-bold text-slate-800 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-slate-300 sm:h-14 sm:text-2xl"
-							style={{ paddingLeft: '3.25rem' }}
+							style={{ paddingLeft: '3.25rem', fontFamily: BODY_FONT_FAMILY }}
 						/>
 					</div>
 
@@ -303,13 +304,13 @@ export default function ProjectsScreen() {
 									</div>
 
 									<div className="flex-1">
-										<p className="text-sm font-black uppercase tracking-wide text-slate-900 sm:text-xl">{project.projectNumber}</p>
+										<p className="text-sm font-black uppercase tracking-wide text-slate-900 sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>{project.projectNumber}</p>
 										<h2 className="mt-1 text-xl font-black leading-tight text-slate-900 sm:text-3xl md:text-4xl">{project.name}</h2>
 										<div className="mt-2 flex items-center gap-2 text-base font-bold text-slate-700 sm:text-2xl">
 											<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
 											<span>{project.location}</span>
 										</div>
-										<div className="mt-1 flex items-center gap-2 text-sm font-bold text-slate-500 sm:text-xl">
+										<div className="mt-1 flex items-center gap-2 text-sm font-bold text-slate-500 sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>
 											<CalendarDays className="h-4 w-4 sm:h-5 sm:w-5" />
 											<span>{project.lastUpdated}</span>
 										</div>
