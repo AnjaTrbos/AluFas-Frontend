@@ -2,13 +2,13 @@
 import { useNavigate } from 'react-router-dom';
 // Brand logo component for visual identity
 import BrandLogo from '../components/BrandLogo';
-import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
+import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 // Authentication state management utility
 import { setAuthenticated } from '../utils/auth';
 
 const appFontStyle = { fontFamily: APP_FONT_FAMILY } as const;
 const loginButtonTextStyle = { fontSize: 'clamp(1rem, 2vw, 1.25rem)' } as const;
-const helperTextStyle = { color: UI_COLORS.ink400, fontFamily: APP_FONT_FAMILY } as const;
+const helperTextStyle = { color: UI_COLORS.ink400, fontFamily: BODY_FONT_FAMILY } as const;
 const iconTileColors = ['#f25022', '#7fba00', '#00a4ef', '#ffb900'] as const;
 
 // Primary authentication screen for user login via Microsoft

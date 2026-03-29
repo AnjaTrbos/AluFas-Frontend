@@ -10,7 +10,7 @@ import {
 	loadImageDrafts,
 	saveImageDrafts,
 } from '../utils/imageDrafts';
-import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
+import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 
 // Fallback state if user navigates directly without context
 const defaultState: ImageCaptureRouteState = {
@@ -108,7 +108,7 @@ const cardBodyStyle = { padding: '0.9rem' } as const;
 const imageTitleStyle = { margin: '0 0 0.25rem', fontSize: 'clamp(0.9rem, 2.6vw, 0.98rem)', fontWeight: 800, color: UI_COLORS.ink900 } as const;
 const imageNameStyle = { margin: '0 0 0.75rem', fontSize: 'clamp(0.82rem, 2.4vw, 0.9rem)', fontWeight: 600, color: UI_COLORS.ink500, wordBreak: 'break-word' } as const;
 const imageMetaRowStyle = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem' } as const;
-const sourceLabelStyle = { fontSize: 'clamp(0.78rem, 2.3vw, 0.85rem)', fontWeight: 700, color: UI_COLORS.ink500 } as const;
+const sourceLabelStyle = { fontSize: 'clamp(0.78rem, 2.3vw, 0.85rem)', fontWeight: 700, color: UI_COLORS.ink500, fontFamily: BODY_FONT_FAMILY } as const;
 const deleteButtonStyle = {
 	border: 'none',
 	background: UI_COLORS.errorBg,

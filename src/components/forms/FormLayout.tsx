@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { ArrowLeft } from 'lucide-react';
 import type { CSSProperties, ReactNode } from 'react';
-import { APP_FONT_FAMILY, UI_COLORS } from '../../styles/uiTokens';
+import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../../styles/uiTokens';
 
 interface FormPageProps {
 	title: string;
@@ -110,6 +110,7 @@ export const formFieldLabelStyle: CSSProperties = {
 	fontSize: 'clamp(1rem, 2.8vw, 1.15rem)',
 	fontWeight: 800,
 	color: UI_COLORS.ink900,
+	fontFamily: BODY_FONT_FAMILY,
 };
 
 export const formFieldStyle: CSSProperties = {

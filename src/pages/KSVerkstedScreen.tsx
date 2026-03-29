@@ -11,7 +11,7 @@ import {
 	formInputStyle,
 	formTextAreaStyle,
 } from '../components/forms/FormLayout';
-import { UI_COLORS } from '../styles/uiTokens';
+import { BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 import type { ProjectRouteState } from '../types/navigation';
 // Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
@@ -30,12 +30,12 @@ const KONTROLLPUNKTER = [
 ];
 
 const progressHeaderStyle = { display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' } as const;
-const progressLabelStyle = { fontSize: '0.85rem', fontWeight: 800, color: UI_COLORS.ink500, letterSpacing: '0.07em', textTransform: 'uppercase' } as const;
+const progressLabelStyle = { fontSize: '0.85rem', fontWeight: 800, color: UI_COLORS.ink500, letterSpacing: '0.07em', textTransform: 'uppercase', fontFamily: BODY_FONT_FAMILY } as const;
 const progressValueStyle = { fontSize: '0.85rem', fontWeight: 800, color: UI_COLORS.ink500 } as const;
 const progressTrackStyle = { height: '0.55rem', borderRadius: '99px', background: UI_COLORS.surface75, overflow: 'hidden' } as const;
 const projectGridStyle = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))', gap: '1rem' } as const;
 const checkpointsListStyle = { display: 'flex', flexDirection: 'column', gap: '0.65rem' } as const;
-const checkpointLabelStyle = { fontSize: 'clamp(1rem, 2.6vw, 1.12rem)', fontWeight: 700 } as const;
+const checkpointLabelStyle = { fontSize: 'clamp(1rem, 2.6vw, 1.12rem)', fontWeight: 700, fontFamily: BODY_FONT_FAMILY } as const;
 
 export default function KSVerkstedScreen() {
 	// Access router navigation for redirecting to other screens

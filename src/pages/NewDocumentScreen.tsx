@@ -18,7 +18,7 @@ import {
 	TriangleAlert,
 	Wind,
 } from 'lucide-react';
-import { APP_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
+import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 import type { ProjectRouteState } from '../types/navigation';
 import { getProjectContextFromState } from '../utils/navigation';
 
@@ -115,7 +115,7 @@ const parentButtonBaseStyle = {
 	boxShadow: '0 1px 0 rgba(148, 163, 184, 0.12)',
 } as const;
 const parentIconStyle = { width: 'clamp(2.8rem, 8vw, 3.35rem)', height: 'clamp(2.8rem, 8vw, 3.35rem)', borderRadius: '0.75rem', display: 'grid', placeItems: 'center', flexShrink: 0 } as const;
-const parentLabelStyle = { flex: 1, fontSize: 'clamp(1.05rem, 3.2vw, 1.35rem)', fontWeight: 900, color: UI_COLORS.ink800, fontFamily: APP_FONT_FAMILY } as const;
+const parentLabelStyle = { flex: 1, fontSize: 'clamp(1.05rem, 3.2vw, 1.35rem)', fontWeight: 900, color: UI_COLORS.ink800, fontFamily: BODY_FONT_FAMILY } as const;
 const childListStyle = { marginLeft: 'clamp(0.75rem, 3vw, 1.5rem)', marginTop: '0.6rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' } as const;
 const childButtonStyle = {
 	display: 'flex',
@@ -132,7 +132,7 @@ const childButtonStyle = {
 	boxShadow: '0 1px 0 rgba(148, 163, 184, 0.1)',
 } as const;
 const childIconStyle = { width: 'clamp(2.45rem, 7vw, 3rem)', height: 'clamp(2.45rem, 7vw, 3rem)', borderRadius: '0.625rem', display: 'grid', placeItems: 'center', flexShrink: 0, background: UI_COLORS.surface75 } as const;
-const childLabelStyle = { flex: 1, fontSize: 'clamp(1rem, 3vw, 1.24rem)', fontWeight: 800, color: UI_COLORS.ink500, fontFamily: APP_FONT_FAMILY } as const;
+const childLabelStyle = { flex: 1, fontSize: 'clamp(1rem, 3vw, 1.24rem)', fontWeight: 800, color: UI_COLORS.ink500, fontFamily: BODY_FONT_FAMILY } as const;
 const bottomSpacerStyle = { height: '2rem' } as const;
 
 function getDocIconBackground(iconBg: string) {
