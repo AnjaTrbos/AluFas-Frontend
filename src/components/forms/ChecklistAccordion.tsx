@@ -45,7 +45,7 @@ const stepBadgeStyle = {
 	justifyContent: 'center',
 } as const;
 const stepTitleStyle = { fontSize: 'clamp(1rem, 3vw, 1.35rem)', fontWeight: 900, color: UI_COLORS.ink900, textAlign: 'left' } as const;
-const expandedPanelStyle = { marginTop: '0.55rem', borderRadius: '1rem', border: `1.5px solid ${UI_COLORS.line250}`, background: UI_COLORS.surface0, padding: '1rem 1rem 1.05rem' } as const;
+const expandedPanelStyle = { marginTop: '0.55rem', borderRadius: '1rem', border: `1.5px solid ${UI_COLORS.line300}`, background: UI_COLORS.surface0, padding: '1rem 1rem 1.05rem' } as const;
 const detailTextBase = { fontSize: 'clamp(0.95rem, 2.8vw, 1.05rem)', fontWeight: 700, color: UI_COLORS.ink900 } as const;
 const detailLabelStyle = { fontWeight: 900 } as const;
 const resultHeadingStyle = { margin: '0 0 0.65rem', fontSize: 'clamp(1.1rem, 3vw, 1.35rem)', fontWeight: 900, color: UI_COLORS.ink900 } as const;
@@ -93,7 +93,7 @@ export default function ChecklistAccordion({
 
 										return (
 											<button key={option} type="button" onClick={() => onToggleResult(step.id, option)} style={resultButtonStyle}>
-											<span style={{ ...resultIndicatorStyle, border: checked ? `2px solid ${UI_COLORS.statusChecked}` : `2px solid ${UI_COLORS.line300}`, background: checked ? UI_COLORS.statusChecked : UI_COLORS.surface0 }}>
+											<span style={{ ...resultIndicatorStyle, border: checked ? `2px solid ${UI_COLORS.accentBlue}` : `2px solid ${UI_COLORS.line300}`, background: checked ? UI_COLORS.accentBlue : UI_COLORS.surface0 }}>
 													{checked ? <Check width={12} height={12} color="#ffffff" strokeWidth={3.2} /> : null}
 												</span>
 												<span style={resultTextStyle}>{option}</span>

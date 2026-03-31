@@ -7,7 +7,7 @@ import type { SuccessRouteState } from '../types/navigation';
 
 const pageStyle = {
 	minHeight: '100vh',
-	background: UI_COLORS.surface75,
+	background: UI_COLORS.surface0,
 	fontFamily: APP_FONT_FAMILY,
 	display: 'flex',
 	justifyContent: 'center',
@@ -103,7 +103,7 @@ export default function SuccessScreen() {
 							position: 'absolute',
 							inset: 0,
 							borderRadius: '999px',
-							background: UI_COLORS.successGreenDark,
+							background: UI_COLORS.successGreen,
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',

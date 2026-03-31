@@ -96,10 +96,10 @@ export default function SplashScreen() {
 	const startButtonClassName = `w-full rounded-2xl border-2 py-4 text-lg font-black transition-all active:scale-95 sm:py-6 sm:text-2xl ${
 		isDarkMode
 			? 'border-[#bfbfbf] bg-[#0f172a] text-white hover:bg-[#404040]'
-			: 'border-[#0f172a] bg-white text-[#0f172a] hover:bg-[#f2f2f2]'
+			: 'border-[#0f172a] bg-white text-[#0f172a] hover:bg-[#ffffff]'
 	}`;
 	const loginButtonClassName = `w-full rounded-2xl py-4 text-lg font-black transition-all active:scale-95 sm:py-6 sm:text-2xl ${
-		isDarkMode ? 'bg-white text-[#0f172a] hover:bg-[#f2f2f2]' : 'bg-[#0f172a] text-white hover:bg-[#404040]'
+		isDarkMode ? 'bg-white text-[#0f172a] hover:bg-[#ffffff]' : 'bg-[#0f172a] text-white hover:bg-[#404040]'
 	}`;
 
 	return (

@@ -50,7 +50,7 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 								gap: '0.8rem',
 								width: '100%',
 								borderRadius: '0.95rem',
-						border: checked ? `2px solid ${UI_COLORS.surface0}` : `2px solid ${UI_COLORS.line250}`,
+						border: checked ? `2px solid ${UI_COLORS.surface0}` : `2px solid ${UI_COLORS.line300}`,
 						background: checked ? activeBackground : UI_COLORS.surface0,
 								padding: '0.85rem 0.9rem',
 								cursor: 'pointer',

@@ -161,7 +161,7 @@ export default function KSMontasjeScreen() {
 								key={punkt.id}
 								style={{
 									padding: '0.95rem 0.9rem',
-										borderBottom: index === KONTROLLPUNKTER.length - 1 ? 'none' : `1.5px solid ${UI_COLORS.line250}`,
+										borderBottom: index === KONTROLLPUNKTER.length - 1 ? 'none' : `1.5px solid ${UI_COLORS.line300}`,
 								}}
 							>
 								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>

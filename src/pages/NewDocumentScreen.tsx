@@ -84,8 +84,8 @@ const DOC_TYPES: DocItem[] = [
 	{ id: 'montasje-plan', label: 'Montasjeplan', iconName: 'plan', iconBg: 'orange', route: '/montasje-plan' },
 ];
 
-const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface50 } as const;
-const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line250}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
+const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface0 } as const;
+const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line300}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
 const maxContentStyle = { maxWidth: '48rem', margin: '0 auto', padding: '0 1rem' } as const;
 const topBackWrapStyle = { paddingTop: '1.1rem', paddingBottom: '1.1rem' } as const;
 const backButtonStyle = {

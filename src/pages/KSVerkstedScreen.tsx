@@ -32,7 +32,7 @@ const KONTROLLPUNKTER = [
 const progressHeaderStyle = { display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' } as const;
 const progressLabelStyle = { fontSize: '0.85rem', fontWeight: 800, color: UI_COLORS.ink500, letterSpacing: '0.07em', textTransform: 'uppercase', fontFamily: BODY_FONT_FAMILY } as const;
 const progressValueStyle = { fontSize: '0.85rem', fontWeight: 800, color: UI_COLORS.ink500 } as const;
-const progressTrackStyle = { height: '0.55rem', borderRadius: '99px', background: UI_COLORS.surface75, overflow: 'hidden' } as const;
+const progressTrackStyle = { height: '0.55rem', borderRadius: '99px', background: UI_COLORS.surface0, overflow: 'hidden' } as const;
 const projectGridStyle = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))', gap: '1rem' } as const;
 const checkpointsListStyle = { display: 'flex', flexDirection: 'column', gap: '0.65rem' } as const;
 const checkpointLabelStyle = { fontSize: 'clamp(1rem, 2.6vw, 1.12rem)', fontWeight: 700, fontFamily: BODY_FONT_FAMILY } as const;
@@ -95,7 +95,7 @@ export default function KSVerkstedScreen() {
 				</div>
 				{/* Animated progress bar showing completion status */}
 				<div style={progressTrackStyle}>
-					<div style={{ height: '100%', width: `${progress}%`, background: UI_COLORS.statusChecked, borderRadius: '99px', transition: 'width 0.3s ease' }} />
+					<div style={{ height: '100%', width: `${progress}%`, background: UI_COLORS.accentBlue, borderRadius: '99px', transition: 'width 0.3s ease' }} />
 				</div>
 			</div>
 
@@ -141,8 +141,8 @@ export default function KSVerkstedScreen() {
 									width: '100%',
 									padding: '1rem 1rem',
 									borderRadius: '1rem',
-										border: `2px solid ${isChecked ? UI_COLORS.statusChecked : UI_COLORS.line250}`,
-										background: isChecked ? UI_COLORS.checkedBgLight : UI_COLORS.surface0,
+										border: `2px solid ${isChecked ? UI_COLORS.accentBlue : UI_COLORS.line300}`,
+										background: isChecked ? UI_COLORS.surface0 : UI_COLORS.surface0,
 									cursor: 'pointer',
 									textAlign: 'left',
 									transition: 'all 0.15s ease',
@@ -154,8 +154,8 @@ export default function KSVerkstedScreen() {
 										width: '1.5rem',
 										height: '1.5rem',
 										borderRadius: '50%',
-											border: isChecked ? `2px solid ${UI_COLORS.statusChecked}` : `2px solid ${UI_COLORS.line300}`,
-											background: isChecked ? UI_COLORS.statusChecked : UI_COLORS.surface0,
+											border: isChecked ? `2px solid ${UI_COLORS.accentBlue}` : `2px solid ${UI_COLORS.line300}`,
+											background: isChecked ? UI_COLORS.accentBlue : UI_COLORS.surface0,
 										display: 'inline-flex',
 									alignItems: 'center',
 									justifyContent: 'center',
@@ -166,7 +166,7 @@ export default function KSVerkstedScreen() {
 									{isChecked ? <Check width={12} height={12} color="#ffffff" strokeWidth={3.5} /> : null}
 								</span>
 								{/* Checkpoint description text */}
-									<span style={{ ...checkpointLabelStyle, color: isChecked ? UI_COLORS.statusChecked : UI_COLORS.ink900 }}>{item}</span>
+									<span style={{ ...checkpointLabelStyle, color: isChecked ? UI_COLORS.accentBlue : UI_COLORS.ink900 }}>{item}</span>
 							</button>
 						);
 					})}

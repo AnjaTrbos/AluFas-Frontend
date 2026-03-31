@@ -143,12 +143,12 @@ export default function ProjectsScreen() {
 
 	return (
 		// Main container for project selection and quick actions
-		<div className="min-h-screen bg-[#f2f2f2] px-4 pb-5 pt-6 font-[Arial,sans-serif] sm:pb-6 sm:pt-10">
+		<div className="min-h-screen bg-[#ffffff] px-4 pb-5 pt-6 font-[Arial,sans-serif] sm:pb-6 sm:pt-10">
 			<div className="mx-auto max-w-3xl">
 				{/* BACKEND: Replace the hardcoded name with the signed-in user's display name. */}
 				<h1 className="text-3xl font-black text-[#0f172a] sm:text-4xl md:text-5xl">Velkommen, Ola Nordmann</h1>
 
-				<div className="mt-5 rounded-xl border border-[#bfbfbf] bg-[#d9d9d9] p-1">
+				<div className="mt-5 rounded-xl border border-[#bfbfbf] bg-[#bfbfbf] p-1">
 					{/* Tab switch keeps active and archived contexts separated */}
 					<div className="grid grid-cols-2 gap-1">
 						{(['active', 'closed'] as const).map((tab) => (
@@ -181,7 +181,7 @@ export default function ProjectsScreen() {
 							onClick={() => setFilterOpen((prev) => !prev)}
 							style={{ fontSize: 'clamp(1rem, 2vw, 1.1rem)', fontWeight: 700 }}
 							className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[3px] border-[#333399] px-5 transition-colors sm:h-14 sm:w-auto ${
-								activeFilter !== 'all' ? 'bg-[#0f172a] text-white' : 'bg-white text-[#333399] hover:bg-[#f2f2f2]'
+								activeFilter !== 'all' ? 'bg-[#0f172a] text-white' : 'bg-white text-[#333399] hover:bg-[#ffffff]'
 							}`}
 						>
 							<SlidersHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -210,7 +210,7 @@ export default function ProjectsScreen() {
 															setActiveFilter(option.value);
 															setFilterOpen(false);
 														}}
-													className={`flex w-full items-center gap-3 px-4 py-3 text-left text-base font-bold transition-colors hover:bg-[#f2f2f2] sm:text-lg ${
+													className={`flex w-full items-center gap-3 px-4 py-3 text-left text-base font-bold transition-colors hover:bg-[#ffffff] sm:text-lg ${
 														isActive ? 'bg-[#0f172a] text-white hover:bg-[#404040]' : 'text-[#404040]'
 														}`}
 													>
@@ -231,7 +231,7 @@ export default function ProjectsScreen() {
 												setActiveFilter('all');
 												setFilterOpen(false);
 											}}
-											className="w-full rounded-lg py-2 text-sm font-black text-[#808080] hover:bg-[#f2f2f2]"
+											className="w-full rounded-lg py-2 text-sm font-black text-[#808080] hover:bg-[#ffffff]"
 										>
 											Tilbakestill filter
 										</button>
@@ -281,7 +281,7 @@ export default function ProjectsScreen() {
 										},
 									})
 								}
-							className={`relative w-full rounded-2xl bg-white px-4 py-4 text-left shadow-sm transition hover:bg-[#f2f2f2] ${
+							className={`relative w-full rounded-2xl bg-white px-4 py-4 text-left shadow-sm transition hover:bg-[#ffffff] ${
 								project.recentlyUpdated ? 'border-[3px] border-[#0f172a]' : 'border border-[#bfbfbf]'
 								}`}
 							>

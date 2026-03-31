@@ -37,13 +37,13 @@ interface ActionButtonProps {
 // Shared page shell for the checklist-style form screens.
 const formPageStyle: CSSProperties = {
 	minHeight: '100vh',
-	background: UI_COLORS.surface50,
+	background: UI_COLORS.surface0,
 	fontFamily: APP_FONT_FAMILY,
 };
 
 const formHeaderShellStyle: CSSProperties = {
 	background: UI_COLORS.surface0,
-	borderBottom: `1px solid ${UI_COLORS.line250}`,
+	borderBottom: `1px solid ${UI_COLORS.line300}`,
 	boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)',
 };
 
@@ -79,8 +79,8 @@ const backButtonStyle: CSSProperties = {
 const projectCardStyle: CSSProperties = {
 	marginTop: '1rem',
 	borderRadius: '1rem',
-	border: `2px solid ${UI_COLORS.line250}`,
-	background: UI_COLORS.surface75,
+	border: `2px solid ${UI_COLORS.line300}`,
+	background: UI_COLORS.surface0,
 	padding: '1rem 1rem 1.05rem',
 };
 
@@ -127,7 +127,7 @@ function getActionButtonStyle(variant: 'primary' | 'dark' = 'primary'): CSSPrope
 		minHeight: '4rem',
 		borderRadius: '1rem',
 		border: 'none',
-		background: variant === 'primary' ? UI_COLORS.statusChecked : UI_COLORS.ink900,
+		background: variant === 'primary' ? UI_COLORS.accentBlue : UI_COLORS.ink900,
 		color: UI_COLORS.surface0,
 		fontSize: 'clamp(1.05rem, 3vw, 1.3rem)',
 		fontWeight: 900,

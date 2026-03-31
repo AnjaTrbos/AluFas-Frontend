@@ -24,9 +24,9 @@ export function AFButton({
       className={cn(
         'inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 text-lg font-semibold transition active:scale-[0.99]',
         variant === 'primary' && 'bg-[#0f172a] text-white shadow-sm hover:bg-[#0f172a]/90',
-        variant === 'secondary' && 'border-2 border-[#0f172a] bg-white text-[#0f172a] hover:bg-[#f2f2f2]',
+        variant === 'secondary' && 'border-2 border-[#0f172a] bg-white text-[#0f172a] hover:bg-[#ffffff]',
         variant === 'danger' && 'bg-[#993333] text-white hover:bg-[#993333]/80',
-        variant === 'ghost' && 'bg-transparent text-[#0f172a] hover:bg-[#f2f2f2]',
+        variant === 'ghost' && 'bg-transparent text-[#0f172a] hover:bg-[#ffffff]',
         fullWidth && 'w-full',
         className
       )}
@@ -52,7 +52,7 @@ export function IconTile({ icon, color = 'navy', className }: IconTileProps) {
         'flex h-12 w-12 items-center justify-center rounded-2xl',
         color === 'navy' && 'bg-[#0f172a] text-white',
         color === 'red' && 'bg-[#993333] text-white',
-        color === 'light' && 'bg-[#f2f2f2] text-[#808080]',
+        color === 'light' && 'bg-[#ffffff] text-[#808080]',
         className
       )}
     >
@@ -114,7 +114,7 @@ export function SegmentedTabs<T extends string>({
 }) {
   const resolvedTabs = (tabs ?? DEFAULT_TABS) as Array<{ value: T; label: string }>;
   return (
-    <div className="inline-flex rounded-2xl bg-[#f2f2f2] p-1">
+    <div className="inline-flex rounded-2xl bg-[#ffffff] p-1">
       {resolvedTabs.map(({ value, label }) => (
         <button
           key={value}
