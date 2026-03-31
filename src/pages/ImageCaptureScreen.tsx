@@ -295,7 +295,7 @@ export default function ImageCaptureScreen() {
 						}}
 					>
 						{/* Visual indicator for gallery action */}
-						<ImagePlus width={24} height={24} color="#335299" strokeWidth={2.5} />
+						<ImagePlus width={24} height={24} color="#0f172a" strokeWidth={2.5} />
 						Velg fra galleri
 					</button>
 				</div>

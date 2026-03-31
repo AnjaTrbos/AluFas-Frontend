@@ -23,10 +23,10 @@ export function AFButton({
     <button
       className={cn(
         'inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 text-lg font-semibold transition active:scale-[0.99]',
-        variant === 'primary' && 'bg-[#335299] text-white shadow-sm hover:bg-[#335299]/90',
-        variant === 'secondary' && 'border-2 border-[#335299] bg-white text-[#335299] hover:bg-[#ffffff]',
+        variant === 'primary' && 'bg-[#0f172a] text-white shadow-sm hover:bg-[#0f172a]/90',
+        variant === 'secondary' && 'border-2 border-[#0f172a] bg-white text-[#0f172a] hover:bg-[#ffffff]',
         variant === 'danger' && 'bg-[#993333] text-white hover:bg-[#993333]/80',
-        variant === 'ghost' && 'bg-transparent text-[#335299] hover:bg-[#ffffff]',
+        variant === 'ghost' && 'bg-transparent text-[#0f172a] hover:bg-[#ffffff]',
         fullWidth && 'w-full',
         className
       )}
@@ -50,7 +50,7 @@ export function IconTile({ icon, color = 'navy', className }: IconTileProps) {
     <div
       className={cn(
         'flex h-12 w-12 items-center justify-center rounded-2xl',
-        color === 'navy' && 'bg-[#335299] text-white',
+        color === 'navy' && 'bg-[#0f172a] text-white',
         color === 'red' && 'bg-[#993333] text-white',
         color === 'light' && 'bg-[#ffffff] text-[#808080]',
         className
@@ -122,7 +122,7 @@ export function SegmentedTabs<T extends string>({
           onClick={() => onChange?.(value)}
           className={cn(
             'rounded-xl px-4 py-2 text-sm font-semibold transition',
-            active === value ? 'bg-white text-[#335299] shadow-sm' : 'text-[#808080] hover:text-[#404040]'
+            active === value ? 'bg-white text-[#0f172a] shadow-sm' : 'text-[#808080] hover:text-[#404040]'
           )}
         >
           {label}

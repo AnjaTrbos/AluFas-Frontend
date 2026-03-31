@@ -153,7 +153,7 @@ function getDocIconBackground(iconBg: string) {
 	switch (iconBg) {
 		case 'red': return '#993333';
 		case 'blue': return '#333399';
-		case 'navy': return '#335299';
+		case 'navy': return '#0f172a';
 		case 'green': return '#3b9933';
 		case 'orange': return '#993333';
 		default: return UI_COLORS.ink800;

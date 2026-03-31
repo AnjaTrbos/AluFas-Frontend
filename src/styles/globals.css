@@ -3,7 +3,7 @@
   --radius: 10px;
 
   --color-bg: #ffffff;
-  --color-text: #335299;
+  --color-text: #0f172a;
   --color-muted: #808080;
   --color-border: #bfbfbf;
 
@@ -17,14 +17,14 @@
 }
 
 .dark {
-  --color-bg: #335299;
+  --color-bg: #0f172a;
   --color-text: #ffffff;
   --color-muted: #808080;
   --color-border: #404040;
 
   --color-card: #404040;
   --color-primary: #ffffff;
-  --color-primary-contrast: #335299;
+  --color-primary-contrast: #0f172a;
   --color-secondary: #404040;
   --color-danger: #993333;
 
@@ -108,7 +108,7 @@ html {
   input:focus,
   select:focus,
   textarea:focus {
-    border-color: #335299 !important;
+    border-color: #0f172a !important;
     outline: none;
     box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.18);
   }
