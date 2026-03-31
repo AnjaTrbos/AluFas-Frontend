@@ -35,7 +35,7 @@ interface ActionButtonProps {
 }
 
 // Shared page shell for the checklist-style form screens.
-export const formPageStyle: CSSProperties = {
+const formPageStyle: CSSProperties = {
 	minHeight: '100vh',
 	background: UI_COLORS.surface50,
 	fontFamily: APP_FONT_FAMILY,
@@ -84,7 +84,7 @@ const projectCardStyle: CSSProperties = {
 	padding: '1rem 1rem 1.05rem',
 };
 
-export const formContentStyle: CSSProperties = {
+const formContentStyle: CSSProperties = {
 	maxWidth: '76rem',
 	margin: '0 auto',
 	padding: '1.4rem 1rem 2.25rem',
@@ -93,14 +93,14 @@ export const formContentStyle: CSSProperties = {
 	gap: '1rem',
 };
 
-export const formSectionStyle: CSSProperties = {
+const formSectionStyle: CSSProperties = {
 	border: `2px solid ${UI_COLORS.ink800}`,
 	borderRadius: '1.1rem',
 	background: UI_COLORS.surface0,
 	padding: '1.25rem 1rem 1.05rem',
 };
 
-export const formSectionTitleStyle: CSSProperties = {
+const formSectionTitleStyle: CSSProperties = {
 	margin: '0 0 1rem',
 	fontSize: 'clamp(1.1rem, 3vw, 1.35rem)',
 	fontWeight: 900,
@@ -116,29 +116,8 @@ export const formFieldLabelStyle: CSSProperties = {
 	fontFamily: BODY_FONT_FAMILY,
 };
 
-export const formFieldStyle: CSSProperties = {
+const formFieldStyle: CSSProperties = {
 	marginBottom: '1.15rem',
-};
-
-export const formInputStyle: CSSProperties = {
-	width: '100%',
-	minHeight: '3.35rem',
-	borderRadius: '1rem',
-	border: `2px solid ${UI_COLORS.line250}`,
-	padding: '0 1.1rem',
-	fontSize: 'clamp(1rem, 2.5vw, 1.12rem)',
-	fontWeight: 700,
-	color: UI_COLORS.ink900,
-	background: UI_COLORS.surface0,
-	boxSizing: 'border-box',
-	fontFamily: BODY_FONT_FAMILY,
-};
-
-export const formTextAreaStyle: CSSProperties = {
-	...formInputStyle,
-	minHeight: '7rem',
-	padding: '1rem 1.1rem',
-	resize: 'vertical',
 };
 
 // Keeps the main action buttons visually consistent across forms.
