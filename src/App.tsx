@@ -5,6 +5,8 @@ import ComponentsTestPage from './pages/ComponentsTestPage';
 import GlassMottakScreen from './pages/GlassMottakScreen';
 import ImageCaptureScreen from './pages/ImageCaptureScreen';
 import KSMontasjeScreen from './pages/KSMontasjeScreen';
+import KSBrannprodukterScreen from './pages/KSBrannprodukterScreen';
+import KSSkyvOgFoldeScreen from './pages/KSSkyvOgFoldeScreen';
 import KSVerkstedScreen from './pages/KSVerkstedScreen';
 import LoginScreen from './pages/LoginScreen';
 import MontasjePlanScreen from './pages/MontasjePlanScreen';
@@ -32,6 +34,8 @@ function App() {
 				<Route path="/avvik"           element={pr(<AvvikScreen />)} />
 				<Route path="/ks-verksted"     element={pr(<KSVerkstedScreen />)} />
 				<Route path="/ks-montasje"     element={pr(<KSMontasjeScreen />)} />
+				<Route path="/ks-skyv-folde"      element={pr(<KSSkyvOgFoldeScreen />)} />
+				<Route path="/ks-brannprodukter" element={pr(<KSBrannprodukterScreen />)} />
 				<Route path="/profiler-mottak" element={pr(<ProfilerMottakScreen />)} />
 				<Route path="/varer-mottak"    element={pr(<VarerMottakScreen />)} />
 				<Route path="/glass-mottak"    element={pr(<GlassMottakScreen />)} />
