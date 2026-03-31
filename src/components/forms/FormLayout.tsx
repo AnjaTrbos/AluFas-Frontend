@@ -2,6 +2,9 @@
 import { ArrowLeft } from 'lucide-react';
 import type { CSSProperties, ReactNode } from 'react';
 import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../../styles/uiTokens';
+import { Input } from '../ui/Input';
+import { Select } from '../ui/Select';
+import { Textarea } from '../ui/Textarea';
 
 interface FormPageProps {
 	title: string;
@@ -230,3 +233,5 @@ export function FormActionButton({ children, onClick, variant = 'primary', icon 
 		</button>
 	);
 }
+
+export { Input as FormInput, Select as FormSelect, Textarea as FormTextArea };

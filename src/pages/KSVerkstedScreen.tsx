@@ -6,10 +6,10 @@ import { Check, Save } from 'lucide-react';
 import {
 	FormActionButton,
 	FormField,
+	FormInput,
 	FormPage,
 	FormSection,
-	formInputStyle,
-	formTextAreaStyle,
+	FormTextArea,
 } from '../components/forms/FormLayout';
 import { BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
 import type { ProjectRouteState } from '../types/navigation';
@@ -103,21 +103,21 @@ export default function KSVerkstedScreen() {
 			<FormSection title="Prosjektinformasjon">
 				{/* Order/project identifier for traceability */}
 				<FormField label="ORDRENUMMER *" htmlFor="ksv-ordrenummer">
-					<input id="ksv-ordrenummer" type="text" value={ordrenummer} onChange={(e) => setOrdrenummer(e.target.value)} placeholder="F.eks. AF-2024-001" style={formInputStyle} />
+					<FormInput id="ksv-ordrenummer" type="text" value={ordrenummer} onChange={(e) => setOrdrenummer(e.target.value)} placeholder="F.eks. AF-2024-001" />
 			</FormField>
 			{/* Project name for context and communication */}
 			<FormField label="PROSJEKTNAVN *" htmlFor="ksv-prosjektnavn">
-					<input id="ksv-prosjektnavn" type="text" value={prosjektnavn} onChange={(e) => setProsjektnavn(e.target.value)} placeholder="Prosjektnavn" style={formInputStyle} />
+					<FormInput id="ksv-prosjektnavn" type="text" value={prosjektnavn} onChange={(e) => setProsjektnavn(e.target.value)} placeholder="Prosjektnavn" />
 				</FormField>
 			{/* Technician info and inspection date side-by-side */}
 			<div style={projectGridStyle}>
 				{/* Record who performed the quality inspection */}
 			<FormField label="KONTROLLERT AV *" htmlFor="ksv-kontrollert-av">
-				<input id="ksv-kontrollert-av" type="text" value={kontrollertAv} onChange={(e) => setKontrollertAv(e.target.value)} placeholder="Navn" style={formInputStyle} />
+			<FormInput id="ksv-kontrollert-av" type="text" value={kontrollertAv} onChange={(e) => setKontrollertAv(e.target.value)} placeholder="Navn" />
 			</FormField>
 			{/* Record when inspection was performed */}
 			<FormField label="DATO" htmlFor="ksv-dato">
-				<input id="ksv-dato" type="text" value={dato} onChange={(e) => setDato(e.target.value)} placeholder="mm/dd/yyyy" style={formInputStyle} />
+			<FormInput id="ksv-dato" type="text" value={dato} onChange={(e) => setDato(e.target.value)} placeholder="mm/dd/yyyy" />
 					</FormField>
 				</div>
 			</FormSection>
@@ -177,11 +177,11 @@ export default function KSVerkstedScreen() {
 			<FormSection title="Merknader">
 				{/* Record any deviations found during quality inspection */}
 				<FormField label="AVVIK / KOMMENTARER" htmlFor="ksv-avvik-kommentarer">
-					<textarea id="ksv-avvik-kommentarer" value={avvikKommentarer} onChange={(e) => setAvvikKommentarer(e.target.value)} placeholder="Beskriv eventuelle avvik..." style={formTextAreaStyle} />
+					<FormTextArea id="ksv-avvik-kommentarer" value={avvikKommentarer} onChange={(e) => setAvvikKommentarer(e.target.value)} placeholder="Beskriv eventuelle avvik..." />
 			</FormField>
 			{/* Capture additional remarks and supplementary information */}
 			<FormField label="GENERELLE NOTATER" htmlFor="ksv-generelle-notater">
-					<textarea id="ksv-generelle-notater" value={generelleNotater} onChange={(e) => setGenerelleNotater(e.target.value)} placeholder="Andre merknader eller tilleggsinformasjon..." style={formTextAreaStyle} />
+					<FormTextArea id="ksv-generelle-notater" value={generelleNotater} onChange={(e) => setGenerelleNotater(e.target.value)} placeholder="Andre merknader eller tilleggsinformasjon..." />
 				</FormField>
 			</FormSection>
 
