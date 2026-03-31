@@ -180,8 +180,8 @@ export default function ProjectsScreen() {
 							type="button"
 							onClick={() => setFilterOpen((prev) => !prev)}
 							style={{ fontSize: 'clamp(1rem, 2vw, 1.1rem)', fontWeight: 700 }}
-							className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[3px] border-[#1e3a5f] px-5 transition-colors sm:h-14 sm:w-auto ${
-								activeFilter !== 'all' ? 'bg-slate-900 text-white' : 'bg-white text-[#1e3a5f] hover:bg-slate-50'
+							className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[3px] border-[#333399] px-5 transition-colors sm:h-14 sm:w-auto ${
+								activeFilter !== 'all' ? 'bg-slate-900 text-white' : 'bg-white text-[#333399] hover:bg-slate-50'
 							}`}
 						>
 							<SlidersHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />

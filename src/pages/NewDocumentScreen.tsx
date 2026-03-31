@@ -151,11 +151,11 @@ const bottomSpacerStyle = { height: '2rem' } as const;
 
 function getDocIconBackground(iconBg: string) {
 	switch (iconBg) {
-		case 'red': return '#dc2626';
-		case 'blue': return '#2563eb';
-		case 'navy': return '#1e3a5f';
-		case 'green': return '#16a34a';
-		case 'orange': return '#ea580c';
+		case 'red': return '#993333';
+		case 'blue': return '#333399';
+		case 'navy': return '#0f172a';
+		case 'green': return '#3b9933';
+		case 'orange': return '#993333';
 		default: return UI_COLORS.ink800;
 	}
 }

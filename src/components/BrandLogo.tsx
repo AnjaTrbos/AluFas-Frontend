@@ -8,7 +8,7 @@ export default function BrandLogo({ size = 'hero' }: BrandLogoProps) {
 
 	return (
 		<div
-			className={`relative overflow-hidden rounded-[1.5rem] border border-slate-800/80 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.28),_transparent_55%),linear-gradient(135deg,_#0f172a,_#111827_55%,_#1e293b)] shadow-[0_24px_60px_-24px_rgba(15,23,42,0.75)] sm:rounded-[2rem] ${
+			className={`relative overflow-hidden rounded-[1.5rem] border border-slate-800/80 bg-[radial-gradient(circle_at_top,_rgba(191,191,191,0.28),_transparent_55%),linear-gradient(135deg,_#0f172a,_#1a1a2e_55%,_#2d2d5e)] shadow-[0_24px_60px_-24px_rgba(15,23,42,0.75)] sm:rounded-[2rem] ${
 				isHero ? 'px-4 py-3 sm:px-7 sm:py-5' : 'px-4 py-3 sm:px-5 sm:py-4'
 			}`}
 		>
