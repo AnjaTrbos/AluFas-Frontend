@@ -3,7 +3,7 @@ export const BODY_FONT_FAMILY = "'Roboto Mono', monospace";
 
 export const UI_COLORS = {
 	// Ink scale (text / dark UI) — palette "black" slot = dark navy kept as-is
-	ink900: '#0f172a',     // dark navy
+	ink900: '#335299',     // dark navy
 	ink800: '#404040',     // HSL(0, 0%, 25%)
 	ink500: '#337799',     // HSL(200, 50%, 40%) — muted/info
 	ink400: '#808080',     // HSL(0, 0%, 50%)

@@ -84,22 +84,22 @@ export default function SplashScreen() {
 
 	// Theme-aware class bundles keep JSX concise and consistent
 	const pageClassName = `min-h-screen flex flex-col items-center justify-between px-4 py-8 transition-colors font-bold sm:px-6 sm:py-12 md:py-16 ${
-		isDarkMode ? 'bg-[#0f172a] text-white' : 'bg-white text-[#0f172a]'
+		isDarkMode ? 'bg-[#335299] text-white' : 'bg-white text-[#335299]'
 	}`;
 	const topButtonClassName = `flex h-12 w-12 flex-col items-center justify-center gap-0.5 rounded-full border-2 transition-colors sm:h-16 sm:w-16 ${
 		isDarkMode
-			? 'border-[#404040] bg-[#0f172a] text-[#bfbfbf] hover:border-[#808080] hover:text-white'
-			: 'border-[#bfbfbf] bg-white text-[#808080] hover:border-[#808080] hover:text-[#0f172a]'
+			? 'border-[#404040] bg-[#335299] text-[#bfbfbf] hover:border-[#808080] hover:text-white'
+			: 'border-[#bfbfbf] bg-white text-[#808080] hover:border-[#808080] hover:text-[#335299]'
 	}`;
-	const titleClassName = `text-2xl font-black sm:text-3xl ${isDarkMode ? 'text-white' : 'text-[#0f172a]'}`;
+	const titleClassName = `text-2xl font-black sm:text-3xl ${isDarkMode ? 'text-white' : 'text-[#335299]'}`;
 	const subtitleClassName = `mt-1 max-w-xs text-sm sm:max-w-md sm:text-base ${isDarkMode ? 'text-[#bfbfbf]' : 'text-[#808080]'}`;
 	const startButtonClassName = `w-full rounded-2xl border-2 py-4 text-lg font-black transition-all active:scale-95 sm:py-6 sm:text-2xl ${
 		isDarkMode
-			? 'border-[#bfbfbf] bg-[#0f172a] text-white hover:bg-[#404040]'
-			: 'border-[#0f172a] bg-white text-[#0f172a] hover:bg-[#ffffff]'
+			? 'border-[#bfbfbf] bg-[#335299] text-white hover:bg-[#404040]'
+			: 'border-[#335299] bg-white text-[#335299] hover:bg-[#ffffff]'
 	}`;
 	const loginButtonClassName = `w-full rounded-2xl py-4 text-lg font-black transition-all active:scale-95 sm:py-6 sm:text-2xl ${
-		isDarkMode ? 'bg-white text-[#0f172a] hover:bg-[#ffffff]' : 'bg-[#0f172a] text-white hover:bg-[#404040]'
+		isDarkMode ? 'bg-white text-[#335299] hover:bg-[#ffffff]' : 'bg-[#335299] text-white hover:bg-[#404040]'
 	}`;
 
 	return (

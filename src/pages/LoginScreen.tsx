@@ -29,7 +29,7 @@ export default function LoginScreen() {
 			<button
 				onClick={handleBack}
 				aria-label="Tilbake"
-				className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#0f172a] text-white transition-colors hover:bg-[#404040] sm:left-6 sm:top-6"
+				className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#335299] text-white transition-colors hover:bg-[#404040] sm:left-6 sm:top-6"
 			>
 				{/* Left arrow icon */}
 				<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -47,14 +47,14 @@ export default function LoginScreen() {
 					</div>
 
 					{/* Login page heading */}
-					<h1 className="mt-10 text-center text-2xl font-black text-[#0f172a] sm:mt-12 sm:text-3xl" style={appFontStyle}>
+					<h1 className="mt-10 text-center text-2xl font-black text-[#335299] sm:mt-12 sm:text-3xl" style={appFontStyle}>
 						Innlogging
 					</h1>
 
 					{/* Microsoft authentication button with brand colors */}
 					<button
 						onClick={handleMicrosoftLogin}
-						className="mt-12 flex w-full items-center justify-center gap-4 rounded-2xl bg-[#0f172a] px-5 py-4 font-black text-white transition-all hover:bg-[#404040] active:scale-95 sm:mt-20 sm:gap-5 sm:px-8 sm:py-6"
+						className="mt-12 flex w-full items-center justify-center gap-4 rounded-2xl bg-[#335299] px-5 py-4 font-black text-white transition-all hover:bg-[#404040] active:scale-95 sm:mt-20 sm:gap-5 sm:px-8 sm:py-6"
 						style={loginButtonTextStyle}
 					>
 						{/* Microsoft logo using brand colors */}

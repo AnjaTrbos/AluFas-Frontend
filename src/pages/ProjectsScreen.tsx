@@ -146,7 +146,7 @@ export default function ProjectsScreen() {
 		<div className="min-h-screen bg-[#ffffff] px-4 pb-5 pt-6 font-[Arial,sans-serif] sm:pb-6 sm:pt-10">
 			<div className="mx-auto max-w-3xl">
 				{/* BACKEND: Replace the hardcoded name with the signed-in user's display name. */}
-				<h1 className="text-3xl font-black text-[#0f172a] sm:text-4xl md:text-5xl">Velkommen, Ola Nordmann</h1>
+				<h1 className="text-3xl font-black text-[#335299] sm:text-4xl md:text-5xl">Velkommen, Ola Nordmann</h1>
 
 				<div className="mt-5 rounded-xl border border-[#bfbfbf] bg-[#bfbfbf] p-1">
 					{/* Tab switch keeps active and archived contexts separated */}
@@ -157,7 +157,7 @@ export default function ProjectsScreen() {
 								type="button"
 								onClick={() => setActiveTab(tab)}
 								style={{ fontSize: 'clamp(0.95rem, 2vw, 1.25rem)', fontWeight: 900 }}
-								className={`rounded-lg px-3 py-3 transition-colors sm:px-6 ${activeTab === tab ? 'bg-white text-[#0f172a] shadow-sm' : 'text-[#0f172a]/90 hover:bg-white/50'}`}
+								className={`rounded-lg px-3 py-3 transition-colors sm:px-6 ${activeTab === tab ? 'bg-white text-[#335299] shadow-sm' : 'text-[#335299]/90 hover:bg-white/50'}`}
 							>
 								{tab === 'active' ? 'Aktive prosjekter' : 'Arkiverte prosjekter'}
 							</button>
@@ -181,7 +181,7 @@ export default function ProjectsScreen() {
 							onClick={() => setFilterOpen((prev) => !prev)}
 							style={{ fontSize: 'clamp(1rem, 2vw, 1.1rem)', fontWeight: 700 }}
 							className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[3px] border-[#333399] px-5 transition-colors sm:h-14 sm:w-auto ${
-								activeFilter !== 'all' ? 'bg-[#0f172a] text-white' : 'bg-white text-[#333399] hover:bg-[#ffffff]'
+								activeFilter !== 'all' ? 'bg-[#335299] text-white' : 'bg-white text-[#333399] hover:bg-[#ffffff]'
 							}`}
 						>
 							<SlidersHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -211,7 +211,7 @@ export default function ProjectsScreen() {
 															setFilterOpen(false);
 														}}
 													className={`flex w-full items-center gap-3 px-4 py-3 text-left text-base font-bold transition-colors hover:bg-[#ffffff] sm:text-lg ${
-														isActive ? 'bg-[#0f172a] text-white hover:bg-[#404040]' : 'text-[#404040]'
+														isActive ? 'bg-[#335299] text-white hover:bg-[#404040]' : 'text-[#404040]'
 														}`}
 													>
 														{option.label}
@@ -282,24 +282,24 @@ export default function ProjectsScreen() {
 									})
 								}
 							className={`relative w-full rounded-2xl bg-white px-4 py-4 text-left shadow-sm transition hover:bg-[#ffffff] ${
-								project.recentlyUpdated ? 'border-[3px] border-[#0f172a]' : 'border border-[#bfbfbf]'
+								project.recentlyUpdated ? 'border-[3px] border-[#335299]' : 'border border-[#bfbfbf]'
 								}`}
 							>
 								{project.recentlyUpdated ? (
 									/* Surface freshness so users prioritize recently changed projects */
-									<span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#0f172a] px-3 py-1 text-sm font-black text-white sm:px-4 sm:py-1.5 sm:text-base">
+									<span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#335299] px-3 py-1 text-sm font-black text-white sm:px-4 sm:py-1.5 sm:text-base">
 										<Zap className="h-4 w-4 text-white/30" /> Nylig
 									</span>
 								) : null}
 
 								<div className="flex items-start gap-3 sm:items-center sm:gap-4">
-									<div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#0f172a] text-white sm:h-16 sm:w-16">
+									<div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#335299] text-white sm:h-16 sm:w-16">
 										<Icon className="h-7 w-7 sm:h-9 sm:w-9" />
 									</div>
 
 									<div className="flex-1">
-										<p className="text-sm font-black uppercase tracking-wide text-[#0f172a] sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>{project.projectNumber}</p>
-										<h2 className="mt-1 text-xl font-black leading-tight text-[#0f172a] sm:text-3xl md:text-4xl">{project.name}</h2>
+										<p className="text-sm font-black uppercase tracking-wide text-[#335299] sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>{project.projectNumber}</p>
+										<h2 className="mt-1 text-xl font-black leading-tight text-[#335299] sm:text-3xl md:text-4xl">{project.name}</h2>
 										<div className="mt-2 flex items-center gap-2 text-base font-bold text-[#404040] sm:text-2xl">
 											<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
 											<span>{project.location}</span>
