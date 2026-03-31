@@ -9,7 +9,7 @@ import { setAuthenticated } from '../utils/auth';
 const appFontStyle = { fontFamily: APP_FONT_FAMILY } as const;
 const loginButtonTextStyle = { fontSize: 'clamp(1rem, 2vw, 1.25rem)' } as const;
 const helperTextStyle = { color: UI_COLORS.ink400, fontFamily: BODY_FONT_FAMILY } as const;
-const iconTileColors = ['#993333', '#3b9933', '#333399', '#337799'] as const;
+const iconTileColors = ['#F25022', '#7FBA00', '#00A4EF', '#FFB900'] as const;
 
 // Primary authentication screen for user login via Microsoft
 export default function LoginScreen() {
