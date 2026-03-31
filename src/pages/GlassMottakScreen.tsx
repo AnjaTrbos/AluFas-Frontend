@@ -5,10 +5,10 @@ import { Save } from 'lucide-react';
 import {
 	FormActionButton,
 	FormField,
+	FormInput,
 	FormPage,
 	FormSection,
-	formInputStyle,
-	formTextAreaStyle,
+	FormTextArea,
 } from '../components/forms/FormLayout';
 import type { ProjectRouteState } from '../types/navigation';
 // Image utilities
@@ -50,7 +50,7 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 								gap: '0.8rem',
 								width: '100%',
 								borderRadius: '0.95rem',
-						border: checked ? `2px solid ${UI_COLORS.surface0}` : `2px solid ${UI_COLORS.line250}`,
+						border: checked ? `2px solid ${UI_COLORS.surface0}` : `2px solid ${UI_COLORS.line300}`,
 						background: checked ? activeBackground : UI_COLORS.surface0,
 								padding: '0.85rem 0.9rem',
 								cursor: 'pointer',
@@ -82,7 +82,7 @@ function CheckBlock({ title, options, selectedValue, onSelect, comment, onCommen
 
 			{/* Comment field */}
 			<FormField label="Kommentar" htmlFor={commentId}>
-				<textarea id={commentId} value={comment} onChange={(event) => onCommentChange(event.target.value)} placeholder="Legg til kommentar..." style={{ ...formTextAreaStyle, minHeight: '4.8rem' }} />
+			<FormTextArea id={commentId} value={comment} onChange={(event) => onCommentChange(event.target.value)} placeholder="Legg til kommentar..." style={{ minHeight: '4.8rem' }} />
 			</FormField>
 		</FormSection>
 	);
@@ -126,11 +126,11 @@ export default function GlassMottakScreen() {
 			projectName={projectName}
 		>
 			<FormField label="Underprosjekt" htmlFor="glass-underprosjekt">
-				<input id="glass-underprosjekt" type="text" value={underprosjekt} onChange={(event) => setUnderprosjekt(event.target.value)} placeholder="Skriv inn underprosjekt" style={formInputStyle} />
+				<FormInput id="glass-underprosjekt" type="text" value={underprosjekt} onChange={(event) => setUnderprosjekt(event.target.value)} placeholder="Skriv inn underprosjekt" />
 			</FormField>
 
 			<FormField label="Emne" htmlFor="glass-emne">
-				<input id="glass-emne" type="text" value={emne} onChange={(event) => setEmne(event.target.value)} placeholder="Legg inn emnetekst" style={formInputStyle} />
+				<FormInput id="glass-emne" type="text" value={emne} onChange={(event) => setEmne(event.target.value)} placeholder="Legg inn emnetekst" />
 			</FormField>
 
 			{/* Crack inspection */}

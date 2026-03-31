@@ -17,7 +17,6 @@ import {
 	LayoutGrid,
 	Lock,
 	Package,
-	Search,
 	ShieldCheck,
 	TriangleAlert,
 	Truck,
@@ -25,7 +24,8 @@ import {
 	Wind,
 	Wrench,
 } from 'lucide-react';
-import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
+import { BODY_FONT_FAMILY, UI_COLORS } from '../styles/uiTokens';
+import { SearchBar } from '../components/ui/AFComponents';
 import type { ProjectRouteState } from '../types/navigation';
 import { getProjectContextFromState } from '../utils/navigation';
 
@@ -51,8 +51,8 @@ const DOC_TYPES: DocItem[] = [
 			{ id: 'ks-fasade-v', label: 'KS Fasade', iconName: 'fasade', iconBg: '' },
 			{ id: 'ks-fastkammer', label: 'KS Fastkammer', iconName: 'fastkammer', iconBg: '' },
 			{ id: 'ks-vindu-dor-v', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-verksted' },
-			{ id: 'ks-skyv-folde-v', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '' },
-			{ id: 'ks-brann-v', label: 'KS Brann produkter', iconName: 'brann', iconBg: '' },
+			{ id: 'ks-skyv-folde-v', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '', route: '/ks-skyv-folde' },
+			{ id: 'ks-brann-v', label: 'KS Brann produkter', iconName: 'brann', iconBg: '', route: '/ks-brannprodukter' },
 		],
 	},
 	{
@@ -64,8 +64,8 @@ const DOC_TYPES: DocItem[] = [
 			{ id: 'sja', label: 'SJA (Sikker jobb analyse)', iconName: 'sja', iconBg: '' },
 			{ id: 'ks-fasade-tak', label: 'KS Fasade/tak', iconName: 'fasade', iconBg: '' },
 			{ id: 'ks-vindu-dor-m', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-montasje' },
-			{ id: 'ks-skyv-folde-m', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '' },
-			{ id: 'ks-brann-m', label: 'KS Brann produkter', iconName: 'brann', iconBg: '' },
+			{ id: 'ks-skyv-folde-m', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '', route: '/ks-skyv-folde' },
+			{ id: 'ks-brann-m', label: 'KS Brann produkter', iconName: 'brann', iconBg: '', route: '/ks-brannprodukter' },
 			{ id: 'ks-sma', label: 'KS Små produkter', iconName: 'sma', iconBg: '' },
 			{ id: 'service-jobb', label: 'Service jobb', iconName: 'service', iconBg: '' },
 		],
@@ -84,8 +84,8 @@ const DOC_TYPES: DocItem[] = [
 	{ id: 'montasje-plan', label: 'Montasjeplan', iconName: 'plan', iconBg: 'orange', route: '/montasje-plan' },
 ];
 
-const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface50 } as const;
-const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line250}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
+const pageStyle = { minHeight: '100vh', background: UI_COLORS.surface0 } as const;
+const topBarStyle = { background: UI_COLORS.surface0, borderBottom: `1px solid ${UI_COLORS.line300}`, boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)' } as const;
 const maxContentStyle = { maxWidth: '48rem', margin: '0 auto', padding: '0 1rem' } as const;
 const topBackWrapStyle = { paddingTop: '1.1rem', paddingBottom: '1.1rem' } as const;
 const backButtonStyle = {
@@ -114,23 +114,6 @@ const projectNumberStyle = { fontSize: '0.82rem', fontWeight: 900, textTransform
 const projectTitleStyle = { fontSize: 'clamp(2rem, 6vw, 3rem)', fontWeight: 900, color: UI_COLORS.ink900, margin: 0, lineHeight: 1.05 } as const;
 const bodyWrapStyle = { maxWidth: '48rem', margin: '0 auto', padding: '1.2rem 1rem 0' } as const;
 const headingStyle = { fontSize: 'clamp(1.35rem, 4vw, 1.75rem)', fontWeight: 900, color: UI_COLORS.ink900, margin: '0 0 1rem' } as const;
-const searchWrapStyle = { position: 'relative', marginBottom: '1.1rem' } as const;
-const searchIconStyle = { position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: UI_COLORS.ink400 } as const;
-const searchInputStyle = {
-	width: '100%',
-	height: 'clamp(3.3rem, 8vw, 3.9rem)',
-	borderRadius: '1rem',
-	border: `1.5px solid ${UI_COLORS.line300}`,
-	background: UI_COLORS.surface0,
-	paddingLeft: '3.15rem',
-	paddingRight: '1rem',
-	fontSize: 'clamp(1rem, 2.8vw, 1.2rem)',
-	fontWeight: 700,
-	color: UI_COLORS.ink800,
-	outline: 'none',
-	boxSizing: 'border-box',
-	fontFamily: APP_FONT_FAMILY,
-} as const;
 const listStyle = { display: 'flex', flexDirection: 'column', gap: '0.75rem' } as const;
 const parentButtonBaseStyle = {
 	display: 'flex',
@@ -168,11 +151,11 @@ const bottomSpacerStyle = { height: '2rem' } as const;
 
 function getDocIconBackground(iconBg: string) {
 	switch (iconBg) {
-		case 'red': return '#dc2626';
-		case 'blue': return '#2563eb';
-		case 'navy': return '#1e3a5f';
-		case 'green': return '#16a34a';
-		case 'orange': return '#ea580c';
+		case 'red': return '#993333';
+		case 'blue': return '#333399';
+		case 'navy': return '#0f172a';
+		case 'green': return '#3b9933';
+		case 'orange': return '#993333';
 		default: return UI_COLORS.ink800;
 	}
 }
@@ -272,14 +255,12 @@ export default function NewDocumentScreen() {
 				</h2>
 
 				{/* Quick filter to find target form faster */}
-				<div style={searchWrapStyle}>
-					<Search style={searchIconStyle} width={22} height={22} />
-					<input
-						type="text"
+				<div style={{ marginBottom: '1.1rem' }}>
+					<SearchBar
 						value={search}
-						onChange={(e) => setSearch(e.target.value)}
+						onChange={setSearch}
 						placeholder="Søk dokumenttype..."
-						style={searchInputStyle}
+						aria-label="Søk dokumenttyper"
 					/>
 				</div>
 

@@ -6,9 +6,9 @@ import { Save } from 'lucide-react';
 import {
 	FormActionButton,
 	FormField,
+	FormInput,
 	FormPage,
 	FormSection,
-	formInputStyle,
 } from '../components/forms/FormLayout';
 import ChecklistAccordion, { type ChecklistStep } from '../components/forms/ChecklistAccordion';
 import type { ProjectRouteState } from '../types/navigation';
@@ -79,12 +79,12 @@ export default function VarerMottakScreen() {
 		>
 			{/* Collect order reference for delivery verification */}
 			<FormField label="Ordrenummer" htmlFor="vm-ordrenummer">
-				<input id="vm-ordrenummer" type="text" value={ordrenummer} onChange={(event) => setOrdrenummer(event.target.value)} placeholder="Oppgi ordrenummer" style={formInputStyle} />
+				<FormInput id="vm-ordrenummer" type="text" value={ordrenummer} onChange={(event) => setOrdrenummer(event.target.value)} placeholder="Oppgi ordrenummer" />
 			</FormField>
 
 			{/* Record responsible inspector for accountability */}
 			<FormField label="Kontrollert av" htmlFor="vm-kontrollert-av">
-				<input id="vm-kontrollert-av" type="text" value={kontrollertAv} onChange={(event) => setKontrollertAv(event.target.value)} placeholder="Ditt navn" style={formInputStyle} />
+				<FormInput id="vm-kontrollert-av" type="text" value={kontrollertAv} onChange={(event) => setKontrollertAv(event.target.value)} placeholder="Ditt navn" />
 			</FormField>
 
 			{/* Accordion checklist keeps each inspection step focused and readable */}

@@ -6,10 +6,11 @@ import { Check, Save } from 'lucide-react';
 import {
 	FormActionButton,
 	FormField,
+	FormInput,
 	FormPage,
 	FormSection,
-	formInputStyle,
-	formTextAreaStyle,
+	FormSelect,
+	FormTextArea,
 } from '../components/forms/FormLayout';
 import type { ProjectRouteState } from '../types/navigation';
 // Image draft helpers so attachments persist per form context
@@ -69,20 +70,20 @@ export default function MontasjePlanScreen() {
 			{/* Gather estimated effort for production and installation */}
 			<FormSection title="Timeestimering">
 				<FormField label="Produksjonstimer" htmlFor="mp-produksjonstimer">
-					<input id="mp-produksjonstimer" type="text" value={produksjonstimer} onChange={(event) => setProduksjonstimer(event.target.value)} placeholder="Timer for produksjon" style={formInputStyle} />
+					<FormInput id="mp-produksjonstimer" type="text" value={produksjonstimer} onChange={(event) => setProduksjonstimer(event.target.value)} placeholder="Timer for produksjon" />
 				</FormField>
 				<FormField label="Montagetimer" htmlFor="mp-montagetimer">
-					<input id="mp-montagetimer" type="text" value={montagetimer} onChange={(event) => setMontagetimer(event.target.value)} placeholder="Timer for montasje" style={formInputStyle} />
+					<FormInput id="mp-montagetimer" type="text" value={montagetimer} onChange={(event) => setMontagetimer(event.target.value)} placeholder="Timer for montasje" />
 				</FormField>
 			</FormSection>
 
 			{/* Capture key production dates for delivery planning */}
 			<FormSection title="Produksjonsdatoer">
 				<FormField label="Produksjon underlag dato" htmlFor="mp-underlag-dato">
-					<input id="mp-underlag-dato" type="date" value={produksjonUnderlagDato} onChange={(event) => setProduksjonUnderlagDato(event.target.value)} style={formInputStyle} />
+					<FormInput id="mp-underlag-dato" type="date" value={produksjonUnderlagDato} onChange={(event) => setProduksjonUnderlagDato(event.target.value)} />
 				</FormField>
 				<FormField label="Produsert ferdig dato" htmlFor="mp-ferdig-dato">
-					<input id="mp-ferdig-dato" type="date" value={produsertFerdigDato} onChange={(event) => setProdusertFerdigDato(event.target.value)} style={formInputStyle} />
+					<FormInput id="mp-ferdig-dato" type="date" value={produsertFerdigDato} onChange={(event) => setProdusertFerdigDato(event.target.value)} />
 				</FormField>
 			</FormSection>
 
@@ -103,7 +104,7 @@ export default function MontasjePlanScreen() {
 									gap: '0.75rem',
 									width: '100%',
 									borderRadius: '0.95rem',
-									border: `2px solid ${UI_COLORS.line250}`,
+									border: `2px solid ${UI_COLORS.line300}`,
 									background: UI_COLORS.surface0,
 									padding: '0.85rem 0.95rem',
 									cursor: 'pointer',
@@ -116,8 +117,8 @@ export default function MontasjePlanScreen() {
 										width: '1.45rem',
 										height: '1.45rem',
 										borderRadius: '0.25rem',
-										border: checked ? `2px solid ${UI_COLORS.statusChecked}` : `2px solid ${UI_COLORS.line300}`,
-										background: checked ? UI_COLORS.statusChecked : UI_COLORS.surface0,
+										border: checked ? `2px solid ${UI_COLORS.accentBlue}` : `2px solid ${UI_COLORS.line300}`,
+										background: checked ? UI_COLORS.accentBlue : UI_COLORS.surface0,
 										display: 'inline-flex',
 										alignItems: 'center',
 										justifyContent: 'center',
@@ -137,22 +138,22 @@ export default function MontasjePlanScreen() {
 			{/* Collect decision priority and ownership for execution */}
 			<FormSection title="Prioritering og ansvar">
 				<FormField label="Prioritet" htmlFor="mp-prioritet">
-					<select id="mp-prioritet" value={prioritet} onChange={(event) => setPrioritet(event.target.value)} style={formInputStyle}>
+					<FormSelect id="mp-prioritet" value={prioritet} onChange={(event) => setPrioritet(event.target.value)}>
 						<option value="">Velg prioritet</option>
 						<option value="Høy">Høy</option>
 						<option value="Middels">Middels</option>
 						<option value="Lav">Lav</option>
-					</select>
+					</FormSelect>
 				</FormField>
 
 				<FormField label="Ansvarlig person" htmlFor="mp-ansvarlig">
-					<input id="mp-ansvarlig" type="text" value={ansvarligPerson} onChange={(event) => setAnsvarligPerson(event.target.value)} placeholder="Navn på ansvarlig" style={formInputStyle} />
+					<FormInput id="mp-ansvarlig" type="text" value={ansvarligPerson} onChange={(event) => setAnsvarligPerson(event.target.value)} placeholder="Navn på ansvarlig" />
 				</FormField>
 			</FormSection>
 
 			{/* Preserve extra context that does not fit structured fields */}
 			<FormSection title="Merknad">
-				<textarea value={merknad} onChange={(event) => setMerknad(event.target.value)} placeholder="Legg til merknader eller notater..." style={formTextAreaStyle} />
+					<FormTextArea value={merknad} onChange={(event) => setMerknad(event.target.value)} placeholder="Legg til merknader eller notater..." />
 			</FormSection>
 
 			{/* Attach supporting photos for planning and handoff */}

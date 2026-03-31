@@ -23,10 +23,10 @@ export function AFButton({
     <button
       className={cn(
         'inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 text-lg font-semibold transition active:scale-[0.99]',
-        variant === 'primary' && 'bg-slate-950 text-white shadow-sm hover:bg-slate-900',
-        variant === 'secondary' && 'border-2 border-slate-900 bg-white text-slate-950 hover:bg-slate-50',
-        variant === 'danger' && 'bg-red-700 text-white hover:bg-red-800',
-        variant === 'ghost' && 'bg-transparent text-slate-950 hover:bg-slate-100',
+        variant === 'primary' && 'bg-[#0f172a] text-white shadow-sm hover:bg-[#0f172a]/90',
+        variant === 'secondary' && 'border-2 border-[#0f172a] bg-white text-[#0f172a] hover:bg-[#ffffff]',
+        variant === 'danger' && 'bg-[#993333] text-white hover:bg-[#993333]/80',
+        variant === 'ghost' && 'bg-transparent text-[#0f172a] hover:bg-[#ffffff]',
         fullWidth && 'w-full',
         className
       )}
@@ -50,9 +50,9 @@ export function IconTile({ icon, color = 'navy', className }: IconTileProps) {
     <div
       className={cn(
         'flex h-12 w-12 items-center justify-center rounded-2xl',
-        color === 'navy' && 'bg-slate-950 text-white',
-        color === 'red' && 'bg-red-600 text-white',
-        color === 'light' && 'bg-slate-100 text-slate-500',
+        color === 'navy' && 'bg-[#0f172a] text-white',
+        color === 'red' && 'bg-[#993333] text-white',
+        color === 'light' && 'bg-[#ffffff] text-[#808080]',
         className
       )}
     >
@@ -61,18 +61,36 @@ export function IconTile({ icon, color = 'navy', className }: IconTileProps) {
   );
 }
 
-export function SearchBar({ placeholder = 'Søk prosjekter...' }: { placeholder?: string }) {
+export function SearchBar({
+  value = '',
+  onChange = () => {},
+  placeholder = 'Søk...',
+  'aria-label': ariaLabel,
+}: {
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  'aria-label'?: string;
+}) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-400 shadow-sm">
-      <Search className="h-5 w-5" />
-      <input placeholder={placeholder} className="w-full bg-transparent text-base outline-none placeholder:text-slate-400" />
+    <div className="relative flex-1">
+      <Search className="pointer-events-none absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-[#808080] sm:h-6 sm:w-6" />
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        aria-label={ariaLabel ?? placeholder}
+        className="h-12 w-full rounded-2xl border border-[#bfbfbf] bg-white pr-4 text-lg font-bold text-[#404040] placeholder:text-[#808080] outline-none focus:ring-2 focus:ring-[#bfbfbf] sm:h-14 sm:text-2xl"
+        style={{ paddingLeft: '3.25rem' }}
+      />
     </div>
   );
 }
 
 export function FilterButton() {
   return (
-    <button className="inline-flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-6 py-4 text-lg font-semibold text-slate-800 shadow-sm">
+    <button className="inline-flex items-center gap-3 rounded-2xl border border-[#bfbfbf] bg-white px-6 py-4 text-lg font-semibold text-[#404040] shadow-sm">
       <FileText className="h-5 w-5" />
       Filtrer
       <ChevronDown className="h-4 w-4" />
@@ -80,35 +98,36 @@ export function FilterButton() {
   );
 }
 
-export function SegmentedTabs({
+const DEFAULT_TABS = [
+  { value: 'active', label: 'Aktive' },
+  { value: 'archived', label: 'Arkiverte' },
+];
+
+export function SegmentedTabs<T extends string>({
+  tabs,
   active,
   onChange,
 }: {
-  active: 'active' | 'archived';
-  onChange?: (tab: 'active' | 'archived') => void;
+  tabs?: Array<{ value: T; label: string }>;
+  active: T;
+  onChange?: (tab: T) => void;
 }) {
+  const resolvedTabs = (tabs ?? DEFAULT_TABS) as Array<{ value: T; label: string }>;
   return (
-    <div className="inline-flex rounded-2xl bg-slate-100 p-1">
-      <button
-        type="button"
-        onClick={() => onChange?.('active')}
-        className={cn(
-          'rounded-xl px-4 py-2 text-sm font-semibold transition',
-          active === 'active' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-        )}
-      >
-        Aktive
-      </button>
-      <button
-        type="button"
-        onClick={() => onChange?.('archived')}
-        className={cn(
-          'rounded-xl px-4 py-2 text-sm font-semibold transition',
-          active === 'archived' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-        )}
-      >
-        Arkiverte
-      </button>
+    <div className="inline-flex rounded-2xl bg-[#ffffff] p-1">
+      {resolvedTabs.map(({ value, label }) => (
+        <button
+          key={value}
+          type="button"
+          onClick={() => onChange?.(value)}
+          className={cn(
+            'rounded-xl px-4 py-2 text-sm font-semibold transition',
+            active === value ? 'bg-white text-[#0f172a] shadow-sm' : 'text-[#808080] hover:text-[#404040]'
+          )}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }

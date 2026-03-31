@@ -4,10 +4,10 @@ import { Check } from 'lucide-react';
 import {
 	FormActionButton,
 	FormField,
+	FormInput,
 	FormPage,
 	FormSection,
-	formInputStyle,
-	formTextAreaStyle,
+	FormTextArea,
 } from '../components/forms/FormLayout';
 // Image utilities
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
@@ -65,13 +65,12 @@ export default function AvvikScreen() {
 			{manualProjectEntry && (
 				<FormSection title="Prosjekt">
 					<FormField label="Prosjektnavn / Prosjektnummer:" htmlFor="avvik-project-input">
-						<input
-							id="avvik-project-input"
-							type="text"
-							value={projectInput}
-							onChange={(e) => setProjectInput(e.target.value)}
-							placeholder="Skriv inn prosjektnavn..."
-							style={formInputStyle}
+					<FormInput
+						id="avvik-project-input"
+						type="text"
+						value={projectInput}
+						onChange={(e) => setProjectInput(e.target.value)}
+						placeholder="Skriv inn prosjektnavn..."
 						/>
 					</FormField>
 				</FormSection>
@@ -94,7 +93,7 @@ export default function AvvikScreen() {
 									width: '100%',
 									padding: '1rem 1rem',
 									borderRadius: '1rem',
-								border: `2px solid ${UI_COLORS.line250}`,
+								border: `2px solid ${UI_COLORS.line300}`,
 								background: UI_COLORS.surface0,
 									cursor: 'pointer',
 									textAlign: 'left',
@@ -106,8 +105,8 @@ export default function AvvikScreen() {
 										width: '1.4rem',
 										height: '1.4rem',
 										borderRadius: '0.3rem',
-									border: checked ? `2px solid ${UI_COLORS.statusChecked}` : `2px solid ${UI_COLORS.line300}`,
-									background: checked ? UI_COLORS.statusChecked : UI_COLORS.surface0,
+									border: checked ? `2px solid ${UI_COLORS.accentBlue}` : `2px solid ${UI_COLORS.line300}`,
+									background: checked ? UI_COLORS.accentBlue : UI_COLORS.surface0,
 										display: 'inline-flex',
 										alignItems: 'center',
 										justifyContent: 'center',
@@ -128,23 +127,22 @@ export default function AvvikScreen() {
 			{/* Description section */}
 			<FormSection title="BESKRIVELSE OG EVALUERING AV AVVIK">
 				<FormField label="Type avvik:" htmlFor="avvik-type">
-					<textarea id="avvik-type" value={typeAvvik} onChange={(e) => setTypeAvvik(e.target.value)} placeholder="Beskriv avviket..." style={formTextAreaStyle} />
+					<FormTextArea id="avvik-type" value={typeAvvik} onChange={(e) => setTypeAvvik(e.target.value)} placeholder="Beskriv avviket..." />
 				</FormField>
 				<FormField label="Tiltak som settes i gang umiddelbart:" htmlFor="avvik-immediate-action">
-					<textarea
+					<FormTextArea
 						id="avvik-immediate-action"
 						value={immediateAction}
 						onChange={(e) => setImmediateAction(e.target.value)}
 						placeholder="Beskriv umiddelbare tiltak..."
-						style={formTextAreaStyle}
 					/>
 				</FormField>
 				<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))', gap: '1rem' }}>
 					<FormField label="Oppdaget av:" htmlFor="avvik-discovered-by">
-						<input id="avvik-discovered-by" type="text" value={discoveredBy} onChange={(e) => setDiscoveredBy(e.target.value)} placeholder="Navn" style={formInputStyle} />
+						<FormInput id="avvik-discovered-by" type="text" value={discoveredBy} onChange={(e) => setDiscoveredBy(e.target.value)} placeholder="Navn" />
 					</FormField>
 					<FormField label="Rapportert til:" htmlFor="avvik-reported-to">
-						<input id="avvik-reported-to" type="text" value={reportedTo} onChange={(e) => setReportedTo(e.target.value)} placeholder="Navn" style={formInputStyle} />
+						<FormInput id="avvik-reported-to" type="text" value={reportedTo} onChange={(e) => setReportedTo(e.target.value)} placeholder="Navn" />
 					</FormField>
 				</div>
 			</FormSection>
@@ -152,26 +150,26 @@ export default function AvvikScreen() {
 			{/* Measures section */}
 			<FormSection title="TILTAK">
 				<FormField label="Type tiltak:" htmlFor="avvik-measure-type">
-					<textarea id="avvik-measure-type" value={measureType} onChange={(e) => setMeasureType(e.target.value)} placeholder="Beskriv tiltak som skal iverksettes..." style={formTextAreaStyle} />
+					<FormTextArea id="avvik-measure-type" value={measureType} onChange={(e) => setMeasureType(e.target.value)} placeholder="Beskriv tiltak som skal iverksettes..." />
 				</FormField>
 				<FormField label="Ansvarlig:" htmlFor="avvik-responsible">
-					<input id="avvik-responsible" type="text" value={responsible} onChange={(e) => setResponsible(e.target.value)} placeholder="Ansvarlig person" style={formInputStyle} />
+					<FormInput id="avvik-responsible" type="text" value={responsible} onChange={(e) => setResponsible(e.target.value)} placeholder="Ansvarlig person" />
 				</FormField>
 			</FormSection>
 
 			{/* Monitoring section */}
 			<FormSection title="OVERVÅKNING AV TILTAK">
 				<FormField label="Resultat av overvåkning:">
-					<textarea value={monitoringResult} onChange={(e) => setMonitoringResult(e.target.value)} placeholder="Beskriv resultatet av overvåkning..." style={formTextAreaStyle} />
+					<FormTextArea value={monitoringResult} onChange={(e) => setMonitoringResult(e.target.value)} placeholder="Beskriv resultatet av overvåkning..." />
 				</FormField>
 				<FormField label="Det gjøres for å hindre gjentagelse:">
-					<textarea value={prevention} onChange={(e) => setPrevention(e.target.value)} placeholder="Beskriv forebyggende tiltak..." style={formTextAreaStyle} />
+					<FormTextArea value={prevention} onChange={(e) => setPrevention(e.target.value)} placeholder="Beskriv forebyggende tiltak..." />
 				</FormField>
 				<FormField label="Dato:" htmlFor="avvik-date">
-					<input id="avvik-date" type="text" value={date} onChange={(e) => setDate(e.target.value)} placeholder="mm/dd/yyyy" style={formInputStyle} />
+					<FormInput id="avvik-date" type="text" value={date} onChange={(e) => setDate(e.target.value)} placeholder="mm/dd/yyyy" />
 				</FormField>
 				<FormField label="Opprettet av:" htmlFor="avvik-created-by">
-					<input id="avvik-created-by" type="text" value={createdBy} onChange={(e) => setCreatedBy(e.target.value)} placeholder="TEP / Navn" style={formInputStyle} />
+					<FormInput id="avvik-created-by" type="text" value={createdBy} onChange={(e) => setCreatedBy(e.target.value)} placeholder="TEP / Navn" />
 				</FormField>
 			</FormSection>
 

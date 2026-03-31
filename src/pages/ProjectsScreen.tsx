@@ -11,12 +11,12 @@ import {
 	FileText,
 	Link2,
 	MapPin,
-	Search,
 	SlidersHorizontal,
 	TriangleAlert,
 	Zap,
 } from 'lucide-react';
 import { BODY_FONT_FAMILY } from '../styles/uiTokens';
+import { SearchBar } from '../components/ui/AFComponents';
 // Shared project type used by the app
 import type { Project } from '../types/app';
 
@@ -143,12 +143,12 @@ export default function ProjectsScreen() {
 
 	return (
 		// Main container for project selection and quick actions
-		<div className="min-h-screen bg-slate-100 px-4 pb-5 pt-6 font-[Arial,sans-serif] sm:pb-6 sm:pt-10">
+		<div className="min-h-screen bg-[#ffffff] px-4 pb-5 pt-6 font-[Arial,sans-serif] sm:pb-6 sm:pt-10">
 			<div className="mx-auto max-w-3xl">
 				{/* BACKEND: Replace the hardcoded name with the signed-in user's display name. */}
-				<h1 className="text-3xl font-black text-slate-900 sm:text-4xl md:text-5xl">Velkommen, Ola Nordmann</h1>
+				<h1 className="text-3xl font-black text-[#0f172a] sm:text-4xl md:text-5xl">Velkommen, Ola Nordmann</h1>
 
-				<div className="mt-5 rounded-xl border border-slate-300 bg-[#c6d5ea] p-1">
+				<div className="mt-5 rounded-xl border border-[#bfbfbf] bg-[#bfbfbf] p-1">
 					{/* Tab switch keeps active and archived contexts separated */}
 					<div className="grid grid-cols-2 gap-1">
 						{(['active', 'closed'] as const).map((tab) => (
@@ -157,7 +157,7 @@ export default function ProjectsScreen() {
 								type="button"
 								onClick={() => setActiveTab(tab)}
 								style={{ fontSize: 'clamp(0.95rem, 2vw, 1.25rem)', fontWeight: 900 }}
-								className={`rounded-lg px-3 py-3 transition-colors sm:px-6 ${activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-800/90 hover:bg-white/50'}`}
+								className={`rounded-lg px-3 py-3 transition-colors sm:px-6 ${activeTab === tab ? 'bg-white text-[#0f172a] shadow-sm' : 'text-[#0f172a]/90 hover:bg-white/50'}`}
 							>
 								{tab === 'active' ? 'Aktive prosjekter' : 'Arkiverte prosjekter'}
 							</button>
@@ -167,18 +167,12 @@ export default function ProjectsScreen() {
 
 				{/* Search + filter controls for narrowing large project lists */}
 				<div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-					<div className="relative flex-1">
-						<Search className="pointer-events-none absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-slate-400 sm:h-6 sm:w-6" />
-						<input
-							type="text"
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-							placeholder="Søk prosjekter..."
-							aria-label="Søk prosjekter"
-							className="h-12 w-full rounded-2xl border border-slate-300 bg-white pr-4 text-lg font-bold text-slate-800 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-slate-300 sm:h-14 sm:text-2xl"
-							style={{ paddingLeft: '3.25rem', fontFamily: BODY_FONT_FAMILY }}
-						/>
-					</div>
+					<SearchBar
+						value={searchQuery}
+						onChange={setSearchQuery}
+						placeholder="Søk prosjekter..."
+						aria-label="Søk prosjekter"
+					/>
 
 					<div className="relative w-full sm:w-auto" ref={dropdownRef}>
 						{/* Filter trigger doubles as current-filter indicator */}
@@ -186,8 +180,8 @@ export default function ProjectsScreen() {
 							type="button"
 							onClick={() => setFilterOpen((prev) => !prev)}
 							style={{ fontSize: 'clamp(1rem, 2vw, 1.1rem)', fontWeight: 700 }}
-							className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[3px] border-[#1e3a5f] px-5 transition-colors sm:h-14 sm:w-auto ${
-								activeFilter !== 'all' ? 'bg-slate-900 text-white' : 'bg-white text-[#1e3a5f] hover:bg-slate-50'
+							className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[3px] border-[#333399] px-5 transition-colors sm:h-14 sm:w-auto ${
+								activeFilter !== 'all' ? 'bg-[#0f172a] text-white' : 'bg-white text-[#333399] hover:bg-[#ffffff]'
 							}`}
 						>
 							<SlidersHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -197,14 +191,14 @@ export default function ProjectsScreen() {
 
 						{filterOpen && (
 							/* Grouped filter menu improves discoverability of sort/type options */
-							<div className="absolute right-0 top-full z-50 mt-2 min-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl sm:min-w-56">
+							<div className="absolute right-0 top-full z-50 mt-2 min-w-full overflow-hidden rounded-2xl border border-[#bfbfbf] bg-white shadow-2xl sm:min-w-56">
 								{FILTER_GROUPS.map((group) => {
 									const items = FILTER_OPTIONS.filter((filter) => (filter.group ?? '') === group);
 									if (items.length === 0) return null;
 
 									return (
 										<div key={group || 'top'}>
-											{group ? <p className="px-4 pb-1 pt-3 text-xs font-black uppercase tracking-widest text-slate-400">{group}</p> : null}
+											{group ? <p className="px-4 pb-1 pt-3 text-xs font-black uppercase tracking-widest text-[#808080]">{group}</p> : null}
 											{items.map((option) => {
 												const isActive = activeFilter === option.value;
 
@@ -216,8 +210,8 @@ export default function ProjectsScreen() {
 															setActiveFilter(option.value);
 															setFilterOpen(false);
 														}}
-														className={`flex w-full items-center gap-3 px-4 py-3 text-left text-base font-bold transition-colors hover:bg-slate-100 sm:text-lg ${
-															isActive ? 'bg-slate-900 text-white hover:bg-slate-800' : 'text-slate-700'
+													className={`flex w-full items-center gap-3 px-4 py-3 text-left text-base font-bold transition-colors hover:bg-[#ffffff] sm:text-lg ${
+														isActive ? 'bg-[#0f172a] text-white hover:bg-[#404040]' : 'text-[#404040]'
 														}`}
 													>
 														{option.label}
@@ -230,14 +224,14 @@ export default function ProjectsScreen() {
 
 								{activeFilter !== 'all' ? (
 									/* Fast reset avoids reopening and unselecting manually */
-									<div className="border-t border-slate-200 p-3">
+									<div className="border-t border-[#bfbfbf] p-3">
 										<button
 											type="button"
 											onClick={() => {
 												setActiveFilter('all');
 												setFilterOpen(false);
 											}}
-											className="w-full rounded-lg py-2 text-sm font-black text-slate-500 hover:bg-slate-100"
+											className="w-full rounded-lg py-2 text-sm font-black text-[#808080] hover:bg-[#ffffff]"
 										>
 											Tilbakestill filter
 										</button>
@@ -248,7 +242,7 @@ export default function ProjectsScreen() {
 					</div>
 				</div>
 
-				<div className="mt-6 h-px bg-slate-300" />
+				<div className="mt-6 h-px bg-[#bfbfbf]" />
 
 				{/* Quick entry path for deviation registration outside project context */}
 				<button
@@ -262,7 +256,7 @@ export default function ProjectsScreen() {
 							},
 						})
 					}
-					className="mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-xl bg-[#b91d2a] text-xl font-black tracking-wide text-white hover:bg-[#a61a27] sm:h-20 sm:gap-3 sm:text-3xl"
+					className="mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-xl bg-[#993333] text-xl font-black tracking-wide text-white hover:bg-[#993333]/80 sm:h-20 sm:gap-3 sm:text-3xl"
 				>
 					<TriangleAlert className="h-7 w-7 sm:h-9 sm:w-9" />
 					Registrer avvik
@@ -287,36 +281,36 @@ export default function ProjectsScreen() {
 										},
 									})
 								}
-								className={`relative w-full rounded-2xl bg-white px-4 py-4 text-left shadow-sm transition hover:bg-slate-50 ${
-									project.recentlyUpdated ? 'border-[3px] border-slate-900' : 'border border-slate-300'
+							className={`relative w-full rounded-2xl bg-white px-4 py-4 text-left shadow-sm transition hover:bg-[#ffffff] ${
+								project.recentlyUpdated ? 'border-[3px] border-[#0f172a]' : 'border border-[#bfbfbf]'
 								}`}
 							>
 								{project.recentlyUpdated ? (
 									/* Surface freshness so users prioritize recently changed projects */
-									<span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-sm font-black text-white sm:px-4 sm:py-1.5 sm:text-base">
+									<span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#0f172a] px-3 py-1 text-sm font-black text-white sm:px-4 sm:py-1.5 sm:text-base">
 										<Zap className="h-4 w-4 text-white/30" /> Nylig
 									</span>
 								) : null}
 
 								<div className="flex items-start gap-3 sm:items-center sm:gap-4">
-									<div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-slate-900 text-white sm:h-16 sm:w-16">
+									<div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#0f172a] text-white sm:h-16 sm:w-16">
 										<Icon className="h-7 w-7 sm:h-9 sm:w-9" />
 									</div>
 
 									<div className="flex-1">
-										<p className="text-sm font-black uppercase tracking-wide text-slate-900 sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>{project.projectNumber}</p>
-										<h2 className="mt-1 text-xl font-black leading-tight text-slate-900 sm:text-3xl md:text-4xl">{project.name}</h2>
-										<div className="mt-2 flex items-center gap-2 text-base font-bold text-slate-700 sm:text-2xl">
+										<p className="text-sm font-black uppercase tracking-wide text-[#0f172a] sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>{project.projectNumber}</p>
+										<h2 className="mt-1 text-xl font-black leading-tight text-[#0f172a] sm:text-3xl md:text-4xl">{project.name}</h2>
+										<div className="mt-2 flex items-center gap-2 text-base font-bold text-[#404040] sm:text-2xl">
 											<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
 											<span>{project.location}</span>
 										</div>
-										<div className="mt-1 flex items-center gap-2 text-sm font-bold text-slate-500 sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>
+										<div className="mt-1 flex items-center gap-2 text-sm font-bold text-[#808080] sm:text-xl" style={{ fontFamily: BODY_FONT_FAMILY }}>
 											<CalendarDays className="h-4 w-4 sm:h-5 sm:w-5" />
 											<span>{project.lastUpdated}</span>
 										</div>
 									</div>
 
-									<ChevronRight className="ml-1 h-6 w-6 shrink-0 self-center text-slate-400 sm:ml-3 sm:h-8 sm:w-8" />
+									<ChevronRight className="ml-1 h-6 w-6 shrink-0 self-center text-[#808080] sm:ml-3 sm:h-8 sm:w-8" />
 								</div>
 							</button>
 						);
@@ -324,7 +318,7 @@ export default function ProjectsScreen() {
 
 					{visibleProjects.length === 0 ? (
 						/* Empty state confirms filter/search currently hides all projects */
-						<div className="rounded-2xl border border-slate-300 bg-white px-6 py-10 text-center text-slate-500">Ingen prosjekter matcher søket.</div>
+						<div className="rounded-2xl border border-[#bfbfbf] bg-white px-6 py-10 text-center text-[#808080]">Ingen prosjekter matcher søket.</div>
 					) : null}
 				</div>
 			</div>

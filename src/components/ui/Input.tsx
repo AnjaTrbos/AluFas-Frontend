@@ -1,19 +1,27 @@
 import * as React from 'react';
-import { cn } from './utils';
+import { BODY_FONT_FAMILY, UI_COLORS } from '../../styles/uiTokens';
 
-function Input({ className, type = 'text', ...props }: React.ComponentProps<'input'>) {
+const baseInputStyle: React.CSSProperties = {
+  width: '100%',
+  minHeight: '3.35rem',
+  borderRadius: '1rem',
+  border: `2px solid ${UI_COLORS.line300}`,
+  padding: '0 1.1rem',
+  fontSize: 'clamp(1rem, 2.5vw, 1.12rem)',
+  fontWeight: 700,
+  color: UI_COLORS.ink900,
+  background: UI_COLORS.surface0,
+  boxSizing: 'border-box',
+  fontFamily: BODY_FONT_FAMILY,
+  outline: 'none',
+};
+
+function Input({ style, type = 'text', ...props }: React.ComponentProps<'input'>) {
   return (
     <input
       type={type}
       data-slot="input"
-      className={cn(
-        'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow]',
-        'file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground',
-        'placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground',
-        'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none',
-        'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-        className
-      )}
+      style={{ ...baseInputStyle, ...style }}
       {...props}
     />
   );

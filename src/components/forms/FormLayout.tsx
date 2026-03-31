@@ -2,6 +2,9 @@
 import { ArrowLeft } from 'lucide-react';
 import type { CSSProperties, ReactNode } from 'react';
 import { APP_FONT_FAMILY, BODY_FONT_FAMILY, UI_COLORS } from '../../styles/uiTokens';
+import { Input } from '../ui/Input';
+import { Select } from '../ui/Select';
+import { Textarea } from '../ui/Textarea';
 
 interface FormPageProps {
 	title: string;
@@ -32,15 +35,15 @@ interface ActionButtonProps {
 }
 
 // Shared page shell for the checklist-style form screens.
-export const formPageStyle: CSSProperties = {
+const formPageStyle: CSSProperties = {
 	minHeight: '100vh',
-	background: UI_COLORS.surface50,
+	background: UI_COLORS.surface0,
 	fontFamily: APP_FONT_FAMILY,
 };
 
 const formHeaderShellStyle: CSSProperties = {
 	background: UI_COLORS.surface0,
-	borderBottom: `1px solid ${UI_COLORS.line250}`,
+	borderBottom: `1px solid ${UI_COLORS.line300}`,
 	boxShadow: '0 2px 10px rgba(15, 23, 42, 0.04)',
 };
 
@@ -76,12 +79,12 @@ const backButtonStyle: CSSProperties = {
 const projectCardStyle: CSSProperties = {
 	marginTop: '1rem',
 	borderRadius: '1rem',
-	border: `2px solid ${UI_COLORS.line250}`,
-	background: UI_COLORS.surface75,
+	border: `2px solid ${UI_COLORS.line300}`,
+	background: UI_COLORS.surface0,
 	padding: '1rem 1rem 1.05rem',
 };
 
-export const formContentStyle: CSSProperties = {
+const formContentStyle: CSSProperties = {
 	maxWidth: '76rem',
 	margin: '0 auto',
 	padding: '1.4rem 1rem 2.25rem',
@@ -90,14 +93,14 @@ export const formContentStyle: CSSProperties = {
 	gap: '1rem',
 };
 
-export const formSectionStyle: CSSProperties = {
+const formSectionStyle: CSSProperties = {
 	border: `2px solid ${UI_COLORS.ink800}`,
 	borderRadius: '1.1rem',
 	background: UI_COLORS.surface0,
 	padding: '1.25rem 1rem 1.05rem',
 };
 
-export const formSectionTitleStyle: CSSProperties = {
+const formSectionTitleStyle: CSSProperties = {
 	margin: '0 0 1rem',
 	fontSize: 'clamp(1.1rem, 3vw, 1.35rem)',
 	fontWeight: 900,
@@ -113,29 +116,8 @@ export const formFieldLabelStyle: CSSProperties = {
 	fontFamily: BODY_FONT_FAMILY,
 };
 
-export const formFieldStyle: CSSProperties = {
+const formFieldStyle: CSSProperties = {
 	marginBottom: '1.15rem',
-};
-
-export const formInputStyle: CSSProperties = {
-	width: '100%',
-	minHeight: '3.35rem',
-	borderRadius: '1rem',
-	border: `2px solid ${UI_COLORS.line250}`,
-	padding: '0 1.1rem',
-	fontSize: 'clamp(1rem, 2.5vw, 1.12rem)',
-	fontWeight: 700,
-	color: UI_COLORS.ink900,
-	background: UI_COLORS.surface0,
-	boxSizing: 'border-box',
-	fontFamily: BODY_FONT_FAMILY,
-};
-
-export const formTextAreaStyle: CSSProperties = {
-	...formInputStyle,
-	minHeight: '7rem',
-	padding: '1rem 1.1rem',
-	resize: 'vertical',
 };
 
 // Keeps the main action buttons visually consistent across forms.
@@ -145,7 +127,7 @@ function getActionButtonStyle(variant: 'primary' | 'dark' = 'primary'): CSSPrope
 		minHeight: '4rem',
 		borderRadius: '1rem',
 		border: 'none',
-		background: variant === 'primary' ? UI_COLORS.statusChecked : UI_COLORS.ink900,
+		background: variant === 'primary' ? UI_COLORS.accentBlue : UI_COLORS.ink900,
 		color: UI_COLORS.surface0,
 		fontSize: 'clamp(1.05rem, 3vw, 1.3rem)',
 		fontWeight: 900,
@@ -230,3 +212,5 @@ export function FormActionButton({ children, onClick, variant = 'primary', icon 
 		</button>
 	);
 }
+
+export { Input as FormInput, Select as FormSelect, Textarea as FormTextArea };

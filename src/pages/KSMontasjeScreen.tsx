@@ -6,10 +6,10 @@ import { Check, Save, X } from 'lucide-react';
 import {
 	FormActionButton,
 	FormField,
+	FormInput,
 	FormPage,
 	FormSection,
-	formInputStyle,
-	formTextAreaStyle,
+	FormTextArea,
 } from '../components/forms/FormLayout';import { UI_COLORS } from '../styles/uiTokens';import type { ProjectRouteState } from '../types/navigation';
 // Utilities for managing image drafts associated with form submissions
 import { createImageContextKey, getImageDraftCount } from '../utils/imageDrafts';
@@ -127,13 +127,6 @@ export default function KSMontasjeScreen() {
 		setPunktMerknader((current) => ({ ...current, [punktId]: value }));
 	};
 
-	// Custom sizing for checkpoint note input fields
-	const merknadInputStyle: React.CSSProperties = {
-		...formInputStyle,
-		minHeight: '3rem',
-		fontSize: 'clamp(0.95rem, 2.4vw, 1.02rem)',
-	};
-
 	const handleBack = () => (returnTo ? navigate(returnTo, { state: returnState }) : navigate(-1));
 
 	return (
@@ -147,7 +140,7 @@ export default function KSMontasjeScreen() {
 			{/* Assembly position identifier */}
 			<FormSection title="Posnr.">
 				<FormField label="Posisjonsnummer" htmlFor="ksm-posisjonsnummer">
-					<input id="ksm-posisjonsnummer" type="text" value={posisjonsnummer} onChange={(event) => setPosisjonsnummer(event.target.value)} placeholder="Posisjonsnummer" style={formInputStyle} />
+				<FormInput id="ksm-posisjonsnummer" type="text" value={posisjonsnummer} onChange={(event) => setPosisjonsnummer(event.target.value)} placeholder="Posisjonsnummer" />
 				</FormField>
 			</FormSection>
 
@@ -168,7 +161,7 @@ export default function KSMontasjeScreen() {
 								key={punkt.id}
 								style={{
 									padding: '0.95rem 0.9rem',
-										borderBottom: index === KONTROLLPUNKTER.length - 1 ? 'none' : `1.5px solid ${UI_COLORS.line250}`,
+										borderBottom: index === KONTROLLPUNKTER.length - 1 ? 'none' : `1.5px solid ${UI_COLORS.line300}`,
 								}}
 							>
 								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
@@ -178,13 +171,13 @@ export default function KSMontasjeScreen() {
 
 								{showMerknad ? (
 									<div style={{ marginTop: '0.85rem' }}>
-										<input
+										<FormInput
 											type="text"
 											value={punktMerknader[punkt.id] ?? ''}
 											onChange={(event) => setPunktMerknad(punkt.id, event.target.value)}
 											placeholder="Merknad..."
 											aria-label={`Merknad for ${punkt.label}`}
-											style={merknadInputStyle}
+											style={{ minHeight: '3rem', fontSize: 'clamp(0.95rem, 2.4vw, 1.02rem)' }}
 										/>
 									</div>
 								) : null}
@@ -197,14 +190,14 @@ export default function KSMontasjeScreen() {
 			{/* Document any defects that were corrected during assembly */}
 			<FormSection title="Feilskader utbedret:">
 				<FormField label="Feilskader utbedret" htmlFor="ksm-feilskader-utbedret">
-					<textarea id="ksm-feilskader-utbedret" value={feilskaderUtbedret} onChange={(event) => setFeilskaderUtbedret(event.target.value)} placeholder="Beskriv utbedrede feilskader..." style={formTextAreaStyle} />
+				<FormTextArea id="ksm-feilskader-utbedret" value={feilskaderUtbedret} onChange={(event) => setFeilskaderUtbedret(event.target.value)} placeholder="Beskriv utbedrede feilskader..." />
 				</FormField>
 			</FormSection>
 
 			{/* Capture additional observations and general feedback */}
 			<FormSection title="Andre mangler / merknader:">
 				<FormField label="Andre mangler / merknader" htmlFor="ksm-andre-merknader">
-					<textarea id="ksm-andre-merknader" value={andreMerknader} onChange={(event) => setAndreMerknader(event.target.value)} placeholder="Andre merknader..." style={formTextAreaStyle} />
+				<FormTextArea id="ksm-andre-merknader" value={andreMerknader} onChange={(event) => setAndreMerknader(event.target.value)} placeholder="Andre merknader..." />
 				</FormField>
 			</FormSection>
 
@@ -212,11 +205,11 @@ export default function KSMontasjeScreen() {
 			<FormSection title="SIGNATUR">
 				{/* Record technician responsible for assembly inspection */}
 				<FormField label="Montør signatur:" htmlFor="ksm-signatur-navn">
-					<input id="ksm-signatur-navn" type="text" value={signaturNavn} onChange={(event) => setSignaturNavn(event.target.value)} placeholder="Navn" style={formInputStyle} />
+				<FormInput id="ksm-signatur-navn" type="text" value={signaturNavn} onChange={(event) => setSignaturNavn(event.target.value)} placeholder="Navn" />
 			</FormField>
 			{/* Record when inspection was completed */}
 			<FormField label="Dato:" htmlFor="ksm-signatur-dato">
-					<input id="ksm-signatur-dato" type="text" value={signaturDato} onChange={(event) => setSignaturDato(event.target.value)} placeholder="mm/dd/yyyy" style={formInputStyle} />
+					<FormInput id="ksm-signatur-dato" type="text" value={signaturDato} onChange={(event) => setSignaturDato(event.target.value)} placeholder="mm/dd/yyyy" />
 				</FormField>
 			</FormSection>
 

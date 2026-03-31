@@ -6,9 +6,9 @@ import { Save } from 'lucide-react';
 import {
 	FormActionButton,
 	FormField,
+	FormInput,
 	FormPage,
 	formFieldLabelStyle,
-	formInputStyle,
 } from '../components/forms/FormLayout';
 import ChecklistAccordion, { type ChecklistStep } from '../components/forms/ChecklistAccordion';
 import type { ProjectRouteState } from '../types/navigation';
@@ -79,12 +79,12 @@ export default function ProfilerMottakScreen() {
 		>
 			{/* Collect order reference to match inspection against delivery docs */}
 			<FormField label="Ordrenummer" htmlFor="pm-ordrenummer">
-				<input id="pm-ordrenummer" type="text" value={ordrenummer} onChange={(event) => setOrdrenummer(event.target.value)} placeholder="Oppgi ordrenummer" style={formInputStyle} />
+				<FormInput id="pm-ordrenummer" type="text" value={ordrenummer} onChange={(event) => setOrdrenummer(event.target.value)} placeholder="Oppgi ordrenummer" />
 			</FormField>
 
 			{/* Record who performed control for accountability */}
 			<FormField label="Kontrollert av" htmlFor="pm-kontrollert-av">
-				<input id="pm-kontrollert-av" type="text" value={kontrollertAv} onChange={(event) => setKontrollertAv(event.target.value)} placeholder="Ditt navn" style={formInputStyle} />
+				<FormInput id="pm-kontrollert-av" type="text" value={kontrollertAv} onChange={(event) => setKontrollertAv(event.target.value)} placeholder="Ditt navn" />
 			</FormField>
 
 			{/* Accordion checklist keeps each control step focused and readable */}

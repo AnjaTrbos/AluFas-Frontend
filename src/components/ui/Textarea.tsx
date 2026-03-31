@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { BODY_FONT_FAMILY, UI_COLORS } from '../../styles/uiTokens';
 
-const baseSelectStyle: React.CSSProperties = {
+const baseTextareaStyle: React.CSSProperties = {
   width: '100%',
-  minHeight: '3.35rem',
+  minHeight: '7rem',
   borderRadius: '1rem',
   border: `2px solid ${UI_COLORS.line300}`,
-  padding: '0 1.1rem',
+  padding: '1rem 1.1rem',
   fontSize: 'clamp(1rem, 2.5vw, 1.12rem)',
   fontWeight: 700,
   color: UI_COLORS.ink900,
@@ -14,19 +14,17 @@ const baseSelectStyle: React.CSSProperties = {
   boxSizing: 'border-box',
   fontFamily: BODY_FONT_FAMILY,
   outline: 'none',
-  cursor: 'pointer',
+  resize: 'vertical',
 };
 
-function Select({ style, children, ...props }: React.ComponentProps<'select'>) {
+function Textarea({ style, ...props }: React.ComponentProps<'textarea'>) {
   return (
-    <select
-      data-slot="select"
-      style={{ ...baseSelectStyle, ...style }}
+    <textarea
+      data-slot="textarea"
+      style={{ ...baseTextareaStyle, ...style }}
       {...props}
-    >
-      {children}
-    </select>
+    />
   );
 }
 
-export { Select };
+export { Textarea };

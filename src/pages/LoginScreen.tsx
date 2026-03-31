@@ -9,7 +9,7 @@ import { setAuthenticated } from '../utils/auth';
 const appFontStyle = { fontFamily: APP_FONT_FAMILY } as const;
 const loginButtonTextStyle = { fontSize: 'clamp(1rem, 2vw, 1.25rem)' } as const;
 const helperTextStyle = { color: UI_COLORS.ink400, fontFamily: BODY_FONT_FAMILY } as const;
-const iconTileColors = ['#f25022', '#7fba00', '#00a4ef', '#ffb900'] as const;
+const iconTileColors = ['#993333', '#3b9933', '#333399', '#337799'] as const;
 
 // Primary authentication screen for user login via Microsoft
 export default function LoginScreen() {
@@ -29,7 +29,7 @@ export default function LoginScreen() {
 			<button
 				onClick={handleBack}
 				aria-label="Tilbake"
-				className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-white transition-colors hover:bg-slate-800 sm:left-6 sm:top-6"
+				className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#0f172a] text-white transition-colors hover:bg-[#404040] sm:left-6 sm:top-6"
 			>
 				{/* Left arrow icon */}
 				<svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -40,21 +40,21 @@ export default function LoginScreen() {
 			{/* Centered card container for login form */}
 			<div className="flex min-h-[calc(100vh-3rem)] items-center justify-center">
 				{/* Login form card with branding and authentication */}
-				<div className="w-full max-w-[28rem] rounded-3xl border border-gray-200 bg-white px-5 py-7 shadow-xl sm:px-8 sm:py-10">
+				<div className="w-full max-w-[28rem] rounded-3xl border border-[#bfbfbf] bg-white px-5 py-7 shadow-xl sm:px-8 sm:py-10">
 					{/* Display company logo for brand recognition */}
 					<div className="flex justify-center">
 						<BrandLogo size="card" />
 					</div>
 
 					{/* Login page heading */}
-					<h1 className="mt-10 text-center text-2xl font-black text-slate-900 sm:mt-12 sm:text-3xl" style={appFontStyle}>
+					<h1 className="mt-10 text-center text-2xl font-black text-[#0f172a] sm:mt-12 sm:text-3xl" style={appFontStyle}>
 						Innlogging
 					</h1>
 
 					{/* Microsoft authentication button with brand colors */}
 					<button
 						onClick={handleMicrosoftLogin}
-						className="mt-12 flex w-full items-center justify-center gap-4 rounded-2xl bg-slate-950 px-5 py-4 font-black text-white transition-all hover:bg-slate-800 active:scale-95 sm:mt-20 sm:gap-5 sm:px-8 sm:py-6"
+						className="mt-12 flex w-full items-center justify-center gap-4 rounded-2xl bg-[#0f172a] px-5 py-4 font-black text-white transition-all hover:bg-[#404040] active:scale-95 sm:mt-20 sm:gap-5 sm:px-8 sm:py-6"
 						style={loginButtonTextStyle}
 					>
 						{/* Microsoft logo using brand colors */}
