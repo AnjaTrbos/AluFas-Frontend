@@ -11,12 +11,12 @@ import {
 	FileText,
 	Link2,
 	MapPin,
-	Search,
 	SlidersHorizontal,
 	TriangleAlert,
 	Zap,
 } from 'lucide-react';
 import { BODY_FONT_FAMILY } from '../styles/uiTokens';
+import { SearchBar } from '../components/ui/AFComponents';
 // Shared project type used by the app
 import type { Project } from '../types/app';
 
@@ -167,18 +167,12 @@ export default function ProjectsScreen() {
 
 				{/* Search + filter controls for narrowing large project lists */}
 				<div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-					<div className="relative flex-1">
-						<Search className="pointer-events-none absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-slate-400 sm:h-6 sm:w-6" />
-						<input
-							type="text"
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-							placeholder="Søk prosjekter..."
-							aria-label="Søk prosjekter"
-							className="h-12 w-full rounded-2xl border border-slate-300 bg-white pr-4 text-lg font-bold text-slate-800 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-slate-300 sm:h-14 sm:text-2xl"
-							style={{ paddingLeft: '3.25rem', fontFamily: BODY_FONT_FAMILY }}
-						/>
-					</div>
+					<SearchBar
+						value={searchQuery}
+						onChange={setSearchQuery}
+						placeholder="Søk prosjekter..."
+						aria-label="Søk prosjekter"
+					/>
 
 					<div className="relative w-full sm:w-auto" ref={dropdownRef}>
 						{/* Filter trigger doubles as current-filter indicator */}

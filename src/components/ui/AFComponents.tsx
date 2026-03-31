@@ -61,11 +61,29 @@ export function IconTile({ icon, color = 'navy', className }: IconTileProps) {
   );
 }
 
-export function SearchBar({ placeholder = 'Søk prosjekter...' }: { placeholder?: string }) {
+export function SearchBar({
+  value = '',
+  onChange = () => {},
+  placeholder = 'Søk...',
+  'aria-label': ariaLabel,
+}: {
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  'aria-label'?: string;
+}) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-400 shadow-sm">
-      <Search className="h-5 w-5" />
-      <input placeholder={placeholder} className="w-full bg-transparent text-base outline-none placeholder:text-slate-400" />
+    <div className="relative flex-1">
+      <Search className="pointer-events-none absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-slate-400 sm:h-6 sm:w-6" />
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        aria-label={ariaLabel ?? placeholder}
+        className="h-12 w-full rounded-2xl border border-slate-300 bg-white pr-4 text-lg font-bold text-slate-800 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-slate-300 sm:h-14 sm:text-2xl"
+        style={{ paddingLeft: '3.25rem' }}
+      />
     </div>
   );
 }
@@ -80,35 +98,36 @@ export function FilterButton() {
   );
 }
 
-export function SegmentedTabs({
+const DEFAULT_TABS = [
+  { value: 'active', label: 'Aktive' },
+  { value: 'archived', label: 'Arkiverte' },
+];
+
+export function SegmentedTabs<T extends string>({
+  tabs,
   active,
   onChange,
 }: {
-  active: 'active' | 'archived';
-  onChange?: (tab: 'active' | 'archived') => void;
+  tabs?: Array<{ value: T; label: string }>;
+  active: T;
+  onChange?: (tab: T) => void;
 }) {
+  const resolvedTabs = (tabs ?? DEFAULT_TABS) as Array<{ value: T; label: string }>;
   return (
     <div className="inline-flex rounded-2xl bg-slate-100 p-1">
-      <button
-        type="button"
-        onClick={() => onChange?.('active')}
-        className={cn(
-          'rounded-xl px-4 py-2 text-sm font-semibold transition',
-          active === 'active' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-        )}
-      >
-        Aktive
-      </button>
-      <button
-        type="button"
-        onClick={() => onChange?.('archived')}
-        className={cn(
-          'rounded-xl px-4 py-2 text-sm font-semibold transition',
-          active === 'archived' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-        )}
-      >
-        Arkiverte
-      </button>
+      {resolvedTabs.map(({ value, label }) => (
+        <button
+          key={value}
+          type="button"
+          onClick={() => onChange?.(value)}
+          className={cn(
+            'rounded-xl px-4 py-2 text-sm font-semibold transition',
+            active === value ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+          )}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }
