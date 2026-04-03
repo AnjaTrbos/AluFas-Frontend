@@ -48,7 +48,7 @@ const DOC_TYPES: DocItem[] = [
 		iconName: 'verksted',
 		iconBg: 'blue',
 		children: [
-			{ id: 'ks-fasade-v', label: 'KS Fasade', iconName: 'fasade', iconBg: '' },
+			{ id: 'ks-fasade-v', label: 'KS Fasade', iconName: 'fasade', iconBg: '', route: '/ks-fasade' },
 			{ id: 'ks-fastkammer', label: 'KS Fastkammer', iconName: 'fastkammer', iconBg: '' },
 			{ id: 'ks-vindu-dor-v', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-verksted' },
 			{ id: 'ks-skyv-folde-v', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '', route: '/ks-skyv-folde' },
