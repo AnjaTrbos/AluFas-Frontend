@@ -49,7 +49,8 @@ const DOC_TYPES: DocItem[] = [
 		iconBg: 'blue',
 		children: [
 			{ id: 'ks-fasade-v', label: 'KS Fasade', iconName: 'fasade', iconBg: '', route: '/ks-fasade' },
-			{ id: 'ks-fastkammer', label: 'KS Fastkammer', iconName: 'fastkammer', iconBg: '' },
+			{ id: 'ks-fastkammer', label: 'KS Fastkammer', iconName: 'fastkammer', iconBg: '', route: '/ks-fastkammer' },
+			{ id: 'ks-sma-v', label: 'KS Små produkter', iconName: 'sma', iconBg: '', route: '/ks-sma-produkter' },
 			{ id: 'ks-vindu-dor-v', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-verksted' },
 			{ id: 'ks-skyv-folde-v', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '', route: '/ks-skyv-folde' },
 			{ id: 'ks-brann-v', label: 'KS Brann produkter', iconName: 'brann', iconBg: '', route: '/ks-brannprodukter' },
@@ -65,7 +66,7 @@ const DOC_TYPES: DocItem[] = [
 			{ id: 'ks-fasade-tak', label: 'KS Fasade/tak', iconName: 'fasade', iconBg: '' },
 			{ id: 'ks-vindu-dor-m', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-montasje' },
 			{ id: 'ks-skyv-folde-m', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '', route: '/ks-skyv-folde' },
-			{ id: 'ks-brann-m', label: 'KS Brann produkter', iconName: 'brann', iconBg: '', route: '/ks-brannprodukter' },
+			{ id: 'ks-brann-m', label: 'KS Brann produkter', iconName: 'brann', iconBg: '', route: '/ks-montasje-brannprodukter' },
 			{ id: 'ks-sma', label: 'KS Små produkter', iconName: 'sma', iconBg: '' },
 			{ id: 'service-jobb', label: 'Service jobb', iconName: 'service', iconBg: '' },
 		],

@@ -6,6 +6,9 @@ import GlassMottakScreen from './pages/GlassMottakScreen';
 import ImageCaptureScreen from './pages/ImageCaptureScreen';
 import KSMontasjeScreen from './pages/KSMontasjeScreen';
 import KSBrannprodukterScreen from './pages/KSBrannprodukterScreen';
+import KSMontasjeBrannprodukterScreen from './pages/KSMontasjeBrannprodukterScreen';
+import KSFastkammerScreen from './pages/KSFastkammerScreen';
+import KSSmaProdukterScreen from './pages/KSSmaProdukterScreen';
 import KSFasadeScreen from './pages/KSFasadeScreen';
 import KSSkyvOgFoldeScreen from './pages/KSSkyvOgFoldeScreen';
 import KSVerkstedScreen from './pages/KSVerkstedScreen';
@@ -34,9 +37,12 @@ function App() {
 				<Route path="/new-document"    element={pr(<NewDocumentScreen />)} />
 				<Route path="/avvik"           element={pr(<AvvikScreen />)} />
 				<Route path="/ks-verksted"     element={pr(<KSVerkstedScreen />)} />
+				<Route path="/ks-fastkammer"   element={pr(<KSFastkammerScreen />)} />
+				<Route path="/ks-sma-produkter" element={pr(<KSSmaProdukterScreen />)} />
 				<Route path="/ks-montasje"     element={pr(<KSMontasjeScreen />)} />
 				<Route path="/ks-skyv-folde"      element={pr(<KSSkyvOgFoldeScreen />)} />
 				<Route path="/ks-brannprodukter" element={pr(<KSBrannprodukterScreen />)} />
+				<Route path="/ks-montasje-brannprodukter" element={pr(<KSMontasjeBrannprodukterScreen />)} />
 				<Route path="/ks-fasade"         element={pr(<KSFasadeScreen />)} />
 				<Route path="/profiler-mottak" element={pr(<ProfilerMottakScreen />)} />
 				<Route path="/varer-mottak"    element={pr(<VarerMottakScreen />)} />
