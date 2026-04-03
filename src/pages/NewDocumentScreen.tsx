@@ -63,7 +63,7 @@ const DOC_TYPES: DocItem[] = [
 		iconBg: 'navy',
 		children: [
 			{ id: 'sja', label: 'SJA (Sikker jobb analyse)', iconName: 'sja', iconBg: '' },
-			{ id: 'ks-fasade-tak', label: 'KS Fasade/tak', iconName: 'fasade', iconBg: '' },
+			{ id: 'ks-fasade-tak', label: 'KS Fasade/tak', iconName: 'fasade', iconBg: '', route: '/ks-montasje-fasade-tak' },
 			{ id: 'ks-vindu-dor-m', label: 'KS Vindu/dør', iconName: 'vindu', iconBg: '', route: '/ks-montasje' },
 			{ id: 'ks-skyv-folde-m', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '', route: '/ks-skyv-folde' },
 			{ id: 'ks-brann-m', label: 'KS Brann produkter', iconName: 'brann', iconBg: '', route: '/ks-montasje-brannprodukter' },
