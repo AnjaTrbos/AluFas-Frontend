@@ -68,7 +68,7 @@ const DOC_TYPES: DocItem[] = [
 			{ id: 'ks-skyv-folde-m', label: 'KS Skyv/folde', iconName: 'skyv', iconBg: '', route: '/ks-skyv-folde' },
 			{ id: 'ks-brann-m', label: 'KS Brann produkter', iconName: 'brann', iconBg: '', route: '/ks-montasje-brannprodukter' },
 			{ id: 'ks-sma', label: 'KS Små produkter', iconName: 'sma', iconBg: '' },
-			{ id: 'service-jobb', label: 'Service jobb', iconName: 'service', iconBg: '' },
+			{ id: 'service-jobb', label: 'Service jobb', iconName: 'service', iconBg: '', route: '/ks-service-etter-montasje' },
 		],
 	},
 	{

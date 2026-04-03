@@ -9,6 +9,7 @@ import KSBrannprodukterScreen from './pages/KSBrannprodukterScreen';
 import KSMontasjeBrannprodukterScreen from './pages/KSMontasjeBrannprodukterScreen';
 import KSFastkammerScreen from './pages/KSFastkammerScreen';
 import KSSmaProdukterScreen from './pages/KSSmaProdukterScreen';
+import KSServiceEtterMontasjeScreen from './pages/KSServiceEtterMontasjeScreen';
 import KSFasadeScreen from './pages/KSFasadeScreen';
 import KSSkyvOgFoldeScreen from './pages/KSSkyvOgFoldeScreen';
 import KSVerkstedScreen from './pages/KSVerkstedScreen';
@@ -39,6 +40,7 @@ function App() {
 				<Route path="/ks-verksted"     element={pr(<KSVerkstedScreen />)} />
 				<Route path="/ks-fastkammer"   element={pr(<KSFastkammerScreen />)} />
 				<Route path="/ks-sma-produkter" element={pr(<KSSmaProdukterScreen />)} />
+				<Route path="/ks-service-etter-montasje" element={pr(<KSServiceEtterMontasjeScreen />)} />
 				<Route path="/ks-montasje"     element={pr(<KSMontasjeScreen />)} />
 				<Route path="/ks-skyv-folde"      element={pr(<KSSkyvOgFoldeScreen />)} />
 				<Route path="/ks-brannprodukter" element={pr(<KSBrannprodukterScreen />)} />
