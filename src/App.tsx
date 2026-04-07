@@ -15,6 +15,7 @@ import KSMontasjeFoldeOgSkyvScreen from './pages/KSMontasjeFoldeOgSkyvScreen';
 import KSFasadeScreen from './pages/KSFasadeScreen';
 import KSSkyvOgFoldeScreen from './pages/KSSkyvOgFoldeScreen';
 import KSVerkstedScreen from './pages/KSVerkstedScreen';
+import SJAScreen from './pages/SJAScreen';
 import LoginScreen from './pages/LoginScreen';
 import MontasjePlanScreen from './pages/MontasjePlanScreen';
 import NewDocumentScreen from './pages/NewDocumentScreen';
@@ -40,6 +41,7 @@ function App() {
 				<Route path="/new-document"    element={pr(<NewDocumentScreen />)} />
 				<Route path="/avvik"           element={pr(<AvvikScreen />)} />
 				<Route path="/ks-verksted"     element={pr(<KSVerkstedScreen />)} />
+				<Route path="/sja"             element={pr(<SJAScreen />)} />
 				<Route path="/ks-fastkammer"   element={pr(<KSFastkammerScreen />)} />
 				<Route path="/ks-sma-produkter" element={pr(<KSSmaProdukterScreen />)} />
 				<Route path="/ks-service-etter-montasje" element={pr(<KSServiceEtterMontasjeScreen />)} />
